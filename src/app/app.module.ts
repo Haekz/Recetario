@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { SearchResultsComponent } from './pages/search-results/search-results.component';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
