@@ -15,9 +15,11 @@ export class LoginComponent {
   onLogin() {
     // Aquí iría la lógica de autenticación real
     if (this.username === 'admin' && this.password === 'admin') {
+      // Credenciales válidas, redirige a la página de inicio
       this.router.navigate(['/home']);
     } else {
-      alert('Su contraseña o usuario son incorrectos');
+      // Muestra un mensaje de error si las credenciales no son correctas
+      alert('Invalid credentials');
     }
   }
 

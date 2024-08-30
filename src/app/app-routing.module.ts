@@ -13,8 +13,12 @@ const routes: Routes = [
     component: SearchResultsComponent
   },
   {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+  },
+  {
     path: '',
-    redirectTo: 'login',  // Redirige a login por defecto
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
