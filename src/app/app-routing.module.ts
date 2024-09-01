@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { SearchResultsComponent } from './pages/search-results/search-results.component';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component'; // Importa el componente
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
+    path: 'reset-password',  // Añade esta ruta
+    component: ResetPasswordComponent
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
@@ -27,6 +31,7 @@ const routes: Routes = [
     redirectTo: 'login'  // Maneja rutas no encontradas
   }
 ];
+
 
 @NgModule({
   imports: [
