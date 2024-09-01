@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <!-- Botón para ir a la página de Inicio -->
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -39,6 +40,11 @@
     </ion-button>
     <ion-button expand="block" color="light" (click)="onResetPassword()">
       ¿Olvidaste tu contraseña?
+    </ion-button>
+
+    <!-- Botón para ir a la página de registro -->
+    <ion-button expand="block" color="light" (click)="goToRegister()">
+      ¿No tienes una cuenta? Regístrate
     </ion-button>
     
   </form>

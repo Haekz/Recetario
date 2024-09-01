@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <ion-item>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input type="text" [(ngModel)]="username" name="username" required #usernameInput="ngModel"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="usernameInput.invalid && usernameInput.touched">
+      Nombre de usuario es requerido
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="email" [(ngModel)]="email" name="email" required #emailInput="ngModel"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
+      Correo electrónico es requerido
+    </ion-note>
+
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="password" name="password" required #passwordInput="ngModel"></ion-input>
+    </ion-item>
+    <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
+      Contraseña es requerida
+    </ion-note>
+
+    <ion-button expand="block" type="submit" [disabled]="registerForm.invalid">
+      Registrarse
+    </ion-button>
+    <ion-button expand="block" color="light" (click)="goToLogin()">
+      ¿Ya tienes una cuenta? Inicia sesión
+    </ion-button>
+  </form>
+</ion-content>

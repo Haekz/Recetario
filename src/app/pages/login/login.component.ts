@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core'; // Importa Component desde Angular Core
+import { Router } from '@angular/router';  // Importa el Router para la navegación
 
 @Component({
   selector: 'app-login',
@@ -10,20 +10,25 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {}  // Inyecta el Router en el constructor
 
   onLogin() {
-    // Aquí iría la lógica de autenticación real
-    if (this.username === 'bnicovani' && this.password === '12345') {
-      // Credenciales válidas, redirige a la página de inicio
+    // Lógica de inicio de sesión
+    if (this.username === 'admin' && this.password === 'admin') {
       this.router.navigate(['/home']);
     } else {
-      // Muestra un mensaje de error si las credenciales no son correctas
-      alert('Contraseña o usuario incorrecto');
+      alert('Credenciales incorrectas');
     }
   }
 
   onResetPassword() {
     this.router.navigate(['/reset-password']);
-  }  
+  }
+
+  // Método para manejar la navegación al registro
+  goToRegister() {
+    console.log('Navigating to register');
+    this.router.navigate(['/register']);
+  }
+  
 }
