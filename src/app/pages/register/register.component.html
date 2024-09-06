@@ -1,40 +1,67 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
     <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form (ngSubmit)="onRegister()" #registerForm="ngForm">
+  <form [formGroup]="formularioRegistro" (ngSubmit)="guardar()">
+
     <ion-item>
       <ion-label position="floating">Nombre de usuario</ion-label>
-      <ion-input type="text" [(ngModel)]="username" name="username" required #usernameInput="ngModel"></ion-input>
+      <ion-input formControlName="nombre"></ion-input>
     </ion-item>
-    <ion-note color="danger" *ngIf="usernameInput.invalid && usernameInput.touched">
+    <ion-note *ngIf="formularioRegistro.get('nombre')?.touched && formularioRegistro.get('nombre')?.hasError('required')" color="danger">
       Nombre de usuario es requerido
     </ion-note>
 
     <ion-item>
       <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input type="email" [(ngModel)]="email" name="email" required #emailInput="ngModel"></ion-input>
+      <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
-    <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
+    <ion-note *ngIf="formularioRegistro.get('email')?.touched && formularioRegistro.get('email')?.hasError('required')" color="danger">
       Correo electrónico es requerido
     </ion-note>
 
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="password" name="password" required #passwordInput="ngModel"></ion-input>
+      <ion-input [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+        <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="hidePassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-input>
     </ion-item>
-    <ion-note color="danger" *ngIf="passwordInput.invalid && passwordInput.touched">
-      Contraseña es requerida
+    <ion-note *ngIf="formularioRegistro.get('password')?.touched && formularioRegistro.get('password')?.hasError('required')" color="danger">
+      La contraseña es requerida
     </ion-note>
+    <div *ngIf="formularioRegistro.get('password')?.errors?.['passwordInvalidFormat']">
+      La contraseña debe tener 4 números, 3 caracteres y 1 mayúscula.
+    </div>
 
-    <ion-button expand="block" type="submit" [disabled]="registerForm.invalid">
+    <ion-item>
+      <ion-label position="floating">Confirmar Contraseña</ion-label>
+      <ion-input [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
+        <ion-button slot="end" fill="clear" (click)="toggleConfirmPasswordVisibility()">
+          <ion-icon [name]="hideConfirmPassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
+      </ion-input>
+    </ion-item>
+    <ion-note *ngIf="formularioRegistro.get('confirmPassword')?.touched && formularioRegistro.get('confirmPassword')?.hasError('required')" color="danger">
+      Confirmar la contraseña es requerido
+    </ion-note>
+    <div *ngIf="formularioRegistro.errors?.['passwordsMismatch']">
+      Las contraseñas no coinciden.
+    </div>
+
+    <ion-button expand="block" type="submit" [disabled]="formularioRegistro.invalid">
       Registrarse
     </ion-button>
-    <ion-button expand="block" color="light" (click)="goToLogin()">
+    <ion-button expand="block" color="light" [routerLink]="['/login']">
       ¿Ya tienes una cuenta? Inicia sesión
     </ion-button>
   </form>
 </ion-content>
+

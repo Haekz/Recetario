@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search-results',
@@ -12,5 +14,28 @@ export class SearchResultsComponent {
     { name: 'Steak', image: 'assets/images/steak.jpg', category: 'Dinner' }
   ];
 
-  constructor() {}
+  constructor(private readonly router: Router  , public alertController: AlertController, public navCtrl: NavController) {}
+
+  async salir(){
+    const alert = await this.alertController.create({
+      header: 'Salir',
+      message: '¿Deseas Salir?',
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+            
+          }
+        }, {
+          text: 'Si',
+          handler: () => {              
+            localStorage.removeItem('ingresado');
+            this.router.navigateByUrl('login');
+          }
+        }
+      ]
+    });
+    
+    await alert.present();
+  }
 }
