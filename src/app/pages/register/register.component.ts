@@ -36,7 +36,7 @@ constructor (public fb: FormBuilder, public alertController: AlertController, pu
 
   this.formularioRegistro = this.fb.group({
     nombre: ['', Validators.required],
-    email: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
     password: ['', [Validators.required, passwordFormatValidator()]],
     confirmPassword: ['', Validators.required]
   }, { validator: passwordMatchValidator('password', 'confirmPassword') });

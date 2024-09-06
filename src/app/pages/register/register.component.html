@@ -25,6 +25,10 @@
     <ion-note *ngIf="formularioRegistro.get('email')?.touched && formularioRegistro.get('email')?.hasError('required')" color="danger">
       Correo electrónico es requerido
     </ion-note>
+    <ion-note *ngIf="formularioRegistro.get('email')?.touched && formularioRegistro.get('email')?.hasError('email')" color="danger">
+      Formato de correo electrónico no válido
+    </ion-note>
+    
 
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
