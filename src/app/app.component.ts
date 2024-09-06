@@ -10,26 +10,4 @@ import { AlertController, NavController } from '@ionic/angular';
 export class AppComponent {
   constructor(private readonly router: Router  , public alertController: AlertController, public navCtrl: NavController) {}
 
-  async salir(){
-    const alert = await this.alertController.create({
-      header: 'Salir',
-      message: '¿Deseas Salir?',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            
-          }
-        }, {
-          text: 'Si',
-          handler: () => {              
-            localStorage.removeItem('ingresado');
-            this.router.navigateByUrl('login');
-          }
-        }
-      ]
-    });
-    
-    await alert.present();
-  }
 }
