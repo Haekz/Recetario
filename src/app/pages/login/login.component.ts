@@ -11,8 +11,13 @@ export class LoginComponent {
   
   username: string = '';
   password: string = '';
-
+  showPassword = false;
+  
   constructor(public router: Router, public loadingController: LoadingController, public alertController: AlertController) {}  // Inyecta el Router en el constructor
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   async onLogin() {
     // Lógica de inicio de sesión

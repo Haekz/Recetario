@@ -11,6 +11,7 @@
   <form [formGroup]="formularioRegistro" (ngSubmit)="guardar()">
 
     <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
       <ion-label position="floating">Nombre de usuario</ion-label>
       <ion-input formControlName="nombre"></ion-input>
     </ion-item>
@@ -19,6 +20,7 @@
     </ion-note>
 
     <ion-item>
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
       <ion-label position="floating">Correo Electrónico</ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
@@ -31,6 +33,7 @@
     
 
     <ion-item>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input [type]="hidePassword ? 'password' : 'text'" formControlName="password">
         <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
@@ -46,6 +49,7 @@
     </div>
 
     <ion-item>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-label position="floating">Confirmar Contraseña</ion-label>
       <ion-input [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword">
         <ion-button slot="end" fill="clear" (click)="toggleConfirmPasswordVisibility()">
