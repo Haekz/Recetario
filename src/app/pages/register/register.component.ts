@@ -36,7 +36,7 @@ constructor (public fb: FormBuilder, public alertController: AlertController, pu
 
   this.formularioRegistro = this.fb.group({
     nombre: ['', Validators.required],
-    email: ['', Validators.required, Validators.email],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, passwordFormatValidator()]],
     confirmPassword: ['', Validators.required]
   }, { validator: passwordMatchValidator('password', 'confirmPassword') });
@@ -44,6 +44,7 @@ constructor (public fb: FormBuilder, public alertController: AlertController, pu
  }
 
 ngOnInit() {
+  this.formularioRegistro.reset();
 }
 
 async guardar() {
@@ -60,7 +61,9 @@ async guardar() {
     await alert.present();
     return;
 
-  }
+  } else {
+
+  } ;
 
   const usuario = {
     nombre: f.nombre,
@@ -70,7 +73,7 @@ async guardar() {
   console.log('ingresado'),
   localStorage.setItem('usuario',JSON.stringify(usuario));
   localStorage.setItem('ingresado','true');
-  this.navCtr.navigateRoot('login');
+  this.navCtr.navigateRoot('/login');
 
 }
 

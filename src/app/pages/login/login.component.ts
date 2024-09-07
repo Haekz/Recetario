@@ -8,6 +8,7 @@ import { AlertController, LoadingController } from '@ionic/angular';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  
   username: string = '';
   password: string = '';
 
@@ -28,6 +29,8 @@ export class LoginComponent {
         {
           text: 'Ok',
           handler: () => {
+            this.username = "";
+            this.password = "";
           }
         }
       ]
