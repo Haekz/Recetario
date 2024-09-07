@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'; // Importa Component desde Angular Core
 import { Router } from '@angular/router';  // Importa el Router para la navegación
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router, private loadingController: LoadingController) {}  // Inyecta el Router en el constructor
+  constructor(public router: Router, public loadingController: LoadingController, public alertController: AlertController) {}  // Inyecta el Router en el constructor
 
   async onLogin() {
     // Lógica de inicio de sesión
@@ -19,6 +19,18 @@ export class LoginComponent {
     const loading = await this.loadingController.create({
       message: 'Iniciando sesión...',
       spinner: 'circles',
+    });
+
+    const noCargar = await this.alertController.create({
+      header: 'Login',
+      message: 'Usuario o Contraseña incorrecta',
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+          }
+        }
+      ]
     });
 
     if (this.username === 'admin' && this.password === 'admin') {
@@ -29,9 +41,10 @@ export class LoginComponent {
 
       console.log('Inicio de sesión exitoso');
       this.router.navigate(['/home']);
-    }, 1500);
+    }, 900);
     } else {
-      alert('Credenciales incorrectas');
+        await noCargar.present();
+      
     }
   }
 
@@ -41,7 +54,7 @@ export class LoginComponent {
 
 
   goToRegister() {
-    console.log('Navigating to register');
+    console.log('Navegaciòn registrada');
     this.router.navigate(['/register']);
   }
 

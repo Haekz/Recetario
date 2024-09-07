@@ -8,12 +8,12 @@ import { AlertController, LoadingController, NavController } from '@ionic/angula
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  username: string = 'Admin'; // Aquí puedes reemplazar con el nombre real del usuario
+  username: string = 'Admin'; 
 
   constructor(private router: Router, public alertController: AlertController, public NavController: NavController, public loadingController: LoadingController) {} // Inyecta el Router en el constructor
 
   ngOnInit() {
-    // Puedes agregar lógica adicional aquí si es necesario
+
   }
 
   navigateTo(path: string) {
@@ -42,7 +42,7 @@ export class HomePage implements OnInit {
               localStorage.removeItem('ingresado');
               await loading.dismiss(); 
               this.router.navigateByUrl('login'); 
-            }, 1500);
+            }, 800);
           }
         }
       ]
