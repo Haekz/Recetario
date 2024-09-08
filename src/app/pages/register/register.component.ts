@@ -15,6 +15,7 @@ export class RegisterComponent {
   hideConfirmPassword = true; // Controla la visibilidad de la confirmación de contraseña
   presentingElement: Element | null = null;
   canDismiss = false;
+  loading = false;
 
   constructor (
     public fb: FormBuilder, 
@@ -23,7 +24,7 @@ export class RegisterComponent {
     public animationCtrl: AnimationController,
     public router: Router
   ) {
-    
+
     // Inicialización del formulario con validaciones
     this.formularioRegistro = this.fb.group({
       nombre: ['', Validators.required],
@@ -42,6 +43,7 @@ export class RegisterComponent {
     let f = this.formularioRegistro.value;
 
     if (this.formularioRegistro.invalid) {
+
       // Muestra alerta si el formulario es inválido
       const alert = await this.alertController.create({
         header: 'Error',
@@ -59,9 +61,14 @@ export class RegisterComponent {
     };
     
     // Guardar usuario en localStorage y navegar al login
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    localStorage.setItem('ingresado', 'true');
-    this.navCtr.navigateRoot('/login');
+    this.loading = true; // Mostrar barra de progreso
+    setTimeout(() => {
+      this.loading = false; // Ocultar barra de progreso después de cargar
+      //localStorage.setItem('usuario', JSON.stringify(usuario));
+      //localStorage.setItem('ingresado', 'true');
+      this.navCtr.navigateForward('/login'); // Navegar a la página de registro
+    }, 1000);
+    
   }
 
   // Cambiar visibilidad de la contraseña
@@ -129,6 +136,7 @@ export class RegisterComponent {
     // Usa CustomEvent y accede a detail.checked
     this.canDismiss = (event.detail as { checked: boolean }).checked;
   }
+  
 }
 
 // Validación para asegurar que las contraseñas coincidan

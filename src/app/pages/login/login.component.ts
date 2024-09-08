@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core'; 
 import { Router } from '@angular/router';  
-import { AlertController, LoadingController, IonModal } from '@ionic/angular'; 
+import { AlertController, LoadingController, IonModal, NavController } from '@ionic/angular'; 
 import { OverlayEventDetail } from '@ionic/core/components'; 
 
 @Component({
@@ -13,8 +13,12 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   showPassword = false;
+  loading = false;
 
-  constructor(public router: Router, public loadingController: LoadingController, public alertController: AlertController) {}  // Inyecta el Router en el constructor
+  constructor(public router: Router,
+    public loadingController: LoadingController,
+    public alertController: AlertController,
+    public navCtrl: NavController) {}  // Inyecta el Router en el constructor
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -63,8 +67,11 @@ export class LoginComponent {
 
 
   goToRegister() {
-    console.log('Navegaciòn registrada');
-    this.router.navigate(['/register']);
+    this.loading = true; // Mostrar barra de progreso
+    setTimeout(() => {
+      this.loading = false; // Ocultar barra de progreso después de cargar
+      this.navCtrl.navigateForward('/register'); // Navegar a la página de registro
+    }, 1000); // Simular un tiempo de espera de 2 segundos
   }
 
 }

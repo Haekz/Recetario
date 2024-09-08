@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
     <ion-buttons slot="start">
       <ion-back-button [routerLink]="['/login']"></ion-back-button>
     </ion-buttons>
@@ -84,7 +85,7 @@
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Modal</ion-title>
+            <ion-title>MODAL</ion-title>
             <ion-buttons slot="end">
               <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
             </ion-buttons>
