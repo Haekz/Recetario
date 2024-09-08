@@ -23,6 +23,7 @@ export class RegisterComponent {
     public animationCtrl: AnimationController,
     public router: Router
   ) {
+    
     // Inicialización del formulario con validaciones
     this.formularioRegistro = this.fb.group({
       nombre: ['', Validators.required],
