@@ -70,6 +70,37 @@
     <ion-button expand="block" type="submit" [disabled]="formularioRegistro.invalid">
       Registrarse
     </ion-button>
+
+    <ion-button id="open-modal" expand="block">
+      Términos y condiciones
+    </ion-button>
+    
+    <ion-modal #modal 
+               trigger="open-modal" 
+               [canDismiss]="canDismiss" 
+               [presentingElement]="presentingElement" 
+               [enterAnimation]="enterAnimation" 
+               [leaveAnimation]="leaveAnimation">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Modal</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <p class="ion-padding-horizontal">Debes aceptar los términos y condiciones para cerrar este modal.</p>
+          <ion-item>
+            <ion-checkbox id="terms" (ionChange)="onTermsChanged($event)" [checked]="canDismiss">
+              <div class="ion-text-wrap">¿Aceptas los términos y condiciones?</div>
+            </ion-checkbox>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
     <ion-button expand="block" color="light" [routerLink]="['/login']">
       ¿Ya tienes una cuenta? Inicia sesión
     </ion-button>

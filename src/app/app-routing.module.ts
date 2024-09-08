@@ -33,7 +33,7 @@ const routes: Routes = [ // Define las rutas de la aplicación
   },
   {
     path: '**',
-    redirectTo: 'login'  // Maneja rutas no encontradas
+    redirectTo: 'search-results'  // Maneja rutas no encontradas
   },
 ];
 
