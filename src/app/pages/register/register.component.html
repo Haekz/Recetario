@@ -44,9 +44,12 @@
     <ion-note *ngIf="formularioRegistro.get('password')?.touched && formularioRegistro.get('password')?.hasError('required')" color="danger">
       La contraseña es requerida
     </ion-note>
-    <div *ngIf="formularioRegistro.get('password')?.errors?.['passwordInvalidFormat']">
-      La contraseña debe tener 4 números, 3 caracteres y 1 mayúscula.
-    </div>
+    <ion-note *ngIf="formularioRegistro.get('password')?.errors?.['passwordInvalidFormat']" color="danger">
+      La contraseña debe tener como mínimo: <br>
+      - 4 números <br>
+      - 3 caracteres <br>
+      - 1 mayúscula.
+    </ion-note>
 
     <ion-item>
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>

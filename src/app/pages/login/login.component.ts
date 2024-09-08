@@ -1,6 +1,7 @@
-import { Component } from '@angular/core'; // Importa Component desde Angular Core
-import { Router } from '@angular/router';  // Importa el Router para la navegación
-import { AlertController, LoadingController } from '@ionic/angular';
+import { Component, ViewChild } from '@angular/core'; 
+import { Router } from '@angular/router';  
+import { AlertController, LoadingController, IonModal } from '@ionic/angular'; 
+import { OverlayEventDetail } from '@ionic/core/components'; 
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   showPassword = false;
-  
+
   constructor(public router: Router, public loadingController: LoadingController, public alertController: AlertController) {}  // Inyecta el Router en el constructor
 
   togglePasswordVisibility() {
