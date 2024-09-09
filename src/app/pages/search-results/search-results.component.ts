@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-search-results',
@@ -15,32 +15,69 @@ export class SearchResultsComponent {
     { name: 'Once', image: 'assets/img/once.jpg', resumen: 'Conoce algunas onces para finalizar tu día', category: 'Once' }
   ];
 
-  constructor(private readonly router: Router, public alertController: AlertController) {}
+  constructor(private readonly router: Router, public alertController: AlertController,
+    public loadingController: LoadingController) {}
 
   // Método para navegar entre las pestañas
   navigateTo(route: string) {
-    this.router.navigate([`/${route}`]); // Redirige a la ruta seleccionada
-  } // Cierra el método correctamente
+
+    // Redirige a la ruta seleccionada
+    this.router.navigate([`/${route}`]); 
+
+  }
 
   // Método para salir y cerrar sesión
+  //async salir() {
+  //  const alert = await this.alertController.create({
+  //    header: 'Salir',
+  //    message: '¿Deseas salir?',
+  //    buttons: [
+  //      {
+  //        text: 'No',
+  //        role: 'cancel'
+  //      }, 
+  //      {
+  //        text: 'Sí',
+  //        handler: () => {
+  //          //localStorage.removeItem('ingresado'); // Lógica de cierre de sesión
+  //          this.router.navigateByUrl('login');
+  //        }
+  //      }
+  //    ]
+  //  });
+  //  await alert.present();
+  //}
+
+
   async salir() {
+    // Método para salir y cerrar sesión
     const alert = await this.alertController.create({
       header: 'Salir',
       message: '¿Deseas salir?',
       buttons: [
         {
           text: 'No',
-          role: 'cancel'
+          handler: () => {
+          }
         }, 
         {
           text: 'Sí',
-          handler: () => {
-            localStorage.removeItem('ingresado'); // Lógica de cierre de sesión
-            this.router.navigateByUrl('login');
+          handler: async () => {
+            const loading = await this.loadingController.create({
+              message: 'Saliendo...',
+              spinner: 'crescent'
+            });
+            await loading.present();
+            setTimeout(async () => {
+              localStorage.removeItem('ingresado');
+              await loading.dismiss(); 
+              this.router.navigateByUrl('login'); 
+            }, 800);
           }
         }
       ]
     });
+
     await alert.present();
   }
 

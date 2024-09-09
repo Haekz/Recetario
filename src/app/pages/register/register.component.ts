@@ -10,12 +10,17 @@ import { AlertController, AnimationController, NavController } from '@ionic/angu
 })
 export class RegisterComponent {
 
+  // Formulario de registro
   formularioRegistro: FormGroup;
+
+  // Variables para controlar la visibilidad de las contraseñas
   hidePassword = true; // Controla la visibilidad de la contraseña
   hideConfirmPassword = true; // Controla la visibilidad de la confirmación de contraseña
+
+  // Variables para el modal
   presentingElement: Element | null = null;
-  canDismiss = false;
-  loading = false;
+  canDismiss = false; // Controla si se puede cerrar el modal
+  loading = false; // Controla la visibilidad de la barra de progreso
 
   constructor (
     public fb: FormBuilder, 
@@ -24,7 +29,6 @@ export class RegisterComponent {
     public animationCtrl: AnimationController,
     public router: Router
   ) {
-
     // Inicialización del formulario con validaciones
     this.formularioRegistro = this.fb.group({
       nombre: ['', Validators.required],
@@ -35,15 +39,16 @@ export class RegisterComponent {
   }
 
   ngOnInit() {
-    this.formularioRegistro.reset(); // Resetea el formulario al inicializar
+    // Resetea el formulario al inicializar
+    this.formularioRegistro.reset();
     this.presentingElement = document.querySelector('.ion-page');
   }
 
+  // Función para guardar el registro
   async guardar() {
     let f = this.formularioRegistro.value;
 
     if (this.formularioRegistro.invalid) {
-
       // Muestra alerta si el formulario es inválido
       const alert = await this.alertController.create({
         header: 'Error',
@@ -63,12 +68,16 @@ export class RegisterComponent {
     // Guardar usuario en localStorage y navegar al login
     this.loading = true; // Mostrar barra de progreso
     setTimeout(() => {
-      this.loading = false; // Ocultar barra de progreso después de cargar
+
+      // Ocultar barra de progreso después de cargar
+      this.loading = false; 
+
       //localStorage.setItem('usuario', JSON.stringify(usuario));
       //localStorage.setItem('ingresado', 'true');
-      this.navCtr.navigateForward('/login'); // Navegar a la página de registro
+
+      // Navegar a la página de login
+      this.navCtr.navigateForward('/login'); 
     }, 1000);
-    
   }
 
   // Cambiar visibilidad de la contraseña
@@ -76,7 +85,7 @@ export class RegisterComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-  // Cambiar visibilidad de la confirmación de contraseña
+  // Cambiar visibilidad de la confirmación de la contraseña
   toggleConfirmPasswordVisibility() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
@@ -86,14 +95,16 @@ export class RegisterComponent {
     const root = baseEl.shadowRoot;
   
     if (!root) {
-      return this.animationCtrl.create(); // Devuelve una animación vacía si root es null
+      // Devuelve una animación vacía si root es null
+      return this.animationCtrl.create(); 
     }
   
     const backdropElement = root.querySelector('ion-backdrop');
     const wrapperElement = root.querySelector('.modal-wrapper');
   
     if (!backdropElement || !wrapperElement) {
-      return this.animationCtrl.create(); // Devuelve una animación vacía si los elementos no están presentes
+      // Devuelve una animación vacía si los elementos no están presentes
+      return this.animationCtrl.create(); 
     }
   
     const backdropAnimation = this.animationCtrl
@@ -120,20 +131,22 @@ export class RegisterComponent {
   // Animación de salida personalizada para el modal
   leaveAnimation = (baseEl: HTMLElement | null) => {
     if (!baseEl) {
-      return this.animationCtrl.create(); // Devuelve una animación vacía si baseEl es null
+      // Devuelve una animación vacía si baseEl es null
+      return this.animationCtrl.create();
     }
   
     const enterAnim = this.enterAnimation(baseEl);
   
     if (!enterAnim) {
-      return this.animationCtrl.create(); // Devuelve una animación vacía si enterAnimation devolvió null
+      // Devuelve una animación vacía si enterAnimation devolvió null
+      return this.animationCtrl.create(); 
     }
 
     return enterAnim.direction('reverse');
   };
 
+  // Maneja el cambio en la aceptación de términos y condiciones
   onTermsChanged(event: CustomEvent) {
-    // Usa CustomEvent y accede a detail.checked
     this.canDismiss = (event.detail as { checked: boolean }).checked;
   }
   
@@ -157,17 +170,35 @@ export function passwordMatchValidator(password: string, confirmPassword: string
 // Validación para asegurar que la contraseña tiene 4 números, 3 letras y 1 mayúscula
 export function passwordFormatValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
+    // Obtiene el valor de la contraseña del control del formulario
     const password = control.value;
+
+    // Si el valor de la contraseña está vacío, no hay errores de formato
     if (!password) {
       return null;
     }
 
+    // Verifica si la contraseña contiene al menos 4 números
     const hasFourNumbers = /^(?=(?:\D*\d){4})/.test(password);
+
+    // Verifica si la contraseña contiene al menos 3 letras
     const hasThreeCharacters = /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3})/.test(password);
+
+    // Verifica si la contraseña contiene al menos 1 letra mayúscula
     const hasOneUppercase = /^(?=(?:[^A-Z]*[A-Z]){1})/.test(password);
 
+    // La contraseña es válida si cumple con todas las condiciones anteriores
     const isValid = hasFourNumbers && hasThreeCharacters && hasOneUppercase;
 
+    // Devuelve un objeto de errores si la contraseña es inválida, o null si es válida
     return isValid ? null : { passwordInvalidFormat: true };
   };
 }
+
+// ^ - Indica el inicio de la cadena.
+
+// (?=(?:\D*\d){4}) - Esta es una afirmación de anticipación (lookahead) que asegura que la cadena cumple con una condición específica.
+
+// (?:\D*\d) - Es un grupo de no captura (non-capturing group) que coincide con cualquier cantidad de caracteres que no sean dígitos (\D*) seguidos de un dígito (\d).
+
+// {4} - El grupo anterior debe repetirse exactamente 4 veces para que la condición se cumpla.
