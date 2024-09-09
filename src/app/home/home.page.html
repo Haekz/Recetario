@@ -8,7 +8,7 @@
 
 <ion-content class="ion-padding">
   <h2>¡Bienvenido de nuevo, {{ username }}!</h2>
-  <p>Explora nuestras últimas recetas o accede a tus favoritas.</p>
+  <p>Explora nuestras últimas receta</p>
 
   <!-- Sección de Novedades o Recomendaciones -->
   <ion-card>
@@ -16,15 +16,15 @@
       <ion-card-title>Recomendaciones para ti</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <!-- Aquí puedes añadir una lista de recetas recomendadas -->
-      <ion-item>
-        <ion-label>Receta 1</ion-label>
+      <!-- Lista de recetas recomendadas con routerLink -->
+      <ion-item [routerLink]="['/search-results']">
+        <ion-label>- Desayunos</ion-label>
       </ion-item>
-      <ion-item>
-        <ion-label>Receta 2</ion-label>
+      <ion-item [routerLink]="['/search-results']">
+        <ion-label>- Almuerzos</ion-label>
       </ion-item>
-      <ion-item>
-        <ion-label>Receta 3</ion-label>
+      <ion-item [routerLink]="['/search-results']">
+        <ion-label>- Once</ion-label>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -49,7 +49,7 @@
 <!-- Barra de Navegación Inferior -->
 <ion-footer>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
+    <ion-tab-button tab="home" [routerLink]="['home']">
       <ion-icon name="home"></ion-icon>
       <ion-label>Inicio</ion-label>
     </ion-tab-button>

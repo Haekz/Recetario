@@ -9,9 +9,10 @@ import { AlertController } from '@ionic/angular';
 })
 export class SearchResultsComponent {
   recipes = [
-    { name: 'Pancakes', image: 'assets/images/pancakes.jpg', category: 'Breakfast' },
-    { name: 'Caesar Salad', image: 'assets/images/salad.jpg', category: 'Lunch' },
-    { name: 'Steak', image: 'assets/images/steak.jpg', category: 'Dinner' }
+    { name: 'Desayuno', image: 'assets/img/desayuno.jpg', resumen: 'Conoce algunos desayunos para empezar el día con muchas ganas', category: 'Breakfast' },
+    { name: 'Ensalada', image: 'assets/img/ensalada.jpg', resumen: 'Conoce algunas ensaldas para acompañar el almuero del día', category: 'Salad' },
+    { name: 'Almuerzo', image: 'assets/img/almuerzo.jpg', resumen: 'Conoce algunos almuerzos para disfrutar tu tarde del día', category: 'Lunch' },
+    { name: 'Once', image: 'assets/img/once.jpg', resumen: 'Conoce algunas onces para finalizar tu día', category: 'Once' }
   ];
 
   constructor(private readonly router: Router, public alertController: AlertController) {}
@@ -45,6 +46,7 @@ export class SearchResultsComponent {
 
   // Método para abrir detalles de receta
   openRecipe(recipe: any) {
-    this.router.navigate(['/recipe', recipe.name]); // Navegar a los detalles de la receta
+    console.log(recipe.image); // Verifica la ruta de la imagen
+    this.router.navigate(['/recipe', recipe.name]);
   }
 }
