@@ -11,6 +11,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 export class LoginComponent {
   
   // Variables de instancia del componente
+  
   username: string = ''; // Almacena el nombre de usuario ingresado
   password: string = ''; // Almacena la contraseña ingresada
   showPassword = false; // Controla la visibilidad de la contraseña
@@ -68,7 +69,7 @@ export class LoginComponent {
     });
 
     // Validar credenciales de inicio de sesión
-    if (this.username === 'admin' && this.password === 'admin') {
+    if (this.username === 'admin' && this.password === '1234admiN') {
 
       // Mostrar el indicador de carga
       await loading.present(); 

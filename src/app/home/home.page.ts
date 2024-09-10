@@ -8,7 +8,7 @@ import { AlertController, LoadingController, NavController } from '@ionic/angula
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  username: string = 'Admin'; 
+  username: string = 'Admin';
 
   constructor(private router: Router, public alertController: AlertController, public NavController: NavController, public loadingController: LoadingController) {} // Inyecta el Router en el constructor
 
