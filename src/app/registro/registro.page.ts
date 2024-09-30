@@ -48,34 +48,39 @@ export class RegistroPage{
   // Función para guardar el registro
   async guardar() {
     let f = this.formularioRegistro.value;
-
+  
     if (this.formularioRegistro.invalid) {
-      // Muestra alerta si el formulario es inválido
+      // Mostrar alerta si el formulario es inválido
       const alert = await this.alertController.create({
         header: 'Error',
         message: 'Favor de Seguir los Requisitos.',
         buttons: ['Aceptar'],
       });
-
+  
       await alert.present();
       return;
     }
-
+  
+    // Crear objeto usuario con los datos del formulario
     const usuario = {
       nombre: f.nombre,
       contraseña: f.password,
     };
+  
+    // Guardar el usuario en localStorage
+    localStorage.setItem('usuario', JSON.stringify(usuario));
     
-    // Guardar usuario en localStorage y navegar al login
-    this.loading = true; // Mostrar barra de progreso
+    // Puedes usar 'ingresado' como indicador de sesión iniciada
+    localStorage.setItem('ingresado', 'true');
+  
+    // Mostrar barra de progreso
+    this.loading = true;
+    
+    // Simular un tiempo de carga y redirigir al inicio
     setTimeout(() => {
-
       // Ocultar barra de progreso después de cargar
-      this.loading = false; 
-
-      //localStorage.setItem('usuario', JSON.stringify(usuario));
-      //localStorage.setItem('ingresado', 'true');
-
+      this.loading = false;
+  
       // Navegar a la página de login
       this.navCtr.navigateForward('/inicio'); 
     }, 1000);

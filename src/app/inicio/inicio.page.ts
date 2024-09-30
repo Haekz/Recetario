@@ -35,62 +35,66 @@ export class InicioPage {
 
   // Método para manejar el inicio de sesión
   async onLogin() {
-
+    // Verificar si los campos están vacíos
+    if (!this.username || !this.password) {
+      const emptyFieldsAlert = await this.alertController.create({
+        header: 'Error',
+        message: 'Por favor, ingresa tanto el usuario como la contraseña.',
+        buttons: ['OK'],
+      });
+      await emptyFieldsAlert.present();
+      return;
+    }
+  
     // Crear y presentar un indicador de carga
     const loading = await this.loadingController.create({
-
-      // Mensaje que se muestra en el indicador
-      message: 'Iniciando sesión...', 
-
-      // Tipo de spinner que se muestra
-      spinner: 'circles', 
+      message: 'Iniciando sesión...',
+      spinner: 'circles',
     });
-
+  
     // Crear una alerta para cuando el inicio de sesión falla
     const noCargar = await this.alertController.create({
-
-      // Título de la alerta
-      header: 'inicio', 
-
-      // Mensaje de la alerta
-      message: 'Usuario o Contraseña incorrecta', 
+      header: 'Error de inicio de sesión',
+      message: 'Usuario o Contraseña incorrecta',
       buttons: [
         {
-          text: 'Ok', 
-          
-          // Texto del botón de la alerta
+          text: 'Ok',
           handler: () => {
-
-            // Limpiar campos de entrada al presionar 'Ok'
             this.username = "";
             this.password = "";
           }
         }
       ]
     });
+  
+    // Recuperar los datos del usuario guardados en localStorage
+    const storedUserJson = localStorage.getItem('usuario');
 
-    // Validar credenciales de inicio de sesión
-    if (this.username === 'admin' && this.password === '1234admiN') {
+    // Verificar si hay datos almacenados y parsear
+    const storedUser = storedUserJson ? JSON.parse(storedUserJson) : null;
 
-      // Mostrar el indicador de carga
-      await loading.present(); 
-
-      // Simular una operación de carga de 900 ms
-      setTimeout(async () => {
-
-        // Ocultar el indicador de carga
-        await loading.dismiss(); 
-
-        // Log de éxito
-        console.log('Inicio de sesión exitoso'); 
-
-        // Navegar a la página principal
-        this.router.navigate(['/home']); 
-      }, 900);
+    // Verificar si existen datos en localStorage
+    if (storedUser) {
+      // Comparar las credenciales ingresadas con las guardadas
+      if (this.username === storedUser.nombre && this.password === storedUser.contraseña) {
+        await loading.present();
+  
+        setTimeout(async () => {
+          // Guardar las credenciales en localStorage
+          localStorage.setItem('usuario', JSON.stringify({
+            username: this.username,
+            password: this.password
+          }));
+  
+          await loading.dismiss();
+          console.log('Inicio de sesión exitoso');
+          this.router.navigate(['/home']);
+        }, 900);
+      } else {
+        await noCargar.present();
+      }
     } else {
-
-      // Mostrar alerta de error
-      await noCargar.present(); 
+      await noCargar.present();
     }
   }
 

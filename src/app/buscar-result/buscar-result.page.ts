@@ -70,9 +70,9 @@ export class BuscarResultPage{
             });
             await loading.present();
             setTimeout(async () => {
-              localStorage.removeItem('ingresado');
+              //localStorage.removeItem('ingresado');
               await loading.dismiss(); 
-              this.router.navigateByUrl('inicio'); 
+              this.router.navigateByUrl('/inicio'); 
             }, 800);
           }
         }

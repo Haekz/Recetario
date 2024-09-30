@@ -39,9 +39,9 @@ export class HomePage implements OnInit {
             });
             await loading.present();
             setTimeout(async () => {
-              localStorage.removeItem('ingresado');
+              //localStorage.removeItem('ingresado');
               await loading.dismiss(); 
-              this.router.navigateByUrl('login'); 
+              this.router.navigateByUrl('/inicio'); 
             }, 800);
           }
         }
