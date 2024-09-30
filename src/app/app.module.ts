@@ -8,20 +8,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa Fo
 import { AppComponent } from './app.component'; // Importa AppComponent
 import { AppRoutingModule } from './app-routing.module'; // Importa AppRoutingModule
 
-import { LoginComponent } from './pages/login/login.component'; // Importa LoginComponent
-import { SearchResultsComponent } from './pages/search-results/search-results.component'; // Importa SearchResultsComponent
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component'; // Importa ResetPasswordComponent
-import { RegisterComponent } from './pages/register/register.component'; // Importa RegisterComponent
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 
 @NgModule({ // Define el módulo
   declarations: [
-    AppComponent, 
-    LoginComponent,
-    SearchResultsComponent,
-    ResetPasswordComponent,
-    RegisterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule, // Inicializa BrowserModule

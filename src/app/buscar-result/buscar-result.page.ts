@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-search-results',
-  templateUrl: './search-results.component.html',
-  styleUrls: ['./search-results.component.scss'],
+  selector: 'app-buscar-result',
+  templateUrl: './buscar-result.page.html',
+  styleUrls: ['./buscar-result.page.scss'],
 })
-export class SearchResultsComponent {
+export class BuscarResultPage{
+
   recipes = [
     { name: 'Desayuno', image: 'assets/img/desayuno.jpg', resumen: 'Conoce algunos desayunos para empezar el día con muchas ganas', category: 'Breakfast' },
     { name: 'Ensalada', image: 'assets/img/ensalada.jpg', resumen: 'Conoce algunas ensaldas para acompañar el almuero del día', category: 'Salad' },
@@ -71,7 +72,7 @@ export class SearchResultsComponent {
             setTimeout(async () => {
               localStorage.removeItem('ingresado');
               await loading.dismiss(); 
-              this.router.navigateByUrl('login'); 
+              this.router.navigateByUrl('inicio'); 
             }, 800);
           }
         }

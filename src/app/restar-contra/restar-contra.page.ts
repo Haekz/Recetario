@@ -2,11 +2,11 @@ import { Component } from '@angular/core'; // Importa el decorador Component par
 import { Router } from '@angular/router'; // Importa Router para la navegación entre rutas
 
 @Component({
-  selector: 'app-reset-password', // Selector del componente, utilizado en la plantilla HTML
-  templateUrl: './reset-password.component.html', // Ruta al archivo de plantilla HTML del componente
-  styleUrls: ['./reset-password.component.scss'], // Ruta al archivo de estilos SCSS del componente
+  selector: 'app-restar-contra',
+  templateUrl: './restar-contra.page.html',
+  styleUrls: ['./restar-contra.page.scss'],
 })
-export class ResetPasswordComponent {
+export class RestarContraPage {
 
   email: string = ''; // Variable para almacenar el correo electrónico ingresado
 

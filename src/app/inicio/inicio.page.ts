@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController, IonModal, NavController } from '@ionic/angular'; 
 import { OverlayEventDetail } from '@ionic/core/components'; 
 
+
 @Component({
-  selector: 'app-login', // Selector para el componente, usado en las plantillas HTML
-  templateUrl: './login.component.html', // Ruta al archivo de plantilla HTML del componente
-  styleUrls: ['./login.component.scss'], // Ruta al archivo de estilos SCSS del componente
+  selector: 'app-inicio',
+  templateUrl: './inicio.page.html',
+  styleUrls: ['./inicio.page.scss'],
 })
-export class LoginComponent {
+export class InicioPage {
   
   // Variables de instancia del componente
   
@@ -49,7 +50,7 @@ export class LoginComponent {
     const noCargar = await this.alertController.create({
 
       // Título de la alerta
-      header: 'Login', 
+      header: 'inicio', 
 
       // Mensaje de la alerta
       message: 'Usuario o Contraseña incorrecta', 
@@ -97,7 +98,7 @@ export class LoginComponent {
   onResetPassword() {
 
     // Navegar a la página de restablecimiento de contraseña
-    this.router.navigate(['/reset-password']); 
+    this.router.navigate(['/restar-contra']); 
 
   }
 
@@ -114,7 +115,7 @@ export class LoginComponent {
       this.loading = false; 
 
       // Navegar a la página de registro
-      this.navCtrl.navigateForward('/register');
+      this.navCtrl.navigateForward('/registro');
     }, 1000);
   }
 

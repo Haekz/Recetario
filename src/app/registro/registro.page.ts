@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController, NavController } from '@ionic/angular';
 
+
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'app-registro',
+  templateUrl: './registro.page.html',
+  styleUrls: ['./registro.page.scss'],
 })
-export class RegisterComponent {
+export class RegistroPage{
 
   // Formulario de registro
   formularioRegistro: FormGroup;
@@ -76,7 +77,7 @@ export class RegisterComponent {
       //localStorage.setItem('ingresado', 'true');
 
       // Navegar a la página de login
-      this.navCtr.navigateForward('/login'); 
+      this.navCtr.navigateForward('/inicio'); 
     }, 1000);
   }
 
