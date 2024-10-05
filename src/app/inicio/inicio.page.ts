@@ -5,6 +5,7 @@ import { UsuarioService } from '../services/usuario/usuario.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service'; // Asegúrate de que la ruta sea correcta
 
+
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',

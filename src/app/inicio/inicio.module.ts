@@ -20,6 +20,6 @@ import { ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsM
     InicioPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [InicioPage]
+  declarations: [InicioPage],
 })
 export class InicioPageModule {}

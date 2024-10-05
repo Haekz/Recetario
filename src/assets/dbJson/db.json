@@ -25,6 +25,12 @@
       "nombre": "Benjamin",
       "email": "benja@duocuc.cl",
       "password": "benja1234M"
+    },
+    {
+      "id": "4d24",
+      "nombre": "david",
+      "email": "david@gmail.com",
+      "password": "1234daviD"
     }
   ],
   "products": [
