@@ -3,16 +3,15 @@
     {
       "id": "1",
       "nombre": "diego",
-      "pass": "1234deigO",
-      "fullName": "Diego Peñaloza",
-      "email": "die.penaloza@duocuc.cl"
+      "email": "die.penaloza@duocuc.cl",
+      "password": "1234deigO"
+      
     },
     {
       "id": "2",
       "nombre": "seba",
-      "pass": "1234sebaA",
-      "fullName": "Sebastian Nuñez",
-      "email": "sa.nunz@duocuc.cl"
+      "email": "sa.nunz@duocuc.cl",
+      "password": "1234sebaA"
     },
     {
       "id": "36c9",
@@ -37,6 +36,12 @@
       "nombre": "dante",
       "email": "mc@duocuc.cl",
       "password": "1234dantE"
+    },
+    {
+      "id": "0aae",
+      "nombre": "joshua",
+      "email": "55@gmial.com",
+      "password": "1234joshuA"
     }
   ],
   "products": [
