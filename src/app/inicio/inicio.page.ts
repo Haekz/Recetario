@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../services/api.service'; // Asegúrate de que la ruta sea correcta
+import { ApiService } from '../services/api.service';
 
 
 @Component({
@@ -28,7 +28,7 @@ export class InicioPage {
     private navCtrl: NavController, // Servicio para navegación con historial
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
-    private apiService:ApiService
+    private apliService: ApiService
   ) {
     // Inicialización del formulario reactivo
     this.loginForm = this.fb.group({
@@ -37,7 +37,10 @@ export class InicioPage {
     });
   }
 
-  
+  // Método para alternar la visibilidad de la contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; 
+  }
 
   // Método para manejar el inicio de sesión
   async onLogin() {
@@ -50,40 +53,36 @@ export class InicioPage {
       await alert.present();
       return;
     }
-  
+
     const { username, password } = this.loginForm.value;
-  
+
     // Mostrar la animación de carga
+    this.loading = true; // Establecer loading en true
     const loading = await this.loadingController.create({
-      message: 'Cargando...',
-      spinner: 'crescent',
-      duration: 1000
+      message: 'Cargando...', 
+      spinner: 'crescent', 
+      duration: 1000 
     });
     await loading.present(); // Presentar la animación de carga
-  
+
     this.usuarioService.autenticarUsuario(username, password).subscribe({
       next: async (usuario) => {
+        this.loading = false; // Establecer loading en false
         await loading.dismiss(); // Cerrar la animación de carga
         if (usuario) {
+          // Guardar el usuario en localStorage
           localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, nombre: usuario.nombre }));
           localStorage.setItem('ingresado', 'true');
-  
+
           const alert = await this.alertController.create({
             header: 'Éxito',
             message: 'Has iniciado sesión correctamente.',
             buttons: ['Aceptar'],
           });
           await alert.present();
-  
-          // Crear NavigationExtras con el username
-          const navigationExtras = {
-            state: {
-              username: username
-            }
-          };
-  
-          // Navegar a la página de inicio pasando el username
-          this.navCtrl.navigateForward(['/home'], navigationExtras);
+
+          this.router.navigate(['/home']);
+
         } else {
           const alert = await this.alertController.create({
             header: 'Error',
@@ -94,6 +93,7 @@ export class InicioPage {
         }
       },
       error: async (err) => {
+        this.loading = false; // Establecer loading en false
         await loading.dismiss(); // Cerrar la animación de carga
         console.error('Error al autenticar usuario:', err);
         const alert = await this.alertController.create({
@@ -104,11 +104,6 @@ export class InicioPage {
         await alert.present();
       }
     });
-  }
-
-  // Método para alternar la visibilidad de la contraseña
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword; 
   }
 
   // Método para manejar la solicitud de restablecimiento de contraseña

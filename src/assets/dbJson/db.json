@@ -2,14 +2,14 @@
   "usuario": [
     {
       "id": "1",
-      "userName": "diego",
+      "nombre": "diego",
       "pass": "1234deigO",
       "fullName": "Diego Peñaloza",
       "email": "die.penaloza@duocuc.cl"
     },
     {
       "id": "2",
-      "userName": "seba",
+      "nombre": "seba",
       "pass": "1234sebaA",
       "fullName": "Sebastian Nuñez",
       "email": "sa.nunz@duocuc.cl"
@@ -31,6 +31,12 @@
       "nombre": "david",
       "email": "david@gmail.com",
       "password": "1234daviD"
+    },
+    {
+      "id": "0f66",
+      "nombre": "dante",
+      "email": "mc@duocuc.cl",
+      "password": "1234dantE"
     }
   ],
   "products": [
