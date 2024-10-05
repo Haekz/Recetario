@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController, NavController } from '@ionic/angular';
+import { UsuarioService } from '../services/usuario/usuario.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class RegistroPage{
     public alertController: AlertController, 
     public navCtr: NavController, 
     public animationCtrl: AnimationController,
-    public router: Router
+    public router: Router,
+    public usuarioService: UsuarioService,
   ) {
     // Inicialización del formulario con validaciones
     this.formularioRegistro = this.fb.group({
@@ -47,8 +49,10 @@ export class RegistroPage{
 
   // Función para guardar el registro
   async guardar() {
+    // Obtener los valores del formulario
     let f = this.formularioRegistro.value;
   
+    // Validar si el formulario es inválido
     if (this.formularioRegistro.invalid) {
       // Mostrar alerta si el formulario es inválido
       const alert = await this.alertController.create({
@@ -61,29 +65,57 @@ export class RegistroPage{
       return;
     }
   
-    // Crear objeto usuario con los datos del formulario
-    const usuario = {
+    // Crear objeto con los datos del usuario
+    const nuevoUsuario = {
       nombre: f.nombre,
-      contraseña: f.password,
+      email: f.email,
+      password: f.password,
     };
-  
-    // Guardar el usuario en localStorage
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    
-    // Puedes usar 'ingresado' como indicador de sesión iniciada
-    localStorage.setItem('ingresado', 'true');
   
     // Mostrar barra de progreso
     this.loading = true;
-    
-    // Simular un tiempo de carga y redirigir al inicio
-    setTimeout(() => {
-      // Ocultar barra de progreso después de cargar
-      this.loading = false;
   
-      // Navegar a la página de login
-      this.navCtr.navigateForward('/inicio'); 
-    }, 1000);
+    // Enviar los datos a la API para registrar al usuario
+    this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
+      next: async (response) => {
+        // Detener la barra de progreso
+        this.loading = false;
+  
+        console.log('Usuario registrado:', response);
+  
+        // Guardar el usuario en localStorage (sin contraseña por seguridad)
+        localStorage.setItem('usuario', JSON.stringify({ nombre: f.nombre, email: f.email }));
+        localStorage.setItem('ingresado', 'true'); // Indicador de sesión iniciada
+  
+        // Mostrar alerta de éxito
+        const alert = await this.alertController.create({
+          header: 'Éxito',
+          message: 'Usuario registrado correctamente.',
+          buttons: ['Aceptar'],
+        });
+  
+        await alert.present();
+  
+        // Redirigir a la página de inicio de sesión después de un tiempo
+        setTimeout(() => {
+          this.navCtr.navigateForward('/inicio');
+        }, 1000);
+      },
+      error: async (err) => {
+        // Detener la barra de progreso
+        this.loading = false;
+        console.error('Error al registrar usuario:', err);
+  
+        // Mostrar alerta de error
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Ocurrió un error al registrar el usuario. Inténtalo de nuevo.',
+          buttons: ['Aceptar'],
+        });
+  
+        await alert.present();
+      }
+    });
   }
 
   // Cambiar visibilidad de la contraseña

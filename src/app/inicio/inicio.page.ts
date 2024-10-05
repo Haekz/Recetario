@@ -1,8 +1,9 @@
-import { Component, ViewChild } from '@angular/core'; 
-import { Router } from '@angular/router';  
-import { AlertController, LoadingController, IonModal, NavController } from '@ionic/angular'; 
-import { OverlayEventDetail } from '@ionic/core/components'; 
-
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { UsuarioService } from '../services/usuario/usuario.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../services/api.service'; // Asegúrate de que la ruta sea correcta
 
 @Component({
   selector: 'app-inicio',
@@ -11,116 +12,101 @@ import { OverlayEventDetail } from '@ionic/core/components';
 })
 export class InicioPage {
   
+  // Formulario reactivo para manejar el inicio de sesión
+  loginForm: FormGroup;
+
   // Variables de instancia del componente
-  
-  username: string = ''; // Almacena el nombre de usuario ingresado
-  password: string = ''; // Almacena la contraseña ingresada
   showPassword = false; // Controla la visibilidad de la contraseña
   loading = false; // Controla la visibilidad de la barra de progreso
 
   // Constructor del componente, donde se inyectan los servicios necesarios
   constructor(
-    public router: Router, // Servicio para navegar entre rutas
-    public loadingController: LoadingController, // Servicio para mostrar barras de progreso
-    public alertController: AlertController, // Servicio para mostrar alertas
-    public navCtrl: NavController // Servicio para navegación con historial
-  ) {}
+    private router: Router, // Servicio para navegar entre rutas
+    private loadingController: LoadingController, // Servicio para mostrar barras de progreso
+    private alertController: AlertController, // Servicio para mostrar alertas
+    private navCtrl: NavController, // Servicio para navegación con historial
+    private usuarioService: UsuarioService,
+    private fb: FormBuilder,
+    private apiService:ApiService
+  ) {
+    // Inicialización del formulario reactivo
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+  }
 
   // Método para alternar la visibilidad de la contraseña
   togglePasswordVisibility() {
-
-    // Cambia el estado de 'showPassword'
     this.showPassword = !this.showPassword; 
   }
 
   // Método para manejar el inicio de sesión
   async onLogin() {
-    // Verificar si los campos están vacíos
-    if (!this.username || !this.password) {
-      const emptyFieldsAlert = await this.alertController.create({
+    if (this.loginForm.invalid) {
+      const alert = await this.alertController.create({
         header: 'Error',
-        message: 'Por favor, ingresa tanto el usuario como la contraseña.',
-        buttons: ['OK'],
+        message: 'Favor de completar todos los campos requeridos.',
+        buttons: ['Aceptar'],
       });
-      await emptyFieldsAlert.present();
+      await alert.present();
       return;
     }
-  
-    // Crear y presentar un indicador de carga
+
+    const { username, password } = this.loginForm.value;
+
+    // Mostrar la animación de carga
     const loading = await this.loadingController.create({
-      message: 'Iniciando sesión...',
-      spinner: 'circles',
+      message: 'Cargando...', 
+      spinner: 'crescent', 
+      duration: 1000 
     });
-  
-    // Crear una alerta para cuando el inicio de sesión falla
-    const noCargar = await this.alertController.create({
-      header: 'Error de inicio de sesión',
-      message: 'Usuario o Contraseña incorrecta',
-      buttons: [
-        {
-          text: 'Ok',
-          handler: () => {
-            this.username = "";
-            this.password = "";
-          }
-        }
-      ]
-    });
-  
-    // Recuperar los datos del usuario guardados en localStorage
-    const storedUserJson = localStorage.getItem('usuario');
+    await loading.present(); // Presentar la animación de carga
 
-    // Verificar si hay datos almacenados y parsear
-    const storedUser = storedUserJson ? JSON.parse(storedUserJson) : null;
+    this.usuarioService.autenticarUsuario(username, password).subscribe({
+      next: async (usuario) => {
+        await loading.dismiss(); // Cerrar la animación de carga
+        if (usuario) {
+          localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, nombre: usuario.nombre }));
+          localStorage.setItem('ingresado', 'true');
 
-    // Verificar si existen datos en localStorage
-    if (storedUser) {
-      // Comparar las credenciales ingresadas con las guardadas
-      if (this.username === storedUser.nombre && this.password === storedUser.contraseña) {
-        await loading.present();
-  
-        setTimeout(async () => {
-          // Guardar las credenciales en localStorage
-          localStorage.setItem('usuario', JSON.stringify({
-            username: this.username,
-            password: this.password
-          }));
-  
-          await loading.dismiss();
-          console.log('Inicio de sesión exitoso');
+          const alert = await this.alertController.create({
+            header: 'Éxito',
+            message: 'Has iniciado sesión correctamente.',
+            buttons: ['Aceptar'],
+          });
+          await alert.present();
+
           this.router.navigate(['/home']);
-        }, 900);
-      } else {
-        await noCargar.present();
+        } else {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Usuario o contraseña incorrectos.',
+            buttons: ['Aceptar'],
+          });
+          await alert.present();
+        }
+      },
+      error: async (err) => {
+        await loading.dismiss(); // Cerrar la animación de carga
+        console.error('Error al autenticar usuario:', err);
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Ocurrió un error al intentar iniciar sesión. Inténtalo de nuevo más tarde.',
+          buttons: ['Aceptar'],
+        });
+        await alert.present();
       }
-    } else {
-      await noCargar.present();
-    }
+    });
   }
 
   // Método para manejar la solicitud de restablecimiento de contraseña
   onResetPassword() {
-
-    // Navegar a la página de restablecimiento de contraseña
-    this.router.navigate(['/restar-contra']); 
-
+    this.router.navigate(['/restar-contra']); // Cambia a la ruta de restablecimiento de contraseña
   }
 
   // Método para manejar la navegación a la página de registro
   goToRegister() {
-
-     // Mostrar barra de progreso
-    this.loading = true;
-
-    // Simular un tiempo de espera antes de navegar
-    setTimeout(() => {
-
-      // Ocultar barra de progreso después de la simulación
-      this.loading = false; 
-
-      // Navegar a la página de registro
-      this.navCtrl.navigateForward('/registro');
-    }, 1000);
+    this.router.navigate(['/registro']); // Cambia a la ruta de registro
   }
-
 }

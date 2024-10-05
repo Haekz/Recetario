@@ -1,0 +1,50 @@
+{
+  "usuario": [
+    {
+      "id": "1",
+      "userName": "diego",
+      "pass": "1234deigO",
+      "fullName": "Diego Peñaloza",
+      "email": "die.penaloza@duocuc.cl"
+    },
+    {
+      "id": "2",
+      "userName": "seba",
+      "pass": "1234sebaA",
+      "fullName": "Sebastian Nuñez",
+      "email": "sa.nunz@duocuc.cl"
+    },
+    {
+      "id": "36c9",
+      "nombre": "rafu",
+      "email": "1234@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "f8eb",
+      "nombre": "Benjamin",
+      "email": "benja@duocuc.cl",
+      "password": "benja1234M"
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Pure",
+      "valor": 5000,
+      "stock": 10
+    },
+    {
+      "id": "2",
+      "name": "Arroz",
+      "valor": 4000,
+      "stock": 9
+    },
+    {
+      "id": "3",
+      "name": "Papas",
+      "valor": 3000,
+      "stock": 12
+    }
+  ]
+}

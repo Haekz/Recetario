@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module'; // Importa AppRoutingMo
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({ // Define el módulo
   declarations: [
@@ -21,9 +24,10 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     AppRoutingModule, // Inicializa AppRoutingModule
     FormsModule,  // Inicializa FormsModule
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    HttpClientModule 
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync()], // Provee la estrategia de reutilización de rutas
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), SQLite], // Provee la estrategia de reutilización de rutas
   bootstrap: [AppComponent] // Inicializa AppComponent
 })
 export class AppModule {} // Exporta AppModule
