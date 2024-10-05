@@ -37,10 +37,7 @@ export class InicioPage {
     });
   }
 
-  // Método para alternar la visibilidad de la contraseña
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword; 
-  }
+  
 
   // Método para manejar el inicio de sesión
   async onLogin() {
@@ -53,32 +50,40 @@ export class InicioPage {
       await alert.present();
       return;
     }
-
+  
     const { username, password } = this.loginForm.value;
-
+  
     // Mostrar la animación de carga
     const loading = await this.loadingController.create({
-      message: 'Cargando...', 
-      spinner: 'crescent', 
-      duration: 1000 
+      message: 'Cargando...',
+      spinner: 'crescent',
+      duration: 1000
     });
     await loading.present(); // Presentar la animación de carga
-
+  
     this.usuarioService.autenticarUsuario(username, password).subscribe({
       next: async (usuario) => {
         await loading.dismiss(); // Cerrar la animación de carga
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, nombre: usuario.nombre }));
           localStorage.setItem('ingresado', 'true');
-
+  
           const alert = await this.alertController.create({
             header: 'Éxito',
             message: 'Has iniciado sesión correctamente.',
             buttons: ['Aceptar'],
           });
           await alert.present();
-
-          this.router.navigate(['/home']);
+  
+          // Crear NavigationExtras con el username
+          const navigationExtras = {
+            state: {
+              username: username
+            }
+          };
+  
+          // Navegar a la página de inicio pasando el username
+          this.navCtrl.navigateForward(['/home'], navigationExtras);
         } else {
           const alert = await this.alertController.create({
             header: 'Error',
@@ -99,6 +104,11 @@ export class InicioPage {
         await alert.present();
       }
     });
+  }
+
+  // Método para alternar la visibilidad de la contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; 
   }
 
   // Método para manejar la solicitud de restablecimiento de contraseña

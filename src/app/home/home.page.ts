@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Importa el Router para manejar la navegación
-import { AlertController, LoadingController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
+
+interface NavigationState { // Define la interfaz para el estado de navegación
+  username: string;
+}
 
 @Component({
   selector: 'app-home',
@@ -8,12 +12,20 @@ import { AlertController, LoadingController, NavController } from '@ionic/angula
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  username: string = 'Admin';
+  username: string = '';
 
-  constructor(private router: Router, public alertController: AlertController, public NavController: NavController, public loadingController: LoadingController) {} // Inyecta el Router en el constructor
+  constructor(
+    private router: Router,
+    public alertController: AlertController, 
+    public loadingController: LoadingController
+  ) {}
 
   ngOnInit() {
-
+    const navigation = this.router.getCurrentNavigation();
+  if (navigation?.extras.state) {
+    const state = navigation.extras.state as NavigationState; // Realiza el casting
+    this.username = state.username; // Accede a la propiedad username
+  }
   }
 
   navigateTo(path: string) {
@@ -28,6 +40,7 @@ export class HomePage implements OnInit {
         {
           text: 'No',
           handler: () => {
+            // No hacer nada al cerrar el alert
           }
         }, 
         {
@@ -51,4 +64,3 @@ export class HomePage implements OnInit {
     await alert.present();
   }
 }
- 
