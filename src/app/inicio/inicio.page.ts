@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, LoadingController, NavController } from '@ionic/angular';
-import { UsuarioService } from '../services/usuario/usuario.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../services/usuario/usuario.service';
 import { ApiService } from '../services/api.service';
-
 
 @Component({
   selector: 'app-inicio',
@@ -12,7 +11,6 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage {
-  
   // Formulario reactivo para manejar el inicio de sesión
   loginForm: FormGroup;
 
@@ -37,11 +35,6 @@ export class InicioPage {
     });
   }
 
-  // Método para alternar la visibilidad de la contraseña
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword; 
-  }
-
   // Método para manejar el inicio de sesión
   async onLogin() {
     // Verifica si el formulario es válido
@@ -57,7 +50,7 @@ export class InicioPage {
   
     // Desestructuración de los valores del formulario
     const { username, password } = this.loginForm.value;
-  
+
     // Mostrar la animación de carga
     const loading = await this.loadingController.create({
       message: 'Cargando...',
@@ -73,7 +66,7 @@ export class InicioPage {
           // Guardar el usuario en localStorage
           localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, nombre: usuario.nombre }));
           localStorage.setItem('ingresado', 'true');
-  
+
           const alert = await this.alertController.create({
             header: 'Éxito',
             message: 'Has iniciado sesión correctamente.',
@@ -89,7 +82,7 @@ export class InicioPage {
           };
   
           // Navegar a la página de inicio pasando el username
-          this.router.navigate(['/home'], navigationExtras); // Cambiado a this.router.navigate
+          this.router.navigate(['/home'], navigationExtras);
         } else {
           const alert = await this.alertController.create({
             header: 'Error',
@@ -110,6 +103,11 @@ export class InicioPage {
         await alert.present();
       }
     });
+  }
+
+  // Método para alternar la visibilidad de la contraseña
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; 
   }
 
   // Método para manejar la solicitud de restablecimiento de contraseña
