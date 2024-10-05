@@ -1,0 +1,15 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Asegura que ocupe toda la altura de la pantalla */
+}
+
+ion-router-outlet {
+  flex-grow: 1; /* El contenido crece para ocupar el espacio restante */
+  margin-bottom: 56px; /* Asegura que no se superponga con el footer */
+
+}
+
+ion-footer {
+  flex-shrink: 0; /* El footer no se encoge */
+}

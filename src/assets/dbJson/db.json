@@ -45,23 +45,6 @@
     }
   ],
   "products": [
-    {
-      "id": "1",
-      "name": "Pure",
-      "valor": 5000,
-      "stock": 10
-    },
-    {
-      "id": "2",
-      "name": "Arroz",
-      "valor": 4000,
-      "stock": 9
-    },
-    {
-      "id": "3",
-      "name": "Papas",
-      "valor": 3000,
-      "stock": 12
-    }
+
   ]
 }

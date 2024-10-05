@@ -50,38 +50,6 @@ export class BuscarResultPage{
   //}
 
 
-  async salir() {
-    // Método para salir y cerrar sesión
-    const alert = await this.alertController.create({
-      header: 'Salir',
-      message: '¿Deseas salir?',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-          }
-        }, 
-        {
-          text: 'Sí',
-          handler: async () => {
-            const loading = await this.loadingController.create({
-              message: 'Saliendo...',
-              spinner: 'crescent'
-            });
-            await loading.present();
-            setTimeout(async () => {
-              //localStorage.removeItem('ingresado');
-              await loading.dismiss(); 
-              this.router.navigateByUrl('/inicio'); 
-            }, 800);
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
   // Método para abrir detalles de receta
   openRecipe(recipe: any) {
     console.log(recipe.image); // Verifica la ruta de la imagen

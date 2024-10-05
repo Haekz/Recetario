@@ -34,35 +34,4 @@ export class HomePage implements OnInit {
     this.router.navigate([`/${path}`]);
   }
 
-  async salir() {
-    const alert = await this.alertController.create({
-      header: 'Salir',
-      message: '¿Deseas salir?',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            // No hacer nada al cerrar el alert
-          }
-        }, 
-        {
-          text: 'Sí',
-          handler: async () => {
-            const loading = await this.loadingController.create({
-              message: 'Saliendo...',
-              spinner: 'crescent'
-            });
-            await loading.present();
-            setTimeout(async () => {
-              localStorage.removeItem('ingresado');
-              await loading.dismiss(); 
-              this.router.navigateByUrl('/inicio'); 
-            }, 800);
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
 }
