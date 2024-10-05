@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Importa el Router para manejar la navegación
 import { AlertController, LoadingController } from '@ionic/angular';
 
-interface NavigationState { // Define la interfaz para el estado de navegación
-  username: string;
+interface NavigationState {
+  username?: string; // Puede ser undefined si no se pasa
 }
 
 @Component({
@@ -12,20 +12,22 @@ interface NavigationState { // Define la interfaz para el estado de navegación
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  username: string = '';
+  username: string | undefined; // Puede ser undefined
 
   constructor(
-    private router: Router,
+    public router: Router,
     public alertController: AlertController, 
     public loadingController: LoadingController
-  ) {}
+  ) {// Verifica si hay navegación actual y si hay un estado
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation && navigation.extras.state) {
+      // Asigna el username del estado usando una conversión de tipo
+      const state = navigation.extras.state as NavigationState;
+      this.username = state.username; // Ahora TypeScript reconoce el tipo
+    }}
 
   ngOnInit() {
-    const navigation = this.router.getCurrentNavigation();
-  if (navigation?.extras.state) {
-    const state = navigation.extras.state as NavigationState; // Realiza el casting
-    this.username = state.username; // Accede a la propiedad username
-  }
+    console.log('Username:', this.username);
   }
 
   navigateTo(path: string) {
@@ -52,7 +54,7 @@ export class HomePage implements OnInit {
             });
             await loading.present();
             setTimeout(async () => {
-              //localStorage.removeItem('ingresado');
+              localStorage.removeItem('ingresado');
               await loading.dismiss(); 
               this.router.navigateByUrl('/inicio'); 
             }, 800);

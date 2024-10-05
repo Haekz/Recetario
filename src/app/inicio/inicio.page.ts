@@ -44,6 +44,7 @@ export class InicioPage {
 
   // Método para manejar el inicio de sesión
   async onLogin() {
+    // Verifica si el formulario es válido
     if (this.loginForm.invalid) {
       const alert = await this.alertController.create({
         header: 'Error',
@@ -51,38 +52,44 @@ export class InicioPage {
         buttons: ['Aceptar'],
       });
       await alert.present();
-      return;
+      return; // Salir del método si el formulario es inválido
     }
-
+  
+    // Desestructuración de los valores del formulario
     const { username, password } = this.loginForm.value;
-
+  
     // Mostrar la animación de carga
-    this.loading = true; // Establecer loading en true
     const loading = await this.loadingController.create({
-      message: 'Cargando...', 
-      spinner: 'crescent', 
-      duration: 1000 
+      message: 'Cargando...',
+      spinner: 'crescent',
     });
     await loading.present(); // Presentar la animación de carga
-
+  
+    // Llamar al servicio de autenticación
     this.usuarioService.autenticarUsuario(username, password).subscribe({
       next: async (usuario) => {
-        this.loading = false; // Establecer loading en false
         await loading.dismiss(); // Cerrar la animación de carga
         if (usuario) {
           // Guardar el usuario en localStorage
           localStorage.setItem('usuario', JSON.stringify({ id: usuario.id, nombre: usuario.nombre }));
           localStorage.setItem('ingresado', 'true');
-
+  
           const alert = await this.alertController.create({
             header: 'Éxito',
             message: 'Has iniciado sesión correctamente.',
             buttons: ['Aceptar'],
           });
           await alert.present();
-
-          this.router.navigate(['/home']);
-
+  
+          // Crear NavigationExtras con el username
+          const navigationExtras = {
+            state: {
+              username: username
+            }
+          };
+  
+          // Navegar a la página de inicio pasando el username
+          this.router.navigate(['/home'], navigationExtras); // Cambiado a this.router.navigate
         } else {
           const alert = await this.alertController.create({
             header: 'Error',
@@ -93,7 +100,6 @@ export class InicioPage {
         }
       },
       error: async (err) => {
-        this.loading = false; // Establecer loading en false
         await loading.dismiss(); // Cerrar la animación de carga
         console.error('Error al autenticar usuario:', err);
         const alert = await this.alertController.create({
