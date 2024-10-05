@@ -2,7 +2,7 @@
   <div class="app-container">
     <ion-router-outlet></ion-router-outlet>
 
-    <ion-footer *ngIf="mostrarFooter()">
+    <ion-footer id="app-footer" *ngIf="mostrarFooter()">
       <ion-tab-bar>
         <ion-tab-button tab="home">
           <ion-icon name="home" [routerLink]="['/home']"></ion-icon>
