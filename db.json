@@ -47,6 +47,12 @@
       "nombre": "usuario",
       "email": "usuario@prueba.com",
       "password": "ke63g55WDFHS7gh"
+    },
+    {
+      "id": "20a8",
+      "nombre": "aaaaaaa",
+      "email": "aaaaa@aaaa.com",
+      "password": "Benjamin1234"
     }
   ],
   "products": []
