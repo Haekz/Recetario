@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { Router } from '@angular/router';
 import { AlertController, AnimationController, NavController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
-
+import { SqliteService } from '../services/sqlite.service'; // Importa el servicio SQLite
 
 @Component({
   selector: 'app-registro',

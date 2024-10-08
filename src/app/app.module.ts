@@ -31,3 +31,6 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [AppComponent] // Inicializa AppComponent
 })
 export class AppModule {} // Exporta AppModule
+
+console.log('Inicializando base de datos...');
+const sqlite = new SQLite();

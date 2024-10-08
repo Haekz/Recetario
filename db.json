@@ -5,7 +5,6 @@
       "nombre": "diego",
       "email": "die.penaloza@duocuc.cl",
       "password": "1234deigO"
-      
     },
     {
       "id": "2",
@@ -42,9 +41,13 @@
       "nombre": "joshua",
       "email": "55@gmial.com",
       "password": "1234joshuA"
+    },
+    {
+      "id": "1558",
+      "nombre": "usuario",
+      "email": "usuario@prueba.com",
+      "password": "ke63g55WDFHS7gh"
     }
   ],
-  "products": [
-
-  ]
+  "products": []
 }
