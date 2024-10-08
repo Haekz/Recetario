@@ -53,6 +53,12 @@
       "nombre": "aaaaaaa",
       "email": "aaaaa@aaaa.com",
       "password": "Benjamin1234"
+    },
+    {
+      "id": "5710",
+      "nombre": "Max",
+      "email": "max1234@gmail.com",
+      "password": "1234maxI"
     }
   ],
   "products": []

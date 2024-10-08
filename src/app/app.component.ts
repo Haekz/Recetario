@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, NavController, LoadingController, Platform } from '@ionic/angular';
 import { SqliteService } from './services/sqlite.service'; // Importa el servicio de SQLite
+import { UsuarioService } from '../app/services/usuario/usuario.service'; // Importa el servicio de Usuario
 
 @Component({
   selector: 'app-root',
@@ -15,17 +16,21 @@ export class AppComponent {
     public navCtrl: NavController,
     public loadingController: LoadingController,
     private sqliteService: SqliteService, // Inyecta el servicio de SQLite
-    private platform: Platform // Inyecta Platform
+    private platform: Platform, // Inyecta Platform
+    private usuarioService: UsuarioService // Inyecta el servicio de Usuario
   ) {
     this.initializeApp(); // Llama a la función de inicialización al iniciar la app
   }
 
-  // Inicializar la aplicación (solución combinada)
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.sqliteService.testDatabase(); // Llama al método de prueba para inicializar y verificar SQLite
-      this.sqliteService.initializeDatabase(); // Inicializa la base de datos
-    });
+  // Inicializar la aplicación
+  async initializeApp() {
+    await this.platform.ready();
+    try {
+      await this.sqliteService.initializeDatabase(); // Inicializa la base de datos
+      await this.sqliteService.testDatabase(); // Llama al método de prueba para verificar SQLite
+    } catch (error) {
+      console.error('Error al inicializar la base de datos:', error);
+    }
   }
 
   mostrarFooter(): boolean {
@@ -41,9 +46,7 @@ export class AppComponent {
       buttons: [
         {
           text: 'No',
-          handler: () => {
-            // No hacer nada al cerrar el alert
-          }
+          role: 'cancel', // Añadido para mejorar la accesibilidad
         },
         {
           text: 'Sí',
@@ -53,16 +56,17 @@ export class AppComponent {
               spinner: 'crescent'
             });
             await loading.present();
-            setTimeout(async () => {
-              localStorage.removeItem('ingresado');
-              await loading.dismiss();
-              this.router.navigateByUrl('/inicio');
-            }, 800);
+
+            // Llamar al método logout del servicio UsuarioService
+            this.usuarioService.logout(); // Elimina el usuario de localStorage
+
+            await loading.dismiss(); // Descartar el loading
+            this.router.navigateByUrl('/inicio'); // Redirigir a la página de inicio
           }
         }
       ]
     });
 
-    await alert.present();
+    await alert.present(); // Presentar el alert
   }
 }

@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core'; // Importa NgModule
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router'; // Importa PreloadAllModules y Routes
-import { noIngresadoGuard } from './no-ingresado.guard';
-import { ingresadoGuard } from './ingresado.guard';
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
-const routes: Routes = [ // Define las rutas de la aplicación
-
+const routes: Routes = [
   {
     path: '',
     redirectTo: 'inicio', // Redirige a la página de inicio de sesión
@@ -12,34 +10,30 @@ const routes: Routes = [ // Define las rutas de la aplicación
   },
   {
     path: 'inicio',
-    loadChildren: () => import('./inicio/inicio.module').then( m => m.InicioPageModule),
-    canActivate: [noIngresadoGuard]
+    loadChildren: () => import('./inicio/inicio.module').then(m => m.InicioPageModule),
   },
   {
     path: 'registro',
-    loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule),
-    canActivate: [noIngresadoGuard]
+    loadChildren: () => import('./registro/registro.module').then(m => m.RegistroPageModule),
   },
   {
     path: 'restar-contra',
-    loadChildren: () => import('./restar-contra/restar-contra.module').then( m => m.RestarContraPageModule),
-    canActivate: [noIngresadoGuard]
+    loadChildren: () => import('./restar-contra/restar-contra.module').then(m => m.RestarContraPageModule),
   },
   {
     path: 'buscar-result',
-    loadChildren: () => import('./buscar-result/buscar-result.module').then( m => m.BuscarResultPageModule),
-    canActivate: [ingresadoGuard]
+    loadChildren: () => import('./buscar-result/buscar-result.module').then(m => m.BuscarResultPageModule),
+    canActivate: [AuthGuard], // Ruta protegida
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule), // Carga el módulo de la página de inicio
-    canActivate: [ingresadoGuard]
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
+    canActivate: [AuthGuard], // Ruta protegida
   },
   {
     path: '**',
-    redirectTo: 'buscar-result'  // Maneja rutas no encontradas
+    redirectTo: 'inicio', // Maneja rutas no encontradas
   },
-
 ];
 
 @NgModule({

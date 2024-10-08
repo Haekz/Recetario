@@ -37,6 +37,16 @@ export class UsuarioService {
     );
   }
 
+  // Método para verificar si el usuario está autenticado
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('usuario'); // Comprueba si existe un usuario en el localStorage
+  }
+  
+  // Método para cerrar sesión
+  logout() {
+    localStorage.removeItem('usuario');
+  }
+
   private handleError(error: any) {
     console.error('Error en el servicio:', error);
     return throwError(() => new Error('Error en la comunicación con el servidor'));
