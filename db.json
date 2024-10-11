@@ -4,13 +4,13 @@
       "id": "1",
       "nombre": "diego",
       "email": "die.penaloza@duocuc.cl",
-      "password": "1234deigO"
+      "password": "1234rafuQ"
     },
     {
       "id": "2",
       "nombre": "seba",
       "email": "sa.nunz@duocuc.cl",
-      "password": "1234sebaA"
+      "password": "1234sebasS"
     },
     {
       "id": "36c9",
@@ -40,13 +40,13 @@
       "id": "0aae",
       "nombre": "joshua",
       "email": "55@gmial.com",
-      "password": "1234joshuA"
+      "password": "1234joshuO"
     },
     {
       "id": "1558",
       "nombre": "usuario",
       "email": "usuario@prueba.com",
-      "password": "ke63g55WDFHS7gh"
+      "password": "ke63g55WDFHS7g"
     },
     {
       "id": "20a8",
@@ -59,6 +59,48 @@
       "nombre": "Max",
       "email": "max1234@gmail.com",
       "password": "1234maxI"
+    },
+    {
+      "id": "12a5",
+      "nombre": "diego",
+      "email": "die.penaloz@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "69b1",
+      "nombre": "diego",
+      "email": "die.penaoz@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "c357",
+      "nombre": "diego",
+      "email": "die.penaz@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "aba4",
+      "nombre": "diego",
+      "email": "die.penaloa@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "b126",
+      "nombre": "dieg",
+      "email": "die.penloza@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "a007",
+      "nombre": "die",
+      "email": "die.penloz@duocuc.cl",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "e151",
+      "nombre": "seb",
+      "email": "sa.nuz@duocuc.cl",
+      "password": "1234sebasS"
     }
   ],
   "products": []

@@ -10,11 +10,6 @@ import { InicioPage } from './inicio.page';
 
 import { ReactiveFormsModule } from '@angular/forms'; // Importar ReactiveFormsModule
 
-
-
-
-
-
 @NgModule({
   imports: [
     CommonModule,

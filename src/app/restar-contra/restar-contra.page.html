@@ -1,46 +1,52 @@
 <ion-header>
-  <!-- Contenedor de la barra superior -->
   <ion-toolbar>
-    <!-- Botones en el lado izquierdo de la barra de herramientas -->
     <ion-buttons slot="start">
-      <!-- Botón para regresar a la página de inicio de sesión -->
       <ion-back-button [routerLink]="['/inicio']"></ion-back-button>
     </ion-buttons>
-    <!-- Título de la página -->
-    <ion-title>Restablecer Contraseña</ion-title>
+    <ion-title>Cambiar Contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Formulario para restablecer la contraseña -->
-  <form (ngSubmit)="onResetPassword()" #resetPasswordForm="ngForm">
-    <!-- Campo para ingresar el correo electrónico -->
+  <form #resetPasswordForm="ngForm" (ngSubmit)="cambiarPassword()">
     <ion-item>
-      <!-- Icono al inicio del campo de correo electrónico -->
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
-      
-      <!-- Etiqueta flotante para el campo de correo electrónico -->
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      
-      <!-- Campo de entrada para el correo electrónico -->
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Nombre de Usuario</ion-label>
       <ion-input 
-        type="email" 
-        [(ngModel)]="email" 
-        name="email" 
-        required 
-        email 
-        #emailInput="ngModel">
+        type="text" 
+        [(ngModel)]="nombre" 
+        name="nombre" 
+        required>
       </ion-input>
     </ion-item>
-    
-    <!-- Mensaje de error que se muestra si el campo de correo electrónico es inválido y ha sido tocado -->
-    <ion-note color="danger" *ngIf="emailInput.invalid && emailInput.touched">
-      Por favor, ingrese un correo electrónico válido.
-    </ion-note>
+
+    <ion-item>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Nueva Contraseña</ion-label>
+      <ion-input 
+        [type]="hidePassword ? 'password' : 'text'" 
+        [(ngModel)]="nuevaPassword" 
+        name="nuevaPassword" 
+        required>
+      <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
+        <ion-icon [name]="hidePassword ? 'eye-off' : 'eye'"></ion-icon>
+      </ion-button>
+      </ion-input>
+    </ion-item>
+
+    <!-- Mostrar restricciones de la contraseña -->
+    <div *ngIf="nuevaPassword && !validarPassword(nuevaPassword)">
+      <ion-note color="warning">
+        La contraseña debe contener:
+        <ul>
+          <li>Al menos 4 números</li>
+          <li>Al menos 3 caracteres alfabéticos</li>
+          <li>Al menos 1 letra mayúscula</li>
+        </ul>
+      </ion-note>
+    </div>
 
     <!-- Botón para enviar el formulario -->
-    <ion-button expand="block" type="submit" [disabled]="resetPasswordForm.invalid">
-      Enviar Enlace
-    </ion-button>
+    <ion-button expand="full" type="submit">Actualizar Contraseña</ion-button>
   </form>
 </ion-content>

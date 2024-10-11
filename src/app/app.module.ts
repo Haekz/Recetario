@@ -14,6 +14,7 @@ import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { HttpClientModule } from '@angular/common/http';
 
 
+
 @NgModule({ // Define el módulo
   declarations: [
     AppComponent
@@ -25,7 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,  // Inicializa FormsModule
     ReactiveFormsModule,
     RouterLink,
-    HttpClientModule 
+    HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), SQLite], // Provee la estrategia de reutilización de rutas
   bootstrap: [AppComponent] // Inicializa AppComponent

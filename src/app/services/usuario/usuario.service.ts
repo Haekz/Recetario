@@ -4,7 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 interface Usuario {
-  id?: number;
+  id?: string;
   nombre: string;
   email: string;
   password: string;
@@ -13,19 +13,17 @@ interface Usuario {
 @Injectable({
   providedIn: 'root'
 })
-
 export class UsuarioService {
-
   private apiUrl = 'http://localhost:3000/usuario'; // URL de la API en puerto 3000
 
   constructor(private http: HttpClient) {}
 
-  //registrar usuario enviando los datos a la API
+  // Método para registrar usuario enviando los datos a la API
   registrarUsuario(usuario: Usuario): Observable<any> {
     return this.http.post<any>(this.apiUrl, usuario);
   }
 
-//autenticar al usuario
+  // Método para autenticar al usuario
   autenticarUsuario(nombre: string, password: string): Observable<Usuario | null> {
     const params = new HttpParams()
       .set('nombre', nombre)
@@ -41,10 +39,35 @@ export class UsuarioService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('usuario'); // Comprueba si existe un usuario en el localStorage
   }
-  
+
+  // Verificar si el nombre de usuario existe
+  verificarExistenciaUsuario(nombre: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?nombre=${nombre}`);
+  }
+
+  // Verificar si el correo electrónico existe
+  verificarExistenciaEmail(email: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}?email=${email}`);
+  }
+
   // Método para cerrar sesión
   logout() {
     localStorage.removeItem('usuario');
+  }
+
+  // Método para obtener el usuario por nombre
+  obtenerUsuarioPorNombre(nombre: string): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}?nombre=${nombre}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Método para actualizar la contraseña del usuario
+  actualizarPassword(id: string, nuevaPassword: string): Observable<any> {
+    const body = { password: nuevaPassword };
+    return this.http.patch(`${this.apiUrl}/${id}`, body).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: any) {

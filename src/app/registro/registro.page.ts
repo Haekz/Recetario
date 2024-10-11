@@ -40,7 +40,7 @@ export class RegistroPage{
     password: ['', [Validators.required, passwordFormatValidator()]],
     confirmPassword: ['', Validators.required]
   }, { validator: passwordMatchValidator('password', 'confirmPassword') });
-}
+  }
 
   ngOnInit() {
     // Resetea el formulario al inicializar
@@ -49,95 +49,114 @@ export class RegistroPage{
   }
 
   // Función para guardar el registro
-async guardar() {
-  // Obtener los valores del formulario
-  let f = this.formularioRegistro.value;
-
-  // Validar si el formulario es inválido
-  if (this.formularioRegistro.invalid) {
-    // Mostrar alerta si el formulario es inválido
-    const alert = await this.alertController.create({
-      header: 'Error',
-      message: 'Favor de Seguir los Requisitos.',
-      buttons: ['Aceptar'],
-    });
-
-    await alert.present();
-    return;
-  }
-
-  // Crear objeto con los datos del usuario
-  const nuevoUsuario = {
-    nombre: f.nombre,
-    email: f.email,
-    password: f.password,
-  };
-
-  // Mostrar barra de progreso
-  this.loading = true;
-
-  try {
-    // Guardar el usuario en SQLite localmente
-    await this.sqliteService.addUser(nuevoUsuario.nombre, nuevoUsuario.email, nuevoUsuario.password);
-    console.log('Usuario agregado localmente a SQLite');
-
-    // Si SQLite es exitoso, intenta registrar al usuario en la API
-    this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
-      next: async (response) => {
-        // Detener la barra de progreso
-        this.loading = false;
-
-        console.log('Usuario registrado:', response);
-
-        // Guardar el usuario en localStorage (sin contraseña por seguridad)
-        localStorage.setItem('usuario', JSON.stringify({ nombre: f.nombre, email: f.email }));
-        localStorage.setItem('ingresado', 'true'); // Indicador de sesión iniciada
-
-        // Mostrar alerta de éxito
-        const alert = await this.alertController.create({
-          header: 'Éxito',
-          message: 'Usuario registrado correctamente.',
-          buttons: ['Aceptar'],
-        });
-
-        await alert.present();
-
-        // Redirigir a la página de inicio de sesión después de un tiempo
-        setTimeout(() => {
-          this.navCtr.navigateForward('/inicio');
-        }, 1000);
-      },
-      error: async (err) => {
-        // Detener la barra de progreso
-        this.loading = false;
-        console.error('Error al registrar usuario:', err);
-
-        // Mostrar alerta de error
+  async guardar() {
+    // Obtener los valores del formulario
+    const f = this.formularioRegistro.value;
+  
+    // Validar si el formulario es inválido
+    if (this.formularioRegistro.invalid) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Favor de seguir los requisitos.',
+        buttons: ['Aceptar'],
+      });
+      await alert.present();
+      return;
+    }
+  
+    // Verificar si el nombre de usuario existe
+    this.usuarioService.verificarExistenciaUsuario(f.nombre).subscribe(async (usuarios) => {
+      if (usuarios.length > 0) {
+        // Si ya existe un usuario con ese nombre
         const alert = await this.alertController.create({
           header: 'Error',
-          message: 'Ocurrió un error al registrar el usuario. Inténtalo de nuevo.',
+          message: 'El nombre de usuario ya está en uso.',
           buttons: ['Aceptar'],
         });
-
         await alert.present();
+        return;
       }
-    });
-  } catch (error) {
-    // Si ocurre un error al guardar en SQLite
-    this.loading = false;
-    console.error('Error al guardar usuario en SQLite:', error);
-
-    const alert = await this.alertController.create({
-      header: 'Error',
-      message: 'Ocurrió un error al guardar el usuario localmente.',
-      buttons: ['Aceptar'],
-    });
-
-    await alert.present();
-  }
-}
-
   
+      // Verificar si el correo electrónico existe
+      this.usuarioService.verificarExistenciaEmail(f.email).subscribe(async (emails) => {
+        if (emails.length > 0) {
+          // Si ya existe un correo electrónico
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'El correo electrónico ya está en uso.',
+            buttons: ['Aceptar'],
+          });
+          await alert.present();
+          return;
+        }
+  
+        // Crear objeto con los datos del usuario
+        const nuevoUsuario = {
+          nombre: f.nombre,
+          email: f.email,
+          password: f.password,
+        };
+  
+        // Mostrar barra de progreso
+        this.loading = true;
+  
+        try {
+          // Guardar el usuario en SQLite localmente
+          await this.sqliteService.addUser(nuevoUsuario.nombre, nuevoUsuario.email, nuevoUsuario.password);
+          console.log('Usuario agregado localmente a SQLite');
+  
+          // Intentar registrar al usuario en la API
+          this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
+            next: async (response) => {
+              // Detener la barra de progreso
+              this.loading = false;
+  
+              // Mostrar alerta de éxito
+              const alert = await this.alertController.create({
+                header: 'Éxito',
+                message: 'Usuario registrado correctamente.',
+                buttons: ['Aceptar'],
+              });
+  
+              await alert.present();
+  
+              // Redirigir a la página de inicio de sesión después de un tiempo
+              setTimeout(() => {
+                this.navCtr.navigateForward('/inicio');
+              }, 1000);
+            },
+            error: async (err) => {
+              // Detener la barra de progreso
+              this.loading = false;
+              console.error('Error al registrar usuario:', err);
+  
+              // Mostrar alerta de error
+              const alert = await this.alertController.create({
+                header: 'Error',
+                message: 'Ocurrió un error al registrar el usuario. Inténtalo de nuevo.',
+                buttons: ['Aceptar'],
+              });
+  
+              await alert.present();
+            }
+          });
+        } catch (error) {
+          // Si ocurre un error al guardar en SQLite
+          this.loading = false;
+          console.error('Error al guardar usuario en SQLite:', error);
+  
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Ocurrió un error al guardar el usuario localmente.',
+            buttons: ['Aceptar'],
+          });
+  
+          await alert.present();
+        }
+      });
+    });
+  }
+
 
   // Cambiar visibilidad de la contraseña
   togglePasswordVisibility() {
@@ -253,6 +272,7 @@ export function passwordFormatValidator(): ValidatorFn {
     return isValid ? null : { passwordInvalidFormat: true };
   };
 }
+
 
 // ^ - Indica el inicio de la cadena.
 
