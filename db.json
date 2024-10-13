@@ -17,6 +17,12 @@
       "nombre": "dante",
       "email": "dante@gmail.com",
       "password": "1234dantE"
+    },
+    {
+      "id": "04df",
+      "nombre": "Diego",
+      "email": "diego@gmail.com",
+      "password": "1234diegO"
     }
   ],
   "recetas": [
@@ -30,7 +36,7 @@
       "id": "c51e61ad-074f-4b2c-b168-bf00a4ac9484",
       "titulo": "Toma TIcan",
       "descripcion": "Rica comida Chilena",
-      "ingredientes": "Tomate\nCarne\nArroz"
+      "ingredientes": "Tomate\nCarne\nArroz\nmayoneza"
     }
   ]
 }
