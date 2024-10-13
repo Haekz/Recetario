@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'; // Importa NgModule
 import { BrowserModule } from '@angular/platform-browser'; // Importa BrowserModule
-import { RouteReuseStrategy, RouterLink } from '@angular/router'; // Importa RouteReuseStrategy
+import { RouteReuseStrategy, RouterModule } from '@angular/router'; // Importa RouteReuseStrategy
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular'; // Importa IonicModule e IonicRouteStrategy
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa FormsModule
@@ -8,30 +8,38 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Importa Fo
 import { AppComponent } from './app.component'; // Importa AppComponent
 import { AppRoutingModule } from './app-routing.module'; // Importa AppRoutingModule
 
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx'; // Importa SQLite plugin para Ionic
+import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
+import { IonicStorageModule } from '@ionic/storage-angular'; // Importa IonicStorageModule
+import { SqliteService } from '/AppMovil/MyApps/src/app/services/sqlite.service';  // Importamos el servicio de SQLite
 
-import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
-import { HttpClientModule } from '@angular/common/http';
+
+import { RecetaService } from '../app/recetas/receta-list.service'; // Importa RecetaService
 
 
 
-@NgModule({ // Define el módulo
+@NgModule({
   declarations: [
-    AppComponent
+    AppComponent // Declaración de AppComponent
   ],
   imports: [
-    BrowserModule, // Inicializa BrowserModule
-    IonicModule.forRoot(), // Inicializa IonicModule
-    AppRoutingModule, // Inicializa AppRoutingModule
-    FormsModule,  // Inicializa FormsModule
-    ReactiveFormsModule,
-    RouterLink,
-    HttpClientModule
+    BrowserModule, // Importación de BrowserModule
+    IonicModule.forRoot(), // Importación de IonicModule
+    AppRoutingModule, // Importación de AppRoutingModule
+    FormsModule,  // Importación de FormsModule
+    ReactiveFormsModule, // Importación de ReactiveFormsModule
+    HttpClientModule, // Importación de HttpClientModule
+    IonicStorageModule.forRoot(), // Inicialización de IonicStorageModule
+    RouterModule, // Importación de RouterModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), SQLite], // Provee la estrategia de reutilización de rutas
-  bootstrap: [AppComponent] // Inicializa AppComponent
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, // Provisión de la estrategia de reutilización de rutas
+    SQLite, // Provisión de SQLite
+    RecetaService, // Provisión de RecetaService en providers, no en imports
+    SqliteService
+  ],
+  bootstrap: [AppComponent] // Bootstrap de AppComponent
 })
-export class AppModule {} // Exporta AppModule
 
-console.log('Inicializando base de datos...');
-const sqlite = new SQLite();
+export class AppModule {} // Exportación de AppModule
+

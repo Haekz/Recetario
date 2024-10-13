@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, NavController, LoadingController, Platform } from '@ionic/angular';
 import { SqliteService } from './services/sqlite.service'; // Importa el servicio de SQLite
 import { UsuarioService } from '../app/services/usuario/usuario.service'; // Importa el servicio de Usuario
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -11,26 +12,33 @@ import { UsuarioService } from '../app/services/usuario/usuario.service'; // Imp
 })
 export class AppComponent {
   constructor(
+    private menu: MenuController,
     private readonly router: Router,
     public alertController: AlertController,
     public navCtrl: NavController,
     public loadingController: LoadingController,
-    private sqliteService: SqliteService, // Inyecta el servicio de SQLite
-    private platform: Platform, // Inyecta Platform
-    private usuarioService: UsuarioService // Inyecta el servicio de Usuario
+    public sqliteService: SqliteService, // Inyecta el servicio de SQLite
+    public platform: Platform, // Inyecta Platform
+    public usuarioService: UsuarioService, // Inyecta el servicio de Usuario
+    public menuController: MenuController
   ) {
     this.initializeApp(); // Llama a la función de inicialización al iniciar la app
   }
 
   // Inicializar la aplicación
-  async initializeApp() {
-    await this.platform.ready();
-    try {
-      await this.sqliteService.initializeDatabase(); // Inicializa la base de datos
-      await this.sqliteService.testDatabase(); // Llama al método de prueba para verificar SQLite
-    } catch (error) {
-      console.error('Error al inicializar la base de datos:', error);
-    }
+  initializeApp() {
+    this.platform.ready().then(async () => {
+      try {
+        await this.sqliteService.initializeDatabase();
+        console.log('Base de datos inicializada correctamente.');
+      } catch (error) {
+        console.error('Error al inicializar la base de datos:', error);
+      }
+    });
+  }
+
+  closeMenu() {
+    this.menu.close();
   }
 
   mostrarFooter(): boolean {
@@ -69,4 +77,6 @@ export class AppComponent {
 
     await alert.present(); // Presentar el alert
   }
+
+  
 }

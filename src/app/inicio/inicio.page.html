@@ -1,10 +1,14 @@
 <!-- src/app/pages/login/login.page.html -->
 <ion-header>
   <ion-toolbar>
-    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
-    <ion-title>Login - ReceTario</ion-title>
+    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
+
+  <ion-toolbar>
+    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+    <ion-title>Iniciar Sesión</ion-title>
+  </ion-toolbar>
 
 <ion-content class="ion-padding">
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">

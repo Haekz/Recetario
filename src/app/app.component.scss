@@ -1,9 +1,22 @@
-.app-container {
+ion-list {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Asegura que la altura mínima sea del 100% de la ventana */
+  padding: 0;
 }
 
-ion-router-outlet {
-  flex: 1; /* Permite que el outlet ocupe el espacio disponible */
+ion-item {
+  --padding-start: 16px; /* Ajuste para los íconos */
+  --min-height: 50px; /* Altura mínima para cada item */
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+ion-icon {
+  margin-right: 10px;
+  font-size: 22px;
+}
+
+ion-label {
+  font-size: 16px;
 }
