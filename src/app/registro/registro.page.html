@@ -9,20 +9,18 @@
 </ion-header>
 
 <!-- Encabezado de la página -->
-<ion-header>
   <ion-toolbar>
     <!-- Barra de progreso que se muestra cuando se está cargando -->
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
     
     <!-- Botón para volver a la página de inicio de sesión -->
     <ion-buttons slot="start">
-      <ion-back-button [routerLink]="['/inicio']"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     
     <!-- Título de la página -->
     <ion-title>Registro</ion-title>
   </ion-toolbar>
-</ion-header>
 
 <!-- Contenido principal del formulario de registro -->
 <ion-content class="ion-padding">

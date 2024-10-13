@@ -4,33 +4,33 @@
       "id": "2",
       "nombre": "seba",
       "email": "sa.nunz@duocuc.cl",
-      "password": "1234sebasS"
+      "password": "1234sebasR"
+    },
+    {
+      "id": "9add",
+      "nombre": "rafu",
+      "email": "rafu@gmail.com",
+      "password": "1234rafuQ"
+    },
+    {
+      "id": "8619",
+      "nombre": "dante",
+      "email": "dante@gmail.com",
+      "password": "1234dantE"
     }
   ],
   "recetas": [
     {
-      "id": "1",
-      "titulo": "string",
-      "descripcion": "string",
-      "ingredientes": "string"
+      "id": "6ca2f6e8-0e45-42b4-871e-f10c6896ce3d",
+      "titulo": "PAPA MAYO",
+      "descripcion": "RIca ensalada de papas",
+      "ingredientes": "1. Papas\n2. agua\n3. mayonesa"
     },
     {
-      "id": null,
-      "titulo": "Papas",
-      "descripcion": "Lo mas rico que hay",
-      "ingredientes": "asd\nasd\na\ndas\ndasd"
-    },
-    {
-      "id": null,
-      "titulo": "Papas",
-      "descripcion": "Lo mas rico que hay",
-      "ingredientes": "asd\nasd\na\ndas\ndasd"
-    },
-    {
-      "id": null,
-      "titulo": "asd",
-      "descripcion": "asdasd",
-      "ingredientes": "asdasd"
+      "id": "c51e61ad-074f-4b2c-b168-bf00a4ac9484",
+      "titulo": "Toma TIcan",
+      "descripcion": "Rica comida Chilena",
+      "ingredientes": "Tomate\nCarne\nArroz"
     }
   ]
 }

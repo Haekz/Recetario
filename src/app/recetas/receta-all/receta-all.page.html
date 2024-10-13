@@ -4,14 +4,41 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-toolbar>
-    <ion-title>Todas las Recetas</ion-title>
-  </ion-toolbar>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-title>Lista de Recetas</ion-title>
+</ion-toolbar>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">receta-all</ion-title>
+      <ion-title size="large">Recetas</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- Listado de todas las recetas -->
+  <ion-list *ngIf="recetas.length > 0">
+    <ion-card *ngFor="let receta of recetas">
+      <!-- Título de la receta en la cabecera de la tarjeta -->
+      <ion-card-header>
+        <ion-card-title>{{ receta.titulo }}</ion-card-title>
+      </ion-card-header>
+
+      <!-- Contenido de la tarjeta -->
+      <ion-card-content>
+        <p>Descripción: {{ receta.descripcion }}</p>
+        <p>Ingredientes: {{ receta.ingredientes }}</p>
+
+        <!-- Botón para ver el detalle de la receta -->
+        <ion-button [routerLink]="['/receta-detail', receta.id]" color="primary">Ver Detalle</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Mensaje si no hay recetas -->
+  <ion-item *ngIf="recetas.length === 0">
+    <ion-label>No hay recetas disponibles</ion-label>
+  </ion-item>
 </ion-content>

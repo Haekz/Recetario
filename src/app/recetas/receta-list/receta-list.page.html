@@ -1,17 +1,40 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>receta-list</ion-title>
+    <ion-title>Listado de Recetas</ion-title>
   </ion-toolbar>
 </ion-header>
 
   <ion-toolbar>
-    <ion-title>Listado de Recetas</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <!-- Título "Listado de Recetas" alineado a la izquierda -->
+    <ion-title>Listado</ion-title>
+    
+    <!-- Botón "Agregar Receta" alineado a la derecha en el toolbar -->
+    <ion-buttons slot="end">
+      <ion-button [routerLink]="['/receta-add']" color="primary">Agregar Receta</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">receta-list</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <!-- Cuadro que contiene el listado de recetas -->
+  <ion-card>
+    <ion-card-content>
+      <!-- Recorremos el arreglo de recetas usando un loop *ngFor -->
+      <ion-list>
+        <ion-item *ngFor="let receta of recetas">
+          <!-- Campos de la receta -->
+          <ion-label>
+            <h5>{{ receta.titulo }}</h5>
+            <p>{{ receta.descripcion }}</p>
+          </ion-label>
+
+          <!-- Botones para editar o ver más detalles -->
+          <ion-button [routerLink]="['/receta-edit/', receta.id]">Editar</ion-button>
+          <ion-button [routerLink]="['/receta-detail', receta.id]">Detalles</ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

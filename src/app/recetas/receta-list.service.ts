@@ -30,32 +30,30 @@ export class RecetaService {
   }
 
   // Obtener una receta por ID
-  getRecetaById(id: number): Observable<CLRecetas> {
-    return this.http.get<CLRecetas>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+  getRecetaById(id: string): Observable<CLRecetas> {
+    return this.http.get<CLRecetas>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
   // Agregar una nueva receta
   addReceta(receta: CLRecetas): Observable<CLRecetas> {
-    return this.http.post<CLRecetas>(this.apiUrl, receta)
-      .pipe(catchError(this.handleError));
+    return this.http.post<CLRecetas>(this.apiUrl, receta).pipe(catchError(this.handleError));
   }
 
-  // Actualizar una receta existente
-  updateReceta(id: number, receta: CLRecetas): Observable<CLRecetas> {
+  // Método en RecetaService para actualizar una receta existente
+  updateReceta(id: string, receta: CLRecetas): Observable<CLRecetas> {
     return this.http.put<CLRecetas>(`${this.apiUrl}/${id}`, receta)
       .pipe(catchError(this.handleError));
-  }
+}
 
   // Eliminar una receta
-  deleteReceta(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`)
-      .pipe(catchError(this.handleError));
+  deleteReceta(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
   // Método para enviar una receta a la API
   sendRecetaToAPI(receta: CLRecetas): Observable<any> {
-    return this.http.post(this.apiUrl, receta).pipe(
+    const headers = { 'Content-Type': 'application/json' };
+    return this.http.post(this.apiUrl, receta, { headers }).pipe(
       catchError(this.handleError)
     );
   }

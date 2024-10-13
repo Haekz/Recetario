@@ -2,9 +2,8 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.myapp.example',
-  appName: 'MyApp',
+  appName: 'MyApps',
   webDir: 'www',
-  bundledWebRuntime: false,
   plugins: {
     SQLite: {
       iosDatabaseLocation: 'Library/Databases'

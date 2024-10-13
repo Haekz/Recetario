@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';  
-import { RecetaService } from '../receta-list.service';  
-import { SqliteService } from 'src/app/services/sqlite.service';  // Servicio SQLite
+import { RecetaService } from '../receta-list.service';  // Servicio API
 import { CLRecetas } from '../model/ClReceta';  // Modelo de receta
+import { v4 as uuidv4 } from 'uuid';  // Importar UUID
 
 @Component({
   selector: 'app-receta-add',
@@ -18,7 +18,6 @@ export class RecetaAddPage implements OnInit {
     private formBuilder: FormBuilder,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private databaseService: SqliteService,  // Servicio SQLite
     private recetaService: RecetaService,  // Servicio API
     private router: Router
   ) {}
@@ -42,13 +41,14 @@ export class RecetaAddPage implements OnInit {
     const ingredientes = this.recetaForm.value.ingredientes;
 
     try {
-      // Guardamos la receta en SQLite y obtenemos el ID generado
-      const id = await this.databaseService.addReceta(titulo, descripcion, ingredientes);
-      console.log(`Receta guardada en SQLite con ID: ${id}`);
+      // Generar un ID único usando UUID
+      const id = uuidv4();  // Aquí generamos un ID único para la receta
 
-      // Crear la receta para enviar a la API, incluyendo el ID
+      // Crear la receta con el ID generado
       const receta = new CLRecetas({ id, titulo, descripcion, ingredientes });
-      await this.sendRecetaToAPI(receta);  // Enviar la receta a la API
+
+      // Enviar la receta a la API
+      await this.sendRecetaToAPI(receta);
 
       loading.dismiss();
       this.router.navigate(['/receta-list']);  // Redirigir a la lista de recetas

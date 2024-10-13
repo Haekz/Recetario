@@ -41,12 +41,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'receta-detail',
+    path: 'receta-detail/:id',
     loadChildren: () => import('./recetas/receta-detail/receta-detail.module').then( m => m.RecetaDetailPageModule),
     canActivate: [AuthGuard],
   },
   {
-    path: 'receta-edit',
+    path: 'receta-edit/:id',
     loadChildren: () => import('./recetas/receta-edit/receta-edit.module').then( m => m.RecetaEditPageModule),
     canActivate: [AuthGuard],
   },
