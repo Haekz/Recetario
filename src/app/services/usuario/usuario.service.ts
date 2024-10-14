@@ -70,6 +70,11 @@ export class UsuarioService {
     );
   }
 
+  // Método para obtener todos los usuarios
+  getAllUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
+  }
+
   private handleError(error: any) {
     console.error('Error en el servicio:', error);
     return throwError(() => new Error('Error en la comunicación con el servidor'));

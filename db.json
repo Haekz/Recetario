@@ -1,42 +1,36 @@
 {
   "usuario": [
     {
-      "id": "2",
-      "nombre": "seba",
-      "email": "sa.nunz@duocuc.cl",
-      "password": "1234sebasR"
-    },
-    {
-      "id": "9add",
-      "nombre": "rafu",
-      "email": "rafu@gmail.com",
+      "id": "1",
+      "nombre": "Rafu",
+      "email": "rafu@gamil.com",
       "password": "1234rafuQ"
     },
     {
-      "id": "8619",
+      "id": "2",
       "nombre": "dante",
       "email": "dante@gmail.com",
       "password": "1234dantE"
-    },
-    {
-      "id": "04df",
-      "nombre": "Diego",
-      "email": "diego@gmail.com",
-      "password": "1234diegO"
     }
   ],
   "recetas": [
     {
-      "id": "6ca2f6e8-0e45-42b4-871e-f10c6896ce3d",
-      "titulo": "PAPA MAYO",
-      "descripcion": "RIca ensalada de papas",
-      "ingredientes": "1. Papas\n2. agua\n3. mayonesa"
+      "id": "1",
+      "titulo": "Pollo",
+      "descripcion": "Camaron",
+      "ingredientes": "mayonesa\npollo\ncamaron"
     },
     {
-      "id": "c51e61ad-074f-4b2c-b168-bf00a4ac9484",
-      "titulo": "Toma TIcan",
-      "descripcion": "Rica comida Chilena",
-      "ingredientes": "Tomate\nCarne\nArroz\nmayoneza"
+      "id": "2",
+      "titulo": "Lentejas",
+      "descripcion": "Ricas Lentejas",
+      "ingredientes": "Lentejas\narroz\nagua\naceite\nsal"
+    },
+    {
+      "id": "3",
+      "titulo": "Tallarín Verde",
+      "descripcion": "Ricos Fideos con Espinaca",
+      "ingredientes": "Fideos\nEspinaca\nPollo\nSal\nPimienta"
     }
   ]
 }

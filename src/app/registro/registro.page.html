@@ -1,28 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-progress-bar></ion-progress-bar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title></ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<!-- Encabezado de la página -->
-  <ion-toolbar>
     <!-- Barra de progreso que se muestra cuando se está cargando -->
     <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
-    
-    <!-- Botón para volver a la página de inicio de sesión -->
+    <!-- Botón para volver a la página anterior -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    
     <!-- Título de la página -->
     <ion-title>Registro</ion-title>
   </ion-toolbar>
+</ion-header>
 
-<!-- Contenido principal del formulario de registro -->
 <ion-content class="ion-padding">
   <form [formGroup]="formularioRegistro" (ngSubmit)="guardar()">
     
@@ -32,7 +20,6 @@
       <ion-label position="floating">Nombre de usuario</ion-label>
       <ion-input formControlName="nombre"></ion-input>
     </ion-item>
-    <!-- Mensaje de error si el nombre de usuario es requerido -->
     <ion-note *ngIf="formularioRegistro.get('nombre')?.touched && formularioRegistro.get('nombre')?.hasError('required')" color="danger">
       Nombre de usuario es requerido
     </ion-note>
@@ -43,7 +30,6 @@
       <ion-label position="floating">Correo Electrónico</ion-label>
       <ion-input type="email" formControlName="email"></ion-input>
     </ion-item>
-    <!-- Mensajes de error para el correo electrónico -->
     <ion-note *ngIf="formularioRegistro.get('email')?.touched && formularioRegistro.get('email')?.hasError('required')" color="danger">
       Correo electrónico es requerido
     </ion-note>
@@ -61,7 +47,6 @@
         </ion-button> 
       </ion-input>
     </ion-item>
-    <!-- Mensajes de error para la contraseña -->
     <ion-note *ngIf="formularioRegistro.get('password')?.touched && formularioRegistro.get('password')?.hasError('required')" color="danger">
       La contraseña es requerida
     </ion-note>
@@ -82,13 +67,12 @@
         </ion-button>
       </ion-input>
     </ion-item>
-    <!-- Mensajes de error para confirmar la contraseña -->
     <ion-note *ngIf="formularioRegistro.get('confirmPassword')?.touched && formularioRegistro.get('confirmPassword')?.hasError('required')" color="danger">
       Confirmar la contraseña es requerido
     </ion-note>
-    <div *ngIf="formularioRegistro.errors?.['passwordsMismatch']">
+    <ion-note *ngIf="formularioRegistro.errors?.['passwordsMismatch']" color="danger">
       Las contraseñas no coinciden.
-    </div>
+    </ion-note>
 
     <!-- Botón para enviar el formulario -->
     <ion-button expand="block" type="submit" [disabled]="formularioRegistro.invalid">
@@ -110,20 +94,17 @@
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <!-- Título del modal -->
-            <ion-title>MODAL</ion-title>
+            <ion-title>Términos y Condiciones</ion-title>
             <ion-buttons slot="end">
               <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content>
-          <!-- Contenido del modal -->
           <p class="ion-padding-horizontal">Debes aceptar los términos y condiciones para cerrar este modal.</p>
           <ion-item>
-            <ion-checkbox id="terms" (ionChange)="onTermsChanged($event)" [checked]="canDismiss">
-              <div class="ion-text-wrap">¿Aceptas los términos y condiciones?</div>
-            </ion-checkbox>
+            <ion-checkbox slot="start" (ionChange)="onTermsChanged($event)" [checked]="canDismiss"></ion-checkbox>
+            <ion-label>¿Aceptas los términos y condiciones?</ion-label>
           </ion-item>
         </ion-content>
       </ng-template>

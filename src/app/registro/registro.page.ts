@@ -4,56 +4,80 @@ import { Router } from '@angular/router';
 import { AlertController, AnimationController, NavController } from '@ionic/angular';
 import { UsuarioService } from '../services/usuario/usuario.service';
 import { SqliteService } from '../services/sqlite.service'; // Importa el servicio SQLite
+import { Usuario } from '../services/usuario/CLUsuario'; // Importa el modelo Usuario
 
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
   styleUrls: ['./registro.page.scss'],
 })
-export class RegistroPage{
+export class RegistroPage implements OnInit {
 
-  // Formulario de registro
   formularioRegistro: FormGroup;
+  usuarios: Usuario[] = [];
+  nextId: string = "1"; // Inicializamos el ID con "1"
+  loading = false;  // Inicializa la variable de carga
+  presentingElement: any = null;  // Inicializa presentingElement
+  canDismiss = false; // Controla si se puede cerrar el modal
 
   // Variables para controlar la visibilidad de las contraseñas
-  hidePassword = true; // Controla la visibilidad de la contraseña
-  hideConfirmPassword = true; // Controla la visibilidad de la confirmación de contraseña
+  hidePassword = true;
+  hideConfirmPassword = true;
 
-  // Variables para el modal
-  presentingElement: Element | null = null;
-  canDismiss = false; // Controla si se puede cerrar el modal
-  loading = false; // Controla la visibilidad de la barra de progreso
-
-  constructor (
-    public fb: FormBuilder, 
-    public alertController: AlertController, 
-    public navCtr: NavController, 
+  constructor(
+    public fb: FormBuilder,
+    public alertController: AlertController,
+    public navCtr: NavController,
     public animationCtrl: AnimationController,
     public router: Router,
     public usuarioService: UsuarioService,
     public sqliteService: SqliteService
   ) {
     // Inicialización del formulario con validaciones
-  this.formularioRegistro = this.fb.group({
-    nombre: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, passwordFormatValidator()]],
-    confirmPassword: ['', Validators.required]
-  }, { validator: passwordMatchValidator('password', 'confirmPassword') });
+    this.formularioRegistro = this.fb.group({
+      nombre: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, passwordFormatValidator()]], // Validador de formato de contraseña
+      confirmPassword: ['', Validators.required]
+    }, { validator: passwordMatchValidator('password', 'confirmPassword') }); // Validador de coincidencia de contraseñas
   }
 
   ngOnInit() {
-    // Resetea el formulario al inicializar
     this.formularioRegistro.reset();
     this.presentingElement = document.querySelector('.ion-page');
+
+    // Obtener usuarios existentes para calcular el siguiente ID
+    this.getUsuariosFromApi();
+  }
+
+  // Método para obtener los usuarios y calcular el próximo ID
+  getUsuariosFromApi() {
+    this.usuarioService.getAllUsuarios().subscribe(
+      (data: Usuario[]) => {
+        this.usuarios = data;
+        this.generateNextId(); // Generar el próximo ID basado en los usuarios recibidos
+      },
+      (error) => {
+        console.error('Error al obtener los usuarios:', error);
+        this.usuarios = [];
+      }
+    );
+  }
+
+  // Generar el próximo ID basado en el ID más alto existente
+  generateNextId() {
+    if (this.usuarios.length > 0) {
+      const lastUsuario = this.usuarios.reduce((prev, current) => (prev.id && current.id && prev.id > current.id) ? prev : current);
+      this.nextId = ((+lastUsuario.id!) + 1).toString();  // Sumar 1 al último ID
+    } else {
+      this.nextId = "1";  // Si no hay usuarios, el ID será 1
+    }
   }
 
   // Función para guardar el registro
   async guardar() {
-    // Obtener los valores del formulario
     const f = this.formularioRegistro.value;
-  
-    // Validar si el formulario es inválido
+
     if (this.formularioRegistro.invalid) {
       const alert = await this.alertController.create({
         header: 'Error',
@@ -63,11 +87,10 @@ export class RegistroPage{
       await alert.present();
       return;
     }
-  
+
     // Verificar si el nombre de usuario existe
     this.usuarioService.verificarExistenciaUsuario(f.nombre).subscribe(async (usuarios) => {
       if (usuarios.length > 0) {
-        // Si ya existe un usuario con ese nombre
         const alert = await this.alertController.create({
           header: 'Error',
           message: 'El nombre de usuario ya está en uso.',
@@ -76,11 +99,10 @@ export class RegistroPage{
         await alert.present();
         return;
       }
-  
+
       // Verificar si el correo electrónico existe
       this.usuarioService.verificarExistenciaEmail(f.email).subscribe(async (emails) => {
         if (emails.length > 0) {
-          // Si ya existe un correo electrónico
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'El correo electrónico ya está en uso.',
@@ -89,74 +111,62 @@ export class RegistroPage{
           await alert.present();
           return;
         }
-  
-        // Crear objeto con los datos del usuario
+
+        // Crear objeto con los datos del usuario, incluyendo el nuevo ID
         const nuevoUsuario = {
+          id: this.nextId,  // Asignamos el próximo ID calculado
           nombre: f.nombre,
           email: f.email,
           password: f.password,
         };
-  
-        // Mostrar barra de progreso
+
         this.loading = true;
-  
+
         try {
           // Guardar el usuario en SQLite localmente
           await this.sqliteService.addUser(nuevoUsuario.nombre, nuevoUsuario.email, nuevoUsuario.password);
           console.log('Usuario agregado localmente a SQLite');
-  
+
           // Intentar registrar al usuario en la API
           this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({
             next: async (response) => {
-              // Detener la barra de progreso
               this.loading = false;
-  
-              // Mostrar alerta de éxito
               const alert = await this.alertController.create({
                 header: 'Éxito',
                 message: 'Usuario registrado correctamente.',
                 buttons: ['Aceptar'],
               });
-  
               await alert.present();
-  
+
               // Redirigir a la página de inicio de sesión después de un tiempo
               setTimeout(() => {
                 this.navCtr.navigateForward('/inicio');
               }, 1000);
             },
             error: async (err) => {
-              // Detener la barra de progreso
               this.loading = false;
               console.error('Error al registrar usuario:', err);
-  
-              // Mostrar alerta de error
               const alert = await this.alertController.create({
                 header: 'Error',
                 message: 'Ocurrió un error al registrar el usuario. Inténtalo de nuevo.',
                 buttons: ['Aceptar'],
               });
-  
               await alert.present();
             }
           });
         } catch (error) {
-          // Si ocurre un error al guardar en SQLite
           this.loading = false;
           console.error('Error al guardar usuario en SQLite:', error);
-  
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'Ocurrió un error al guardar el usuario localmente.',
             buttons: ['Aceptar'],
           });
-  
           await alert.present();
         }
       });
     });
   }
-
 
   // Cambiar visibilidad de la contraseña
   togglePasswordVisibility() {
@@ -168,36 +178,32 @@ export class RegistroPage{
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
 
+  // Maneja el cambio en la aceptación de términos y condiciones
+  onTermsChanged(event: any) {
+    this.canDismiss = event.detail.checked;
+  }
+
   // Animación de entrada personalizada para el modal
   enterAnimation = (baseEl: HTMLElement) => {
     const root = baseEl.shadowRoot;
-  
+
     if (!root) {
-      // Devuelve una animación vacía si root es null
-      return this.animationCtrl.create(); 
+      return this.animationCtrl.create();
     }
-  
-    const backdropElement = root.querySelector('ion-backdrop');
-    const wrapperElement = root.querySelector('.modal-wrapper');
-  
-    if (!backdropElement || !wrapperElement) {
-      // Devuelve una animación vacía si los elementos no están presentes
-      return this.animationCtrl.create(); 
-    }
-  
+
     const backdropAnimation = this.animationCtrl
       .create()
-      .addElement(backdropElement)
-      .fromTo('opacity', '0.01', 'var(--backdrop-opacity)');
-  
+      .addElement(root.querySelector('ion-backdrop')!)
+      .fromTo('opacity', 0.01, 'var(--backdrop-opacity)');
+
     const wrapperAnimation = this.animationCtrl
       .create()
-      .addElement(wrapperElement)
+      .addElement(root.querySelector('.modal-wrapper')!)
       .keyframes([
         { offset: 0, opacity: '0', transform: 'scale(0)' },
         { offset: 1, opacity: '0.99', transform: 'scale(1)' },
       ]);
-  
+
     return this.animationCtrl
       .create()
       .addElement(baseEl)
@@ -207,77 +213,33 @@ export class RegistroPage{
   };
 
   // Animación de salida personalizada para el modal
-  leaveAnimation = (baseEl: HTMLElement | null) => {
-    if (!baseEl) {
-      // Devuelve una animación vacía si baseEl es null
-      return this.animationCtrl.create();
-    }
-  
-    const enterAnim = this.enterAnimation(baseEl);
-  
-    if (!enterAnim) {
-      // Devuelve una animación vacía si enterAnimation devolvió null
-      return this.animationCtrl.create(); 
-    }
-
-    return enterAnim.direction('reverse');
+  leaveAnimation = (baseEl: HTMLElement) => {
+    return this.enterAnimation(baseEl).direction('reverse');
   };
-
-  // Maneja el cambio en la aceptación de términos y condiciones
-  onTermsChanged(event: CustomEvent) {
-    this.canDismiss = (event.detail as { checked: boolean }).checked;
-  }
-  
 }
 
-// Validación para asegurar que las contraseñas coincidan
+// Validadores de contraseñas
+export function passwordFormatValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.value;
+    if (!password) return null;
+
+    const hasFourNumbers = /^(?=(?:\D*\d){4})/.test(password);
+    const hasThreeCharacters = /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3})/.test(password);
+    const hasOneUppercase = /^(?=(?:[^A-Z]*[A-Z]){1})/.test(password);
+
+    const isValid = hasFourNumbers && hasThreeCharacters && hasOneUppercase;
+    return isValid ? null : { passwordInvalidFormat: true };
+  };
+}
+
 export function passwordMatchValidator(password: string, confirmPassword: string): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const passwordControl = control.get(password);
     const confirmPasswordControl = control.get(confirmPassword);
-
-    if (!passwordControl || !confirmPasswordControl) {
-      return null;
-    }
+    if (!passwordControl || !confirmPasswordControl) return null;
 
     const isMatching = passwordControl.value === confirmPasswordControl.value;
     return isMatching ? null : { passwordsMismatch: true };
   };
 }
-
-// Validación para asegurar que la contraseña tiene 4 números, 3 letras y 1 mayúscula
-export function passwordFormatValidator(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    // Obtiene el valor de la contraseña del control del formulario
-    const password = control.value;
-
-    // Si el valor de la contraseña está vacío, no hay errores de formato
-    if (!password) {
-      return null;
-    }
-
-    // Verifica si la contraseña contiene al menos 4 números
-    const hasFourNumbers = /^(?=(?:\D*\d){4})/.test(password);
-
-    // Verifica si la contraseña contiene al menos 3 letras
-    const hasThreeCharacters = /^(?=(?:[^a-zA-Z]*[a-zA-Z]){3})/.test(password);
-
-    // Verifica si la contraseña contiene al menos 1 letra mayúscula
-    const hasOneUppercase = /^(?=(?:[^A-Z]*[A-Z]){1})/.test(password);
-
-    // La contraseña es válida si cumple con todas las condiciones anteriores
-    const isValid = hasFourNumbers && hasThreeCharacters && hasOneUppercase;
-
-    // Devuelve un objeto de errores si la contraseña es inválida, o null si es válida
-    return isValid ? null : { passwordInvalidFormat: true };
-  };
-}
-
-
-// ^ - Indica el inicio de la cadena.
-
-// (?=(?:\D*\d){4}) - Esta es una afirmación de anticipación (lookahead) que asegura que la cadena cumple con una condición específica.
-
-// (?:\D*\d) - Es un grupo de no captura (non-capturing group) que coincide con cualquier cantidad de caracteres que no sean dígitos (\D*) seguidos de un dígito (\d).
-
-// {4} - El grupo anterior debe repetirse exactamente 4 veces para que la condición se cumpla.

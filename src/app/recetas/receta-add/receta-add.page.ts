@@ -4,7 +4,6 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';  
 import { RecetaService } from '../receta-list.service';  // Servicio API
 import { CLRecetas } from '../model/ClReceta';  // Modelo de receta
-import { v4 as uuidv4 } from 'uuid';  // Importar UUID
 
 @Component({
   selector: 'app-receta-add',
@@ -13,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';  // Importar UUID
 })
 export class RecetaAddPage implements OnInit {
   recetaForm!: FormGroup;
+  recetas: CLRecetas[] = [];  // Lista de recetas
+  nextId: string = "1";  // ID inicial
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,11 +24,36 @@ export class RecetaAddPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getRecetasFromApi();  // Cargar las recetas existentes
     this.recetaForm = this.formBuilder.group({
       'titulo': [null, Validators.required],
       'descripcion': [null, Validators.required],
       'ingredientes': [null, Validators.required]
     });
+  }
+
+  // Obtener recetas existentes desde la API para calcular el nextId
+  getRecetasFromApi() {
+    this.recetaService.getAllRecetas().subscribe(
+      (data: CLRecetas[]) => {
+        this.recetas = data;
+        this.generateNextId();  // Generar el próximo ID basado en los datos recibidos
+      },
+      (error) => {
+        console.error('Error al obtener las recetas:', error);
+        this.recetas = [];
+      }
+    );
+  }
+
+  // Generar el próximo ID basado en el ID más alto existente
+  generateNextId() {
+    if (this.recetas.length > 0) {
+      const lastReceta = this.recetas.reduce((prev, current) => (prev.id > current.id) ? prev : current);
+      this.nextId = ((+lastReceta.id) + 1).toString();  // Sumar 1 al último ID
+    } else {
+      this.nextId = "1";  // Si no hay recetas, el ID será 1
+    }
   }
 
   async onFormSubmit() {
@@ -41,8 +67,8 @@ export class RecetaAddPage implements OnInit {
     const ingredientes = this.recetaForm.value.ingredientes;
 
     try {
-      // Generar un ID único usando UUID
-      const id = uuidv4();  // Aquí generamos un ID único para la receta
+      // Usar el nextId generado en lugar de UUID
+      const id = this.nextId;  // Aquí usamos el siguiente ID calculado
 
       // Crear la receta con el ID generado
       const receta = new CLRecetas({ id, titulo, descripcion, ingredientes });
@@ -62,7 +88,7 @@ export class RecetaAddPage implements OnInit {
   // Enviar la receta a la API
   async sendRecetaToAPI(receta: CLRecetas) {
     try {
-      await this.recetaService.sendRecetaToAPI(receta).toPromise();
+      await this.recetaService.addReceta(receta).toPromise();  // Usar el método addReceta del servicio
       console.log('Receta enviada a la API correctamente.');
     } catch (error) {
       console.error('Error al enviar la receta a la API:', error);
