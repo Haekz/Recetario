@@ -16,21 +16,15 @@
   "recetas": [
     {
       "id": "1",
-      "titulo": "Pollo",
-      "descripcion": "Camaron",
-      "ingredientes": "mayonesa\npollo\ncamaron"
+      "titulo": "CAMARÓN",
+      "descripcion": "Camaron de lo RICO!!!",
+      "ingredientes": "pollo\ncamaron\nJamonada"
     },
     {
       "id": "2",
       "titulo": "Lentejas",
       "descripcion": "Ricas Lentejas",
       "ingredientes": "Lentejas\narroz\nagua\naceite\nsal"
-    },
-    {
-      "id": "3",
-      "titulo": "Tallarín Verde",
-      "descripcion": "Ricos Fideos con Espinaca",
-      "ingredientes": "Fideos\nEspinaca\nPollo\nSal\nPimienta"
     }
   ]
 }
