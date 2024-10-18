@@ -8,7 +8,9 @@ import { CLRecetas } from './model/ClReceta'; // Asegúrate de que esta sea la r
   providedIn: 'root'
 })
 export class RecetaService {
-  private apiUrl = 'http://localhost:3000/recetas'; // Reemplaza con la URL real de la API
+  //private apiUrl = 'http://localhost:3000/recetas'; // Reemplaza con la URL real de la API
+  private apiUrl = 'http://192.168.1.119:3000/recetas';
+  //private apiUrl = 'http://192.168.1.119:3000/recetas';
 
   constructor(private http: HttpClient) {}
 

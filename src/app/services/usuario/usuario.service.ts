@@ -14,7 +14,9 @@ interface Usuario {
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = 'http://localhost:3000/usuario'; // URL de la API en puerto 3000
+  //private apiUrl = 'http://localhost:3000/usuario'; // URL de la API en puerto 3000
+  private apiUrl = 'http://192.168.1.119:3000/usuario';
+  //private apiUrl = 'http://192.168.1.119:3000/usuario';
 
   constructor(private http: HttpClient) {}
 

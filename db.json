@@ -11,13 +11,25 @@
       "nombre": "dante",
       "email": "dante@gmail.com",
       "password": "1234dantE"
+    },
+    {
+      "id": "3",
+      "nombre": "Dante",
+      "email": "mclovin@gmail.com",
+      "password": "1234dantE"
+    },
+    {
+      "id": "4",
+      "nombre": "BenjaminV",
+      "email": "benja@gamil.com",
+      "password": "1234Benja"
     }
   ],
   "recetas": [
     {
       "id": "1",
       "titulo": "CAMARÓN",
-      "descripcion": "Camaron de lo RICO!!!",
+      "descripcion": "Camaron de lo RICa COCA!!!",
       "ingredientes": "pollo\ncamaron\nJamonada"
     },
     {
@@ -25,6 +37,18 @@
       "titulo": "Lentejas",
       "descripcion": "Ricas Lentejas",
       "ingredientes": "Lentejas\narroz\nagua\naceite\nsal"
+    },
+    {
+      "id": "3",
+      "titulo": "Pollito",
+      "descripcion": "Que Rico",
+      "ingredientes": "pollo\npapas\nmayonesa"
+    },
+    {
+      "id": "4",
+      "titulo": "Salchipapa",
+      "descripcion": "Ricas papas\n",
+      "ingredientes": "mayo\npapas\nsalchicha"
     }
   ]
 }
