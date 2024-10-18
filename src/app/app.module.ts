@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module'; // Importa AppRoutingMo
 import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx'; // Importa SQLite plugin para Ionic
 import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientModule
 import { IonicStorageModule } from '@ionic/storage-angular'; // Importa IonicStorageModule
-import { SqliteService } from '/AppMovil/MyApps/src/app/services/sqlite.service';  // Importamos el servicio de SQLite
+import { SqliteService } from './services/sqlite.service';  // Importamos el servicio de SQLite
 
 
 import { RecetaService } from '../app/recetas/receta-list.service'; // Importa RecetaService
