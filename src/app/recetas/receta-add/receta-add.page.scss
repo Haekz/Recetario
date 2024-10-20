@@ -6,3 +6,33 @@ input[type="file"] {
     border-radius: 4px;
     font-size: 14px;
   }
+
+  .image-container {
+    display: flex;
+    justify-content: center;  // Centra la imagen horizontalmente
+    margin-top: 16px;  // Agrega espacio entre el formulario y la imagen
+  }
+  
+  .image-container img {
+    max-width: 100%;  // La imagen no será más ancha que el contenedor
+    max-height: 200px;  // Establece una altura máxima para la imagen
+    object-fit: cover;  // Recorta la imagen si es necesario para que no se deforme
+    border-radius: 8px;  // Opcional: para redondear las esquinas de la imagen
+  }
+
+  .image-container {
+    position: fixed;
+    bottom: 10px;  // Cambia a "top" para que la imagen aparezca en la parte superior
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 100;  // Asegúrate de que la imagen esté por encima de otros elementos
+  }
+  
+  .image-container img {
+    max-width: 250px;  // Controla el tamaño de la imagen
+    max-height: 150px;
+    object-fit: cover;
+  }
+  
+  

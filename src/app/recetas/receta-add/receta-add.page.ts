@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';  
-import { RecetaService } from '../receta-list.service';  // Servicio API
-import { CLRecetas } from '../model/ClReceta';  // Modelo de receta
+import { Router } from '@angular/router';
+import { RecetaService } from '../receta-list.service';
+import { CLRecetas } from '../model/ClReceta';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-receta-add',
@@ -12,32 +13,34 @@ import { CLRecetas } from '../model/ClReceta';  // Modelo de receta
 })
 export class RecetaAddPage implements OnInit {
   recetaForm!: FormGroup;
-  recetas: CLRecetas[] = [];  // Lista de recetas
-  nextId: string = "1";  // ID inicial
+  recetas: CLRecetas[] = [];
+  nextId: string = "1";
+  selectedImage: string | null = null;  // Añadimos la propiedad selectedImage
 
   constructor(
     private formBuilder: FormBuilder,
     private loadingController: LoadingController,
     private alertController: AlertController,
-    private recetaService: RecetaService,  // Servicio API
+    private recetaService: RecetaService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.getRecetasFromApi();  // Cargar las recetas existentes
+    this.getRecetasFromApi();
     this.recetaForm = this.formBuilder.group({
       'titulo': [null, Validators.required],
       'descripcion': [null, Validators.required],
-      'ingredientes': [null, Validators.required]
+      'ingredientes': [null, Validators.required],
+      'imagen': [null]
     });
   }
 
-  // Obtener recetas existentes desde la API para calcular el nextId
+  // Obtener recetas existentes
   getRecetasFromApi() {
     this.recetaService.getAllRecetas().subscribe(
       (data: CLRecetas[]) => {
         this.recetas = data;
-        this.generateNextId();  // Generar el próximo ID basado en los datos recibidos
+        this.generateNextId();
       },
       (error) => {
         console.error('Error al obtener las recetas:', error);
@@ -46,14 +49,27 @@ export class RecetaAddPage implements OnInit {
     );
   }
 
-  // Generar el próximo ID basado en el ID más alto existente
+  // Generar próximo ID
   generateNextId() {
     if (this.recetas.length > 0) {
       const lastReceta = this.recetas.reduce((prev, current) => (prev.id > current.id) ? prev : current);
-      this.nextId = ((+lastReceta.id) + 1).toString();  // Sumar 1 al último ID
+      this.nextId = ((+lastReceta.id) + 1).toString();
     } else {
-      this.nextId = "1";  // Si no hay recetas, el ID será 1
+      this.nextId = "1";
     }
+  }
+
+  // Método para abrir la cámara
+  async openCamera() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera  // Cambia a CameraSource.Photos para abrir galería
+    });
+
+    this.selectedImage = `data:image/jpeg;base64,${image.base64String}`;
+    this.recetaForm.patchValue({ imagen: this.selectedImage });
   }
 
   async onFormSubmit() {
@@ -65,19 +81,16 @@ export class RecetaAddPage implements OnInit {
     const titulo = this.recetaForm.value.titulo;
     const descripcion = this.recetaForm.value.descripcion;
     const ingredientes = this.recetaForm.value.ingredientes;
+    const imagen = this.recetaForm.value.imagen;
 
     try {
-      // Usar el nextId generado en lugar de UUID
-      const id = this.nextId;  // Aquí usamos el siguiente ID calculado
+      const id = this.nextId;
+      const receta = new CLRecetas({ id, titulo, descripcion, ingredientes, imagen });
 
-      // Crear la receta con el ID generado
-      const receta = new CLRecetas({ id, titulo, descripcion, ingredientes });
-
-      // Enviar la receta a la API
       await this.sendRecetaToAPI(receta);
 
       loading.dismiss();
-      this.router.navigate(['/receta-list']);  // Redirigir a la lista de recetas
+      this.router.navigate(['/receta-list']);
     } catch (error) {
       console.error('Error al guardar la receta:', error);
       loading.dismiss();
@@ -85,10 +98,9 @@ export class RecetaAddPage implements OnInit {
     }
   }
 
-  // Enviar la receta a la API
   async sendRecetaToAPI(receta: CLRecetas) {
     try {
-      await this.recetaService.addReceta(receta).toPromise();  // Usar el método addReceta del servicio
+      await this.recetaService.addReceta(receta).toPromise();
       console.log('Receta enviada a la API correctamente.');
     } catch (error) {
       console.error('Error al enviar la receta a la API:', error);
@@ -96,7 +108,6 @@ export class RecetaAddPage implements OnInit {
     }
   }
 
-  // Mostrar alerta en caso de error
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,

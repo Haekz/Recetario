@@ -22,7 +22,19 @@
       "id": "4",
       "nombre": "BenjaminV",
       "email": "benja@gamil.com",
-      "password": "1234Benja"
+      "password": "Benjamin1234"
+    },
+    {
+      "id": "5",
+      "nombre": "Franco",
+      "email": "franco@gmail.com",
+      "password": "Franco.1234"
+    },
+    {
+      "id": "6",
+      "nombre": "BenjminN",
+      "email": "benjaminnicovani@gmail.com",
+      "password": "Benjamin.1234"
     }
   ],
   "recetas": [
@@ -49,6 +61,24 @@
       "titulo": "Salchipapa",
       "descripcion": "Ricas papas\n",
       "ingredientes": "mayo\npapas\nsalchicha"
+    },
+    {
+      "id": "5",
+      "titulo": "Pizza",
+      "descripcion": "Pizza Napolitana",
+      "ingredientes": "tomate, mozzarella, anchoas, orégano, alcaparras y aceite."
+    },
+    {
+      "id": "6",
+      "titulo": "Prueba",
+      "descripcion": "Prueba de imagen",
+      "ingredientes": "una imagen de prueba"
+    },
+    {
+      "id": "7",
+      "titulo": "UNA FOTO",
+      "descripcion": "UNA FOTO DE PRUEBA",
+      "ingredientes": "UNA FOTO DE PRUEBA"
     }
   ]
 }
