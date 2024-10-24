@@ -3,7 +3,7 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CLRecetas } from '../model/ClReceta'; // Modelo de receta
-import { RecetaService } from '../receta-list.service'; // Servicio de recetas
+import { SqliteService } from 'src/app/services/sqlite.service';  // Servicio SQLite
 
 @Component({
   selector: 'app-receta-edit',
@@ -12,11 +12,11 @@ import { RecetaService } from '../receta-list.service'; // Servicio de recetas
 })
 export class RecetaEditPage implements OnInit {
   recetaForm!: FormGroup;
-  receta: CLRecetas = { id: '', titulo: '', descripcion: '', ingredientes: '' };
-  id: string = '';
+  receta: CLRecetas = { id: 0, titulo: '', descripcion: '', ingredientes: '' };  // Cambiamos id a 0
+  id: number = 0;  // id como número
 
   constructor(
-    private recetaService: RecetaService,
+    private sqliteService: SqliteService,  // Usamos el servicio SQLite
     public loadingController: LoadingController,
     public alertController: AlertController,
     public route: ActivatedRoute,
@@ -25,8 +25,8 @@ export class RecetaEditPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id']; // Obtenemos el ID de la receta de la URL
-    this.getReceta(this.id); // Cargamos la receta con el ID
+    this.id = +this.route.snapshot.params['id']; // Convertimos el ID de la URL a number
+    this.getRecetaFromSQLite(this.id); // Cargamos la receta con el ID desde SQLite
     this.recetaForm = this.formBuilder.group({
       'titulo': [null, Validators.required],
       'descripcion': [null, Validators.required],
@@ -34,30 +34,34 @@ export class RecetaEditPage implements OnInit {
     });
   }
 
-  async getReceta(id: string) {
+  // Obtener la receta desde SQLite
+  async getRecetaFromSQLite(id: number) {
     const loading = await this.loadingController.create({
       message: 'Cargando receta...'
     });
     await loading.present();
 
-    // Llamamos al servicio para obtener la receta
-    this.recetaService.getRecetaById(id).subscribe({
-      next: (data) => {
-        this.receta = data;
+    try {
+      const recetaLocal = await this.sqliteService.getRecetaById(id);  // Obtener la receta desde SQLite
+      if (recetaLocal) {
+        this.receta = recetaLocal;
         this.recetaForm.setValue({
           titulo: this.receta.titulo,
           descripcion: this.receta.descripcion,
           ingredientes: this.receta.ingredientes
         });
-        loading.dismiss();
-      },
-      error: (err) => {
-        console.error('Error al obtener la receta:', err);
-        loading.dismiss();
+      } else {
+        this.showAlert('Error', 'No se encontró la receta en la base de datos local.');
       }
-    });
+    } catch (error) {
+      console.error('Error al obtener la receta desde SQLite:', error);
+      this.showAlert('Error', 'Ocurrió un error al cargar la receta.');
+    } finally {
+      loading.dismiss();
+    }
   }
 
+  // Enviar el formulario para actualizar la receta en SQLite
   async onFormSubmit() {
     const loading = await this.loadingController.create({
       message: 'Actualizando receta...'
@@ -68,18 +72,15 @@ export class RecetaEditPage implements OnInit {
     this.receta.descripcion = this.recetaForm.value.descripcion;
     this.receta.ingredientes = this.recetaForm.value.ingredientes;
 
-    // Llamamos al servicio para actualizar la receta
-    this.recetaService.updateReceta(this.id, this.receta).subscribe({
-      next: () => {
-        loading.dismiss();
-        this.router.navigate(['/receta-list']); // Redirigir a la lista de recetas
-      },
-      error: (err) => {
-        console.error('Error al actualizar la receta:', err);
-        loading.dismiss();
-        this.showAlert('Error', 'Ocurrió un error al actualizar la receta.');
-      }
-    });
+    try {
+      await this.sqliteService.updateReceta(this.id, this.receta.titulo, this.receta.descripcion, this.receta.ingredientes);  // Actualizar en SQLite
+      loading.dismiss();
+      this.router.navigate(['/receta-list']);  // Redirigir a la lista de recetas después de actualizar
+    } catch (error) {
+      console.error('Error al actualizar la receta en SQLite:', error);
+      loading.dismiss();
+      this.showAlert('Error', 'Ocurrió un error al actualizar la receta.');
+    }
   }
 
   // Método para mostrar alertas

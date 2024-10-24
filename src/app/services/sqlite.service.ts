@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Platform } from '@ionic/angular';
+import { CLRecetas } from '../recetas/model/ClReceta';  // Asegúrate de que esta ruta sea correcta
 
 @Injectable({
   providedIn: 'root'
@@ -11,115 +12,105 @@ export class SqliteService {
   constructor(
     private sqlite: SQLite,
     private platform: Platform
-  ) {}
-
-  async testDatabase() {
-    try {
-      // Inicializa la base de datos
-      await this.initializeDatabase();
-      console.log('Base de datos inicializada correctamente.');
-
-      // Inserta un usuario de prueba
-      await this.addUser('Prueba', 'prueba@correo.com', 'passwordPrueba');
-      console.log('Usuario de prueba agregado correctamente.');
-
-      // Obtén los usuarios de la base de datos
-      const usuarios = await this.getUsers();
-      console.log('Usuarios obtenidos:', usuarios);
-    } catch (error) {
-      console.error('Error al probar la base de datos:', error);
-    }
+  ) {
+    this.initializeDatabase();  // Inicializar la base de datos al cargar el servicio
   }
 
-  private async ensureDatabaseInitialized(): Promise<boolean> {
-    if (!this.dbInstance) {
-      console.log('La instancia de la base de datos no está inicializada. Inicializando...');
-      await this.initializeDatabase();
-    }
-    // Si dbInstance sigue sin estar inicializada, retorna false
-    if (!this.dbInstance) {
-      console.error('La base de datos no se pudo inicializar.');
-      return false;
-    }
-    return true;
-  }
-
-  async addUser(nombre: string, email: string, password: string) {
+  // Agregar receta
+  async insertarReceta(titulo: string, descripcion: string, ingredientes: string): Promise<void> {
     try {
-      // Asegura que la base de datos esté inicializada antes de intentar agregar un usuario
       const initialized = await this.ensureDatabaseInitialized();
       if (!initialized) throw new Error('No se pudo inicializar la base de datos');
 
-      const query = `INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)`;
-      await this.dbInstance.executeSql(query, [nombre, email, password]);
-      console.log('Usuario agregado correctamente');
+      const query = `INSERT INTO recetas (titulo, descripcion, ingredientes) VALUES (?, ?, ?)`;
+      await this.dbInstance.executeSql(query, [titulo, descripcion, ingredientes]);
+      console.log('Receta agregada correctamente');
     } catch (error) {
-      console.error('Error al agregar el usuario:', error);
+      console.error('Error al agregar la receta:', error);
     }
   }
 
-  async getUsers() {
+  // Obtener todas las recetas
+  async getRecetas(): Promise<CLRecetas[]> {
     try {
-      // Asegura que la base de datos esté inicializada antes de intentar obtener usuarios
       const initialized = await this.ensureDatabaseInitialized();
       if (!initialized) throw new Error('No se pudo inicializar la base de datos');
 
-      const result = await this.dbInstance.executeSql(`SELECT * FROM usuarios`, []);
-      let users = [];
+      const result = await this.dbInstance.executeSql(`SELECT * FROM recetas`, []);
+      let recetas: CLRecetas[] = [];
       for (let i = 0; i < result.rows.length; i++) {
-        users.push(result.rows.item(i));
+        recetas.push(result.rows.item(i));
       }
-      return users;
+      return recetas;
     } catch (error) {
-      console.error('Error al obtener usuarios:', error);
+      console.error('Error al obtener recetas:', error);
       return [];
     }
   }
 
-  async updateUser(id: number, nombre: string, email: string, password: string) {
+  // Obtener una receta por ID
+  async getRecetaById(id: number): Promise<CLRecetas | undefined> {  
     try {
-        const initialized = await this.ensureDatabaseInitialized();
-        if (!initialized) throw new Error('No se pudo inicializar la base de datos');
-
-        const query = `UPDATE usuarios SET nombre = ?, email = ?, password = ? WHERE id = ?`;
-        await this.dbInstance.executeSql(query, [nombre, email, password, id]);
-        console.log('Usuario actualizado correctamente');
+      const res = await this.dbInstance.executeSql('SELECT * FROM recetas WHERE id = ?', [id]);
+      if (res.rows.length > 0) {
+        const receta = res.rows.item(0);
+        return {
+          id: receta.id,
+          titulo: receta.titulo,
+          descripcion: receta.descripcion,
+          ingredientes: receta.ingredientes
+        };
+      }
+      return undefined;
     } catch (error) {
-        console.error('Error al actualizar el usuario:', error);
+      console.error('Error al obtener receta por ID desde SQLite:', error);
+      throw error;
     }
   }
 
-  async deleteUser(id: number) {
+  // Actualizar receta por ID
+  async updateReceta(id: number, titulo: string, descripcion: string, ingredientes: string): Promise<void> {
     try {
-        const initialized = await this.ensureDatabaseInitialized();
-        if (!initialized) throw new Error('No se pudo inicializar la base de datos');
+      const initialized = await this.ensureDatabaseInitialized();
+      if (!initialized) throw new Error('No se pudo inicializar la base de datos');
 
-        const query = `DELETE FROM usuarios WHERE id = ?`;
-        await this.dbInstance.executeSql(query, [id]);
-        console.log('Usuario eliminado correctamente');
+      const query = `UPDATE recetas SET titulo = ?, descripcion = ?, ingredientes = ? WHERE id = ?`;
+      await this.dbInstance.executeSql(query, [titulo, descripcion, ingredientes, id]);
+      console.log('Receta actualizada correctamente');
     } catch (error) {
-        console.error('Error al eliminar el usuario:', error);
+      console.error('Error al actualizar la receta:', error);
     }
   }
 
-  //////////////////////////////////////////////////////////
+  // Eliminar receta por ID
+  async eliminarReceta(id: number): Promise<void> {  
+    try {
+      const initialized = await this.ensureDatabaseInitialized();
+      if (!initialized) throw new Error('No se pudo inicializar la base de datos');
+
+      await this.dbInstance.executeSql('DELETE FROM recetas WHERE id = ?', [id]);
+      console.log('Receta eliminada correctamente');
+    } catch (error) {
+      console.error('Error al eliminar la receta:', error);
+    }
+  }
 
   // Inicialización de la base de datos
-  async initializeDatabase(): Promise<void> {
+  private async initializeDatabase(): Promise<void> {
     try {
       await this.platform.ready();  // Asegúrate de que la plataforma está lista
-  
+
       if (this.platform.is('cordova') || this.platform.is('capacitor')) {
         console.log('Plataforma lista. Inicializando la base de datos...');
-  
+
         // Crear la instancia de la base de datos
         this.dbInstance = await this.sqlite.create({
           name: 'recetas.db',
           location: 'default'
         });
-  
+
         console.log('Instancia de base de datos creada:', this.dbInstance);
-  
+
         // Crear la tabla si no existe
         await this.dbInstance.executeSql(
           `CREATE TABLE IF NOT EXISTS recetas (
@@ -139,40 +130,29 @@ export class SqliteService {
     }
   }
 
-  // Método para agregar una receta
-  async addReceta(titulo: string, descripcion: string, ingredientes: string): Promise<number> {
-    try {
-      // Asegurarse de que dbInstance está inicializada
-      if (!this.dbInstance) {
-        throw new Error('La base de datos no está inicializada.');
-      }
-
-      const result = await this.dbInstance.executeSql(
-        `INSERT INTO recetas (titulo, descripcion, ingredientes) VALUES (?, ?, ?)`,
-        [titulo, descripcion, ingredientes]
-      );
-      return result.insertId;
-    } catch (error) {
-      console.error('Error al agregar receta:', error);
-      throw error;
+  // Asegurarse de que la base de datos esté inicializada
+  private async ensureDatabaseInitialized(): Promise<boolean> {
+    if (!this.dbInstance) {
+      console.log('La instancia de la base de datos no está inicializada. Inicializando...');
+      await this.initializeDatabase();
     }
+    if (!this.dbInstance) {
+      console.error('La base de datos no se pudo inicializar.');
+      return false;
+    }
+    return true;
   }
 
-  // Obtener todas las recetas
-  async getRecetas() {
+  // Limpiar todas las recetas de la tabla
+  async limpiarRecetas(): Promise<void> {
     try {
-      if (!this.dbInstance) {
-        throw new Error('La base de datos no está inicializada.');
-      }
-      const res = await this.dbInstance.executeSql('SELECT * FROM recetas', []);
-      const recetas = [];
-      for (let i = 0; i < res.rows.length; i++) {
-        recetas.push(res.rows.item(i));
-      }
-      return recetas;
+      const initialized = await this.ensureDatabaseInitialized();
+      if (!initialized) throw new Error('No se pudo inicializar la base de datos');
+
+      await this.dbInstance.executeSql('DELETE FROM recetas', []);
+      console.log('Recetas locales eliminadas.');
     } catch (error) {
-      console.error('Error al obtener recetas:', error);
-      return [];
+      console.error('Error al limpiar recetas locales:', error);
     }
   }
 }

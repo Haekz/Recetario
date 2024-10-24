@@ -21,21 +21,7 @@ export class AppComponent {
     public platform: Platform, // Inyecta Platform
     public usuarioService: UsuarioService, // Inyecta el servicio de Usuario
     public menuController: MenuController
-  ) {
-    this.initializeApp(); // Llama a la función de inicialización al iniciar la app
-  }
-
-  // Inicializar la aplicación
-  initializeApp() {
-    this.platform.ready().then(async () => {
-      try {
-        await this.sqliteService.initializeDatabase();
-        console.log('Base de datos inicializada correctamente.');
-      } catch (error) {
-        console.error('Error al inicializar la base de datos:', error);
-      }
-    });
-  }
+  ) {}
 
   closeMenu() {
     this.menu.close();

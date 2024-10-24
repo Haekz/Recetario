@@ -123,9 +123,6 @@ export class RegistroPage implements OnInit {
         this.loading = true;
 
         try {
-          // Guardar el usuario en SQLite localmente
-          await this.sqliteService.addUser(nuevoUsuario.nombre, nuevoUsuario.email, nuevoUsuario.password);
-          console.log('Usuario agregado localmente a SQLite');
 
           // Intentar registrar al usuario en la API
           this.usuarioService.registrarUsuario(nuevoUsuario).subscribe({

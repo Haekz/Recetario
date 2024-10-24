@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { CLRecetas } from '../model/ClReceta';  // Modelo de receta
-import { RecetaService } from '../receta-list.service';  // Servicio de recetas
+import { SqliteService } from 'src/app/services/sqlite.service';  // Servicio SQLite
 
 @Component({
   selector: 'app-receta-detail',
@@ -13,7 +13,7 @@ export class RecetaDetailPage implements OnInit {
   receta: CLRecetas | undefined;  // Inicializamos la receta como indefinida
 
   constructor(
-    private recetaService: RecetaService,  // Servicio de recetas
+    private sqliteService: SqliteService,  // Servicio de SQLite
     private loadingController: LoadingController,
     private alertController: AlertController,
     private route: ActivatedRoute,
@@ -22,34 +22,35 @@ export class RecetaDetailPage implements OnInit {
 
   // Método que se ejecuta cuando se carga la página
   ngOnInit() {
-    this.getReceta();
+    this.getRecetaFromSQLite();  // Cargar la receta desde SQLite
   }
 
-  // Método que obtiene una receta específica por su ID
-  async getReceta() {
-    const recetaId = this.route.snapshot.paramMap.get('id');  // Obtener ID de la URL
-    if (!recetaId) return;  // Si no hay ID, salir de la función
+  // Obtener la receta desde SQLite
+  async getRecetaFromSQLite() {
+    const recetaId = this.route.snapshot.paramMap.get('id');  // Obtener el ID de la receta de la URL
+    if (!recetaId) return;  // Si no hay ID, no continuamos
 
     const loading = await this.loadingController.create({
-      message: 'Cargando receta...'
+      message: 'Cargando receta desde SQLite...'
     });
     await loading.present();
 
-    this.recetaService.getRecetaById(recetaId)
-      .subscribe({
-        next: (res) => {
-          this.receta = res;  // Asignar el resultado a la receta
-          loading.dismiss();  // Quitar el loading
-        },
-        error: (err) => {
-          console.error('Error al obtener la receta:', err);
-          loading.dismiss();
-        }
-      });
+    try {
+      const recetaLocal = await this.sqliteService.getRecetaById(+recetaId);  // Convertimos recetaId a number
+      if (recetaLocal) {
+        this.receta = recetaLocal;  // Asignar los datos de la receta obtenida localmente
+      } else {
+        this.showAlert('Error', 'No se encontró la receta en la base de datos local.');
+      }
+    } catch (error) {
+      console.error('Error al obtener la receta desde SQLite:', error);
+      this.showAlert('Error', 'Ocurrió un error al obtener la receta localmente.');
+    }
+    loading.dismiss();
   }
 
-  // Método para eliminar una receta
-  async delete(id: string) {
+  // Método para eliminar una receta localmente en SQLite
+  async delete(id: number) {  // Asegúrate de que el tipo es number
     const alert = await this.alertController.create({
       header: 'Confirmación',
       message: '¿Estás seguro que deseas eliminar esta receta?',
@@ -57,7 +58,7 @@ export class RecetaDetailPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-        },
+       },
         {
           text: 'Eliminar',
           handler: async () => {
@@ -65,23 +66,31 @@ export class RecetaDetailPage implements OnInit {
               message: 'Eliminando receta...'
             });
             await loading.present();
-
-            this.recetaService.deleteReceta(id).subscribe({
-              next: () => {
-                loading.dismiss();
-                this.router.navigate(['/receta-list']);  // Redirigir al listado de recetas después de eliminar
-              },
-              error: (err) => {
-                console.error('Error al eliminar la receta:', err);
-                loading.dismiss();
-              }
-            });
+          
+            try {
+              await this.sqliteService.eliminarReceta(id);  // Eliminar la receta de SQLite usando el id numérico
+              loading.dismiss();
+              this.router.navigate(['/receta-list']);  // Redirigir al listado de recetas después de eliminar
+            } catch (err) {
+              console.error('Error al eliminar la receta:', err);
+              loading.dismiss();
+              this.showAlert('Error', 'Ocurrió un error al eliminar la receta.');
+            }
           }
         }
       ]
     });
+  
+    await alert.present();
+  }
 
+  // Método para mostrar alertas
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
     await alert.present();
   }
 }
-
