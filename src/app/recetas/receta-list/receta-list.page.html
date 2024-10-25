@@ -4,37 +4,63 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <!-- Título "Listado de Recetas" alineado a la izquierda -->
-    <ion-title>Listado</ion-title>
-    
-    <!-- Botón "Agregar Receta" alineado a la derecha en el toolbar -->
-    <ion-buttons slot="end">
-      <ion-button [routerLink]="['/receta-add']" color="primary">Agregar Receta</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-title>Listado</ion-title>
+
+  <ion-buttons slot="end">
+    <ion-button [routerLink]="['/receta-add']" color="primary">Agregar Receta</ion-button>
+  </ion-buttons>
+</ion-toolbar>
 
 <ion-content>
-  <!-- Cuadro que contiene el listado de recetas -->
+  <!-- Cuadro que contiene el listado de recetas locales -->
   <ion-card>
+    <ion-card-header>
+      <ion-card-title>Recetas Locales</ion-card-title>
+    </ion-card-header>
     <ion-card-content>
-      <!-- Recorremos el arreglo de recetas usando un loop *ngFor -->
       <ion-list>
         <ion-item *ngFor="let receta of recetas">
-          <!-- Campos de la receta -->
           <ion-label>
             <h5>{{ receta.titulo }}</h5>
             <p>{{ receta.descripcion }}</p>
           </ion-label>
-
-          <!-- Botones para editar o ver más detalles -->
           <ion-button [routerLink]="['/receta-edit/', receta.id]">Editar</ion-button>
           <ion-button [routerLink]="['/receta-detail', receta.id]">Detalles</ion-button>
         </ion-item>
       </ion-list>
+      <ion-button expand="block" color="secondary" (click)="syncRecetasWithAPI()">
+        Sincronizar Recetas con el Servidor
+      </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <!-- Cuadro que contiene el listado de recetas desde la API -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Recetas de la API</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let receta of recetasAPI">
+          <ion-checkbox slot="start" (ionChange)="toggleSelection(receta.id)"></ion-checkbox>
+          <ion-label>
+            <h5>{{ receta.titulo }}</h5>
+            <p>{{ receta.descripcion }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" color="success" (click)="recuperarRecetas()">
+        Recuperar Recetas Seleccionadas
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botón para cargar recetas de la API -->
+  <ion-button expand="block" color="tertiary" (click)="getRecetasFromAPI()">
+    Cargar Recetas de la API
+  </ion-button>
 </ion-content>

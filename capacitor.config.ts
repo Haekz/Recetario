@@ -7,8 +7,8 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'http', // Permite HTTP en lugar de HTTPS en Android
     cleartext: true, // Permitir contenido en texto claro (sin HTTPS)
-    allowNavigation: ['192.168.100.47'], // IPV Benjamin
-    //allowNavigation: ['192.168.1.119'] // Añadir la IP del servidor API permitido
+    //allowNavigation: ['192.168.100.47'], // IPV Benjamin
+    allowNavigation: ['192.168.1.119'] // Añadir la IP del servidor API permitido
   },
   plugins: {
     SQLite: {

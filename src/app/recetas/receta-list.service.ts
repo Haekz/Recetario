@@ -9,8 +9,8 @@ import { CLRecetas } from './model/ClReceta'; // Asegúrate de que esta sea la r
 })
 export class RecetaService {
   //private apiUrl = 'http://localhost:3000/recetas'; // Reemplaza con la URL real de la API
-  private apiUrl = 'http://192.168.100.47:3000/recetas'; // IPV Benjamin
-  //private apiUrl = 'http://192.168.1.119:3000/recetas';
+  //private apiUrl = 'http://192.168.100.47:3000/recetas'; // IPV Benjamin
+  private apiUrl = 'http://192.168.1.119:3000/recetas';
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +32,7 @@ export class RecetaService {
   }
 
   // Obtener una receta por ID
-  getRecetaById(id: string): Observable<CLRecetas> {
+  getRecetaById(id: number): Observable<CLRecetas> {
     return this.http.get<CLRecetas>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
@@ -42,13 +42,13 @@ export class RecetaService {
   }
 
   // Método en RecetaService para actualizar una receta existente
-  updateReceta(id: string, receta: CLRecetas): Observable<CLRecetas> {
+  updateReceta(id: number, receta: CLRecetas): Observable<CLRecetas> {
     return this.http.put<CLRecetas>(`${this.apiUrl}/${id}`, receta)
       .pipe(catchError(this.handleError));
-}
+  }
 
   // Eliminar una receta
-  deleteReceta(id: string): Observable<void> {
+  deleteReceta(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
@@ -59,6 +59,5 @@ export class RecetaService {
       catchError(this.handleError)
     );
   }
-
   
 }

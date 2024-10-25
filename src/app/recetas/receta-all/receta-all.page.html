@@ -21,17 +21,12 @@
   <!-- Listado de todas las recetas -->
   <ion-list *ngIf="recetas.length > 0">
     <ion-card *ngFor="let receta of recetas">
-      <!-- Título de la receta en la cabecera de la tarjeta -->
       <ion-card-header>
         <ion-card-title>{{ receta.titulo }}</ion-card-title>
       </ion-card-header>
-
-      <!-- Contenido de la tarjeta -->
       <ion-card-content>
         <p>Descripción: {{ receta.descripcion }}</p>
         <p>Ingredientes: {{ receta.ingredientes }}</p>
-
-        <!-- Botón para ver el detalle de la receta -->
         <ion-button [routerLink]="['/receta-detail', receta.id]" color="primary">Ver Detalle</ion-button>
       </ion-card-content>
     </ion-card>

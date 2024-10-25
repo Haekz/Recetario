@@ -39,46 +39,28 @@
   ],
   "recetas": [
     {
-      "id": "1",
-      "titulo": "CAMARÓN",
-      "descripcion": "Camaron de lo RICa COCA!!!",
-      "ingredientes": "pollo\ncamaron\nJamonada"
+      "id": "2482",
+      "titulo": "asdasd",
+      "descripcion": "asdasdasd",
+      "ingredientes": "asdasdasdas"
     },
     {
-      "id": "2",
-      "titulo": "Lentejas",
-      "descripcion": "Ricas Lentejas",
-      "ingredientes": "Lentejas\narroz\nagua\naceite\nsal"
+      "id": "2486",
+      "titulo": "Pollo Asado",
+      "descripcion": "Rico Pollo Asado",
+      "ingredientes": "Pollo, papa, arroz, lechuga"
     },
     {
-      "id": "3",
-      "titulo": "Pollito",
-      "descripcion": "Que Rico",
-      "ingredientes": "pollo\npapas\nmayonesa"
+      "id": "2487",
+      "titulo": "Mandarina",
+      "descripcion": "Mandarian dulce",
+      "ingredientes": "mandarina"
     },
     {
-      "id": "4",
-      "titulo": "Salchipapa",
-      "descripcion": "Ricas papas\n",
-      "ingredientes": "mayo\npapas\nsalchicha"
-    },
-    {
-      "id": "5",
-      "titulo": "Pizza",
-      "descripcion": "Pizza Napolitana",
-      "ingredientes": "tomate, mozzarella, anchoas, orégano, alcaparras y aceite."
-    },
-    {
-      "id": "6",
-      "titulo": "Prueba",
-      "descripcion": "Prueba de imagen",
-      "ingredientes": "una imagen de prueba"
-    },
-    {
-      "id": "7",
-      "titulo": "UNA FOTO",
-      "descripcion": "UNA FOTO DE PRUEBA",
-      "ingredientes": "UNA FOTO DE PRUEBA"
+      "id": 2489,
+      "titulo": "Mandarina",
+      "descripcion": "Mandarian dulce",
+      "ingredientes": "mandarina"
     }
   ]
 }
