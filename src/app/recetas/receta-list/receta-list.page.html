@@ -32,6 +32,10 @@
           <ion-button [routerLink]="['/receta-detail', receta.id]">Detalles</ion-button>
         </ion-item>
       </ion-list>
+      <!-- Botón para listar todas las recetas almacenadas en el SQLite -->
+      <ion-button expand="block" color="dark" (click)="getRecetasFromSQLite()">
+        Mostrar Recetas Locales
+      </ion-button>
       <ion-button expand="block" color="secondary" (click)="syncRecetasWithAPI()">
         Sincronizar Recetas con el Servidor
       </ion-button>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CLRecetas } from '../model/ClReceta';
+import { ClRecetas } from '../model/ClRecetas';
 import { RecetaService } from '../receta-list.service'; // Servicio de recetas
 import { SqliteService } from 'src/app/services/sqlite.service'; // Servicio de SQLite
 
@@ -12,8 +13,8 @@ import { SqliteService } from 'src/app/services/sqlite.service'; // Servicio de 
 })
 export class RecetaListPage implements OnInit {
   recetas: CLRecetas[] = []; // Arreglo para almacenar las recetas locales
-  recetasAPI: CLRecetas[] = []; // Arreglo para almacenar las recetas de la API
-  selectedRecetas: Set<number> = new Set<number>(); // Conjunto para almacenar IDs de recetas seleccionadas
+  recetasAPI: ClRecetas[] = []; // Arreglo para almacenar las recetas de la API
+  selectedRecetas: Set<string> = new Set<string>(); // Conjunto para almacenar IDs de recetas seleccionadas como strings
 
   constructor(
     private recetaService: RecetaService,
@@ -48,6 +49,16 @@ export class RecetaListPage implements OnInit {
     }
   }
 
+  // Método para convertir CLRecetas a ClRecetas
+  private convertirAClRecetas(receta: CLRecetas): ClRecetas {
+    return new ClRecetas({
+      id: receta.id.toString(), // Convertimos el id a string
+      titulo: receta.titulo,
+      descripcion: receta.descripcion,
+      ingredientes: receta.ingredientes
+    });
+  }
+
   // Método para sincronizar todas las recetas con la API y luego eliminarlas de SQLite
   async syncRecetasWithAPI() {
     const loading = await this.loadingController.create({
@@ -58,7 +69,8 @@ export class RecetaListPage implements OnInit {
     try {
       const recetasLocales = await this.sqliteService.getRecetas();
       for (const receta of recetasLocales) {
-        await this.recetaService.addReceta(receta).toPromise();
+        const recetaConIdString = this.convertirAClRecetas(receta);
+        await this.recetaService.addReceta(recetaConIdString).toPromise();
       }
       await this.sqliteService.limpiarRecetas();
       this.recetas = [];
@@ -89,7 +101,7 @@ export class RecetaListPage implements OnInit {
   }
 
   // Método para seleccionar o deseleccionar recetas de la API
-  toggleSelection(recetaId: number) {
+  toggleSelection(recetaId: string) {
     if (this.selectedRecetas.has(recetaId)) {
       this.selectedRecetas.delete(recetaId);
     } else {
@@ -110,7 +122,7 @@ export class RecetaListPage implements OnInit {
       // Guardar en SQLite y eliminar de la API
       for (const receta of recetasToSave) {
         await this.sqliteService.insertarReceta(receta.titulo, receta.descripcion, receta.ingredientes);
-        await this.recetaService.deleteReceta(Number(receta.id)).toPromise();
+        await this.recetaService.deleteReceta(receta.id).toPromise();
       }
 
       // Actualizar el estado de recetas locales y de la API
