@@ -1,38 +1,82 @@
 input[type="file"] {
-    display: block;
-    width: 100%;
-    border: 1px solid #ccc;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-  }
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
 
-  .image-container {
-    display: flex;
-    justify-content: center;  // Centra la imagen horizontalmente
-    margin-top: 16px;  // Agrega espacio entre el formulario y la imagen
-  }
-  
-  .image-container img {
-    max-width: 100%;  // La imagen no será más ancha que el contenedor
-    max-height: 200px;  // Establece una altura máxima para la imagen
-    object-fit: cover;  // Recorta la imagen si es necesario para que no se deforme
-    border-radius: 8px;  // Opcional: para redondear las esquinas de la imagen
-  }
+/* Estilo del encabezado principal */
+.header {
+  background: linear-gradient(45deg, #ff6f61, #ff914d);
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
 
-  .image-container {
-    position: fixed;
-    bottom: 10px;  // Cambia a "top" para que la imagen aparezca en la parte superior
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    z-index: 100;  // Asegúrate de que la imagen esté por encima de otros elementos
-  }
-  
-  .image-container img {
-    max-width: 250px;  // Controla el tamaño de la imagen
-    max-height: 150px;
-    object-fit: cover;
-  }
-  
-  
+/* Sub-header */
+.sub-header {
+  background: #f4f4f4;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Contenido principal */
+.content {
+  --background: #f9f9f9;
+  padding: 16px;
+}
+
+/* Contenedor del formulario */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Elementos del formulario */
+.form-item {
+  --background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón de cámara */
+.camera-button {
+  margin-top: 16px;
+  --border-radius: 20px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+/* Botón de submit */
+.submit-button {
+  margin-top: 20px;
+  --border-radius: 20px;
+  background: linear-gradient(45deg, #6590da, #79d3fd);
+  font-weight: bold;
+  color: white;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor de la imagen */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #f4f4f4;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

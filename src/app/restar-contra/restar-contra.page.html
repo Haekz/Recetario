@@ -7,15 +7,16 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Cambiar Contraseña</ion-title>
-  </ion-toolbar>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-title>Cambiar Contraseña</ion-title>
+</ion-toolbar>
 
 <ion-content class="ion-padding">
   <form #resetPasswordForm="ngForm" (ngSubmit)="cambiarPassword()">
+    <!-- Campo para el nombre de usuario -->
     <ion-item>
       <ion-icon name="person-outline" slot="start"></ion-icon>
       <ion-label position="floating">Nombre de Usuario</ion-label>
@@ -27,6 +28,7 @@
       </ion-input>
     </ion-item>
 
+    <!-- Campo para la nueva contraseña -->
     <ion-item>
       <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-label position="floating">Nueva Contraseña</ion-label>
@@ -35,9 +37,9 @@
         [(ngModel)]="nuevaPassword" 
         name="nuevaPassword" 
         required>
-      <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
-        <ion-icon [name]="hidePassword ? 'eye-off' : 'eye'"></ion-icon>
-      </ion-button>
+        <ion-button slot="end" fill="clear" (click)="togglePasswordVisibility()">
+          <ion-icon [name]="hidePassword ? 'eye-off' : 'eye'"></ion-icon>
+        </ion-button>
       </ion-input>
     </ion-item>
 

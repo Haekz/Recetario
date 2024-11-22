@@ -13,6 +13,7 @@ interface NavigationState {
 })
 export class HomePage implements OnInit {
   username: string | undefined; // Puede ser undefined
+  imagenUsuario: string | null = null;
 
   constructor(
     public router: Router,
@@ -32,6 +33,24 @@ export class HomePage implements OnInit {
 
   navigateTo(path: string) {
     this.router.navigate([`/${path}`]);
+  }
+
+  seleccionarImagen() {
+    // Abre el selector de archivos
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (event: any) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          this.imagenUsuario = e.target.result; // Asigna la imagen al perfil
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    input.click();
   }
 
 }

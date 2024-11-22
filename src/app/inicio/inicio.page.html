@@ -5,34 +5,40 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-toolbar>
-    <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
+<ion-toolbar>
+  <ion-progress-bar *ngIf="isLoading" type="indeterminate"></ion-progress-bar>
+  <ion-title>Iniciar Sesión</ion-title>
+</ion-toolbar>
+
+<!-- Imagen decorativa -->
+<div class="login-image-container">
+  <div class="login-image-circle">
+    <img src="\assets\img\logo.jpg" alt="Login Illustration" class="login-image" />
+  </div>
+</div>
 
 <ion-content class="ion-padding">
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
     <ion-item>
-      <ion-icon name="person-outline" slot="start"></ion-icon>      
-      <ion-label position="floating">Nombre de usuario</ion-label>      
-      <ion-input 
-        type="text" 
-        formControlName="username" 
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Nombre de usuario</ion-label>
+      <ion-input
+        type="text"
+        formControlName="username"
         required>
       </ion-input>
     </ion-item>
 
-    <!-- Mensaje de error que se muestra si el campo de nombre de usuario es inválido y ha sido tocado -->
     <ion-note color="danger" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
       Usuario es requerido
     </ion-note>
 
     <ion-item>
-      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>      
-      <ion-label position="floating">Contraseña</ion-label>      
-      <ion-input 
-        [type]="showPassword ? 'text' : 'password'" 
-        formControlName="password" 
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
         required>
         <ion-button fill="clear" size="small" slot="end" (click)="togglePasswordVisibility()">
           <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
@@ -40,25 +46,21 @@
       </ion-input>
     </ion-item>
 
-    <!-- Mensaje de error que se muestra si el campo de contraseña es inválido y ha sido tocado -->
     <ion-note color="danger" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
       Contraseña es requerida
     </ion-note>
 
-    <!-- Botón para enviar el formulario de inicio de sesión, deshabilitado si el formulario es inválido -->
     <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">
       Iniciar sesión
     </ion-button>
 
-    <!-- Botón para recuperar la contraseña en caso de haberla olvidado -->
     <ion-button expand="block" color="light" (click)="onResetPassword()">
       ¿Olvidaste tu contraseña?
     </ion-button>
 
-    <!-- Botón para navegar a la página de registro para nuevos usuarios -->
     <ion-button expand="block" color="light" (click)="goToRegister()">
       ¿No tienes una cuenta? Regístrate
     </ion-button>
-    
+
   </form>
 </ion-content>
