@@ -1,43 +1,43 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="header">
   <ion-toolbar>
     <ion-title>Agregar Receta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-toolbar>
+<ion-toolbar class="sub-header">
   <ion-buttons slot="start">
     <ion-back-button defaultHref="/"></ion-back-button>
   </ion-buttons>
   <ion-title>Agregar Receta</ion-title>
 </ion-toolbar>
 
-
-
-<ion-content padding>
-  <form [formGroup]="recetaForm" (ngSubmit)="onFormSubmit()">
-    <ion-item>
+<ion-content class="content">
+  <form [formGroup]="recetaForm" (ngSubmit)="onFormSubmit()" class="form-container">
+    <ion-item class="form-item">
       <ion-label position="floating">Título</ion-label>
       <ion-input type="text" formControlName="titulo"></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item class="form-item">
       <ion-label position="floating">Descripción</ion-label>
       <ion-textarea formControlName="descripcion"></ion-textarea>
     </ion-item>
-    <ion-item>
+    <ion-item class="form-item">
       <ion-label position="floating">Ingredientes</ion-label>
       <ion-textarea formControlName="ingredientes"></ion-textarea>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Preparación</ion-label>
-      <ion-textarea formControlName="preparacion"></ion-textarea>
-    </ion-item>
-      <!-- Botón para abrir la cámara o seleccionar una imagen -->
-      <ion-button (click)="openCamera()" color="secondary" expand="block">Tomar Foto / Seleccionar Imagen</ion-button>
 
-      <!-- Mostrar la imagen seleccionada si existe -->
-      <div *ngIf="selectedImage" class="image-container">
-        <img [src]="selectedImage" alt="Imagen de la receta" />
-      </div>
-    <ion-button type="submit" shape="round" color="primary" expand="block" [disabled]="!recetaForm.valid">Submit</ion-button> 
+    <!-- Botón para abrir la cámara o seleccionar una imagen -->
+    <ion-button (click)="openCamera()" color="secondary" expand="block" class="camera-button">
+      Tomar Foto / Seleccionar Imagen
+    </ion-button>
+
+    <!-- Mostrar la imagen seleccionada si existe -->
+    <div *ngIf="selectedImage" class="image-container">
+      <img [src]="selectedImage" alt="Imagen de la receta" />
+    </div>
+
+    <ion-button type="submit" shape="round" color="primary" expand="block" [disabled]="!recetaForm.valid" class="submit-button">
+      Submit
+    </ion-button>
   </form>
 </ion-content>

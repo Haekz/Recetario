@@ -1,0 +1,38 @@
+ion-toolbar {
+    --background: #3880ff;
+    --color: #ffffff;
+    text-align: center;
+  }
+  
+  ion-content {
+    --background: #f4f5f8;
+  }
+  
+  form {
+    max-width: 400px;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-item {
+    --background: #f9f9f9;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  
+  ion-input {
+    padding: 8px 0;
+  }
+  
+  ion-note {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  
+  ion-button {
+    margin-top: 20px;
+    --border-radius: 20px;
+  }

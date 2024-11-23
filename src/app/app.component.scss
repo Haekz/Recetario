@@ -1,22 +1,56 @@
-ion-list {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
+/* Estilo del encabezado del menú */
+.menu-header {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  background: linear-gradient(45deg, #ff6f61, #ff914d);
 }
 
-ion-item {
-  --padding-start: 16px; /* Ajuste para los íconos */
-  --min-height: 50px; /* Altura mínima para cada item */
-  display: flex;
-  align-items: center;
-  font-size: 18px;
+/* Contenido del menú */
+.menu-content {
+  background-color: #f9f9f9;
+  padding: 10px;
 }
 
-ion-icon {
-  margin-right: 10px;
-  font-size: 22px;
+/* Estilo de los ítems del menú */
+.menu-item {
+  --background: transparent;
+  color: #333;
+  border-radius: 10px;
+  margin: 5px 0;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-ion-label {
-  font-size: 16px;
+.menu-item:hover {
+  --background: #ff6f61;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Estilo para el ítem seleccionado */
+.menu-item-active {
+  --background: #ff6f61; /* Fondo destacado */
+  color: white;
+  font-weight: bold;
+}
+
+.menu-item-active ion-icon {
+  color: white;
+}
+
+/* Iconos del menú */
+.menu-item ion-icon {
+  font-size: 24px;
+  color: #ff6f61;
+}
+
+.menu-item:hover ion-icon {
+  color: white;
+}
+
+/* Fondo del contenido principal */
+#main-content {
+  background: linear-gradient(to right, #f7e8f5, #fef6e7);
 }

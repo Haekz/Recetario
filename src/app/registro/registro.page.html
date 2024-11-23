@@ -11,6 +11,17 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-toolbar>
+  <!-- Barra de progreso que se muestra cuando se está cargando -->
+  <ion-progress-bar *ngIf="loading" type="indeterminate"></ion-progress-bar>
+  <!-- Botón para volver a la página anterior -->
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <!-- Título de la página -->
+  <ion-title>Registro</ion-title>
+</ion-toolbar>
+
 <ion-content class="ion-padding">
   <form [formGroup]="formularioRegistro" (ngSubmit)="guardar()">
     
@@ -84,28 +95,45 @@
       Términos y condiciones
     </ion-button>
     
-    <!-- Modal de términos y condiciones -->
+    <!-- Modal de términos y condiciones --> 
     <ion-modal #modal 
-               trigger="open-modal" 
-               [canDismiss]="canDismiss" 
-               [presentingElement]="presentingElement" 
-               [enterAnimation]="enterAnimation" 
-               [leaveAnimation]="leaveAnimation">
+           trigger="open-modal" 
+           [canDismiss]="canDismiss" 
+           [presentingElement]="presentingElement" 
+           [enterAnimation]="enterAnimation" 
+           [leaveAnimation]="leaveAnimation">
       <ng-template>
         <ion-header>
           <ion-toolbar>
-            <ion-title>Términos y Condiciones</ion-title>
+            <ion-title class="modal-title">Términos y Condiciones</ion-title>
             <ion-buttons slot="end">
               <ion-button (click)="modal.dismiss()">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content>
-          <p class="ion-padding-horizontal">Debes aceptar los términos y condiciones para cerrar este modal.</p>
-          <ion-item>
-            <ion-checkbox slot="start" (ionChange)="onTermsChanged($event)" [checked]="canDismiss"></ion-checkbox>
-            <ion-label>¿Aceptas los términos y condiciones?</ion-label>
-          </ion-item>
+          <div class="modal-content">
+            <p class="description">
+              Por favor, revisa los términos y condiciones antes de continuar.
+            </p>
+            <!-- Contenedor con barra desplazadora -->
+            <div class="terms-container">
+              <p>
+                1. Este acuerdo regula el uso de nuestra plataforma. <br />
+                2. Nos reservamos el derecho de modificar estos términos en cualquier momento. <br />
+                3. Los usuarios deben respetar todas las leyes aplicables y los derechos de otros usuarios. <br />
+                4. No se permite el uso de lenguaje ofensivo, acoso o contenido ilegal en nuestra plataforma. <br />
+                5. El acceso al servicio está sujeto a nuestras políticas internas. <br />
+                6. Aceptas que tu información personal será manejada según nuestra política de privacidad. <br />
+                7. Nos reservamos el derecho de suspender tu cuenta si violas estos términos. <br />
+                8. Al usar nuestra plataforma, aceptas indemnizarnos por cualquier reclamación derivada de tu uso. <br />
+              </p>
+            </div>
+            <ion-item lines="none" class="checkbox-item">
+              <ion-checkbox slot="start" (ionChange)="onTermsChanged($event)" [checked]="canDismiss"></ion-checkbox>
+              <ion-label>¿Aceptas los términos y condiciones?</ion-label>
+            </ion-item>
+          </div>
         </ion-content>
       </ng-template>
     </ion-modal>

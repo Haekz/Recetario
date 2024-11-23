@@ -39,28 +39,34 @@
   ],
   "recetas": [
     {
-      "id": "2509",
+      "id": "2515",
+      "titulo": "Olenka",
+      "descripcion": "olenka a la mostaza",
+      "ingredientes": "mostazaasdasd"
+    },
+    {
+      "id": "2516",
       "titulo": "Pollo Asado",
       "descripcion": "Rico Pollo Asado",
       "ingredientes": "Pollo, papa, arroz, lechuga"
     },
     {
-      "id": "2510",
+      "id": "2517",
       "titulo": "Mandarina",
       "descripcion": "Mandarian dulce",
       "ingredientes": "mandarinaasdasdad"
     },
     {
-      "id": "2513",
+      "id": "2522",
       "titulo": "HOLA",
       "descripcion": "ASDasd",
       "ingredientes": "asdasdasd"
     },
     {
-      "id": "2514",
-      "titulo": "Olenka",
-      "descripcion": "olenka a la mostaza",
-      "ingredientes": "mostazaasdasd"
+      "id": "2523",
+      "titulo": "Papa a la Huancaina",
+      "descripcion": "Ricas papas, facil de preparar",
+      "ingredientes": "papas\nhuevo\npan\naji amarillo"
     }
   ]
 }

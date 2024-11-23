@@ -1,36 +1,42 @@
 <ion-app>
   <!-- Menú tipo hamburguesa que se muestra en columna si mostrarFooter() es true -->
   <ion-menu *ngIf="mostrarFooter()" contentId="main-content" side="start" menuId="main-menu">
-      <ion-toolbar color="primary">
+    <ion-header>
+      <ion-toolbar color="primary" class="menu-header">
         <ion-title>Menú</ion-title>
       </ion-toolbar>
-
-    <ion-content>
+    </ion-header>
+  
+    <ion-content class="menu-content">
       <!-- Opciones de navegación dentro del menú, organizadas en columna -->
       <ion-list>
-        <ion-item routerLink="/home" lines="none" (click)="closeMenu()">
+        <ion-item routerLink="/home" lines="none" (click)="closeMenu()" routerLinkActive="menu-item-active" class="menu-item">
+          <ion-icon name="home-outline" slot="start"></ion-icon>
           <ion-label>Home</ion-label>
         </ion-item>
-        <ion-item routerLink="/receta-list" lines="none" (click)="closeMenu()">
+        <ion-item routerLink="/receta-list" lines="none" (click)="closeMenu()" routerLinkActive="menu-item-active" class="menu-item">
+          <ion-icon name="list-outline" slot="start"></ion-icon>
           <ion-label>Listar</ion-label>
         </ion-item>
-        <ion-item routerLink="/receta-add" lines="none" (click)="closeMenu()">
+        <ion-item routerLink="/receta-add" lines="none" (click)="closeMenu()" routerLinkActive="menu-item-active" class="menu-item">
+          <ion-icon name="add-circle-outline" slot="start"></ion-icon>
           <ion-label>Agregar</ion-label>
         </ion-item>
-        <ion-item routerLink="/receta-all" lines="none" (click)="closeMenu()">
+        <ion-item routerLink="/receta-all" lines="none" (click)="closeMenu()" routerLinkActive="menu-item-active" class="menu-item">
+          <ion-icon name="book-outline" slot="start"></ion-icon>
           <ion-label>Todas las Recetas</ion-label>
         </ion-item>
-        <ion-item (click)="salir()">
+        <ion-item (click)="salir()" class="menu-item">
           <ion-icon slot="start" name="exit-outline"></ion-icon>
           <ion-label>Salir</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
   </ion-menu>
-
+  
   <!-- Contenido principal de la aplicación -->
   <ion-router-outlet id="main-content"></ion-router-outlet>
-
+  
   <!-- Botón para abrir el menú hamburguesa -->
   <ion-header>
     <ion-toolbar>
