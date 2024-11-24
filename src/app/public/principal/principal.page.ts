@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class PrincipalPage {
   publicaciones: any[] = [];
 
-  constructor(private publicacionService: PublicacionService, private router: Router) {}
+  constructor(public publicacionService: PublicacionService, public router: Router) {}
 
   ngOnInit() {
     this.cargarPublicaciones();
