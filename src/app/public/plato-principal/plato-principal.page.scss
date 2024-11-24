@@ -1,13 +1,55 @@
+/* General Styles */
+ion-card {
+  margin: 15px auto;
+  max-width: 500px; /* Ancho máximo de la tarjeta */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Sombra para destacar */
+}
+
 .card-image {
-    width: 100%; /* Ocupa todo el ancho de la tarjeta */
-    height: auto; /* Mantiene las proporciones de la imagen */
-    border-radius: 10px 10px 0 0; /* Redondear las esquinas superiores */
-    object-fit: cover; /* Ajusta la imagen dentro de su contenedor sin deformarla */
+  width: 100%; /* Imagen ocupa todo el ancho de la tarjeta */
+  height: 200px; /* Altura fija */
+  object-fit: cover; /* Ajusta la imagen dentro de las dimensiones sin deformarla */
+  border-radius: 10px 10px 0 0; /* Esquinas superiores redondeadas */
+}
+
+ion-card-header {
+  text-align: center;
+}
+
+ion-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+ion-card-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Mensaje cuando no hay publicaciones */
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #666;
+}
+
+/* Breakpoints para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  ion-card {
+    max-width: 100%; /* Ocupar todo el ancho disponible */
+    margin: 10px auto;
   }
-  
-  .empty {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 16px;
-    color: #666;
+
+  .card-image {
+    height: 150px; /* Altura ajustada para pantallas más pequeñas */
   }
+
+  ion-card-title {
+    font-size: 1rem;
+  }
+
+  ion-card-content p {
+    font-size: 0.9rem;
+  }
+}

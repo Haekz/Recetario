@@ -67,13 +67,18 @@
       "titulo": "Papa a la Huancaina",
       "descripcion": "Ricas papas, facil de preparar",
       "ingredientes": "papas\nhuevo\npan\naji amarillo"
+    },
+    {
+      "id": "1",
+      "titulo": "Hola que hace",
+      "descripcion": "Ricoo",
+      "ingredientes": "papa, tomate, arroz"
     }
   ],
-
   "publicacion": [
     {
       "id": "1",
-      "categoría":"Ensaladas",
+      "categoría": "Ensaladas",
       "titulo": "Papas Mayo",
       "imagen": "https://www.recetasnestle.cl/sites/default/files/styles/cropped_recipe_card_new/public/srh_recipes/20e18e0187c756b853b2330c953fb6eb.jpg.webp?itok=rn-jV33t",
       "ingredientes": "1/2 papas (4-5 un), mayonesa (3 cucharadas), 1/2 lentejas, 1/2 zanahorias.",
@@ -81,7 +86,7 @@
     },
     {
       "id": "2",
-      "categoría":"Desayuno",
+      "categoría": "Desayuno",
       "titulo": "Huevo Revuelto con Pan",
       "imagen": "https://previews.123rf.com/images/markstout/markstout1412/markstout141200113/34657290-huevos-revueltos-con-jam%C3%B3n-picado-y-queso-y-mantequilla-caliente-brotaron-tostadas-de-pan-integral.jpg",
       "ingredientes": "1/2 papas (4-5 un), mayonesa (3 cucharadas), 1/2 lentejas, 1/2 zanahorias.",
@@ -89,7 +94,7 @@
     },
     {
       "id": "3",
-      "categoría":"Principal",
+      "categoría": "Principal",
       "titulo": "Pollo a la Mostaza",
       "imagen": "https://lh3.googleusercontent.com/proxy/bkxlSqSxdiZYlVqD3v8Th9WZP1ja1DtB_CKYkkabUj4GjYz5ilT8a5ALennm8Sk5oZIAaYcH1dVFROLiS7y7GOH20HE0_4LMfStHdJD_BvpFjmh56IwjlXFUHQ0I021jYb1cfw",
       "ingredientes": "Filetes de Pollo 400G, Cebollín 1 unidad, Ajo 2 dientes, Crema 250G, Caldo de Verduras 200ml, Mostaza 1/2 taza, Aceite 2cda, Sal 0.5 Cdta, Pimienta 0.5Cdta",
