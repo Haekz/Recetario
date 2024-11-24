@@ -21,11 +21,6 @@ const routes: Routes = [
     loadChildren: () => import('./restar-contra/restar-contra.module').then(m => m.RestarContraPageModule),
   },
   {
-    path: 'buscar-result',
-    loadChildren: () => import('./buscar-result/buscar-result.module').then(m => m.BuscarResultPageModule),
-    canActivate: [AuthGuard], // Ruta protegida
-  },
-  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
     canActivate: [AuthGuard], // Ruta protegida
@@ -55,7 +50,26 @@ const routes: Routes = [
     loadChildren: () => import('./recetas/receta-list/receta-list.module').then( m => m.RecetaListPageModule),
     canActivate: [AuthGuard],
   },
-
+  {
+    path: 'principal',
+    loadChildren: () => import('./public/principal/principal.module').then( m => m.PrincipalPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'ensaladas',
+    loadChildren: () => import('./public/ensaladas/ensaladas.module').then( m => m.EnsaladasPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'desayuno',
+    loadChildren: () => import('./public/desayuno/desayuno.module').then( m => m.DesayunoPageModule),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'plato-principal',
+    loadChildren: () => import('./public/plato-principal/plato-principal.module').then( m => m.PlatoPrincipalPageModule),
+    canActivate: [AuthGuard],
+  }
 
 ];
 

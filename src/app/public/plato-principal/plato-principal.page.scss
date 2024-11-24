@@ -1,0 +1,13 @@
+.card-image {
+    width: 100%; /* Ocupa todo el ancho de la tarjeta */
+    height: auto; /* Mantiene las proporciones de la imagen */
+    border-radius: 10px 10px 0 0; /* Redondear las esquinas superiores */
+    object-fit: cover; /* Ajusta la imagen dentro de su contenedor sin deformarla */
+  }
+  
+  .empty {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666;
+  }

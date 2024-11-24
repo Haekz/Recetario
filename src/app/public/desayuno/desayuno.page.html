@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Desayunos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Desayunos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Mostrar tarjetas si hay publicaciones -->
+  <ion-list *ngIf="publicaciones.length > 0">
+    <ion-card *ngFor="let publicacion of publicaciones">
+      <!-- Imagen destacada -->
+      <img [src]="publicacion.imagen" alt="Imagen de la receta" class="card-image" />
+      
+      <!-- Contenido de la tarjeta -->
+      <ion-card-header>
+        <ion-card-title>{{ publicacion.titulo }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Ingredientes:</strong> {{ truncateText(publicacion.ingredientes, 50) }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <!-- Mensaje si no hay publicaciones -->
+  <div *ngIf="publicaciones.length === 0" class="empty">
+    <p>No hay publicaciones disponibles en esta categoría.</p>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="publicaciones.length === 0">
+  <p>No hay publicaciones disponibles en esta categoría.</p>
+</ion-content>

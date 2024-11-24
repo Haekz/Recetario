@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BuscarResultPageRoutingModule } from './buscar-result-routing.module';
+import { PlatoPrincipalPageRoutingModule } from './plato-principal-routing.module';
 
-import { BuscarResultPage } from './buscar-result.page';
+import { PlatoPrincipalPage } from './plato-principal.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BuscarResultPageRoutingModule
+    PlatoPrincipalPageRoutingModule
   ],
-  declarations: [BuscarResultPage]
+  declarations: [PlatoPrincipalPage]
 })
-export class BuscarResultPageModule {}
+export class PlatoPrincipalPageModule {}

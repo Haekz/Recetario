@@ -68,5 +68,32 @@
       "descripcion": "Ricas papas, facil de preparar",
       "ingredientes": "papas\nhuevo\npan\naji amarillo"
     }
+  ],
+
+  "publicacion": [
+    {
+      "id": "1",
+      "categoría":"Ensaladas",
+      "titulo": "Papas Mayo",
+      "imagen": "https://www.recetasnestle.cl/sites/default/files/styles/cropped_recipe_card_new/public/srh_recipes/20e18e0187c756b853b2330c953fb6eb.jpg.webp?itok=rn-jV33t",
+      "ingredientes": "1/2 papas (4-5 un), mayonesa (3 cucharadas), 1/2 lentejas, 1/2 zanahorias.",
+      "preparacion": "Ponga a cocer las papas hasta ponerse blandas, después quite la cascaras de ellas, cortelas en cuadrados, ponga las papas en un recipiente y agregue la mayonesa y lentejas."
+    },
+    {
+      "id": "2",
+      "categoría":"Desayuno",
+      "titulo": "Huevo Revuelto con Pan",
+      "imagen": "https://previews.123rf.com/images/markstout/markstout1412/markstout141200113/34657290-huevos-revueltos-con-jam%C3%B3n-picado-y-queso-y-mantequilla-caliente-brotaron-tostadas-de-pan-integral.jpg",
+      "ingredientes": "1/2 papas (4-5 un), mayonesa (3 cucharadas), 1/2 lentejas, 1/2 zanahorias.",
+      "preparacion": "Ponga a cocer las papas hasta ponerse blandas, después quite la cascaras de ellas, cortelas en cuadrados, ponga las papas en un recipiente y agregue la mayonesa y lentejas."
+    },
+    {
+      "id": "3",
+      "categoría":"Principal",
+      "titulo": "Pollo a la Mostaza",
+      "imagen": "https://lh3.googleusercontent.com/proxy/bkxlSqSxdiZYlVqD3v8Th9WZP1ja1DtB_CKYkkabUj4GjYz5ilT8a5ALennm8Sk5oZIAaYcH1dVFROLiS7y7GOH20HE0_4LMfStHdJD_BvpFjmh56IwjlXFUHQ0I021jYb1cfw",
+      "ingredientes": "Filetes de Pollo 400G, Cebollín 1 unidad, Ajo 2 dientes, Crema 250G, Caldo de Verduras 200ml, Mostaza 1/2 taza, Aceite 2cda, Sal 0.5 Cdta, Pimienta 0.5Cdta",
+      "preparacion": "Cortar el cebollín y el ajo en cuadritos. Luego en un sartén previamente calentado, colocamos un chorrito de aceite y añadimos los filetitos de pollo. Cocinamos durante 10 minutos, sacamos del fuego y dejamos reposar. Ponemos otro sartén en el fuego y vertimos un chorro de aceite. Agregamos el cebollín, el ajo picado y sofreímos. Incorporamos la crema, el caldo de verduras y la mostaza antigua y revolvemos hasta formar una mezcla homogénea. Agregamos los filetitos de pollo, salpimentamos a gusto y dejamos cocinar durante 5 minutos, servimos y disfrutamos!"
+    }
   ]
 }

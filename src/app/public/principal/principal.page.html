@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>principal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recetas Mundiales</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <h2 class="section-title">Categoría</h2>
+  <!-- Imágenes circulares con redirección -->
+  <div class="circle-container">
+    <div class="circle-image" [routerLink]="['/ensaladas']">
+      <img src="assets/img/ensalada.jpg" alt="Ensaladas" title="Ir a Ensaladas" />
+      <p class="image-title">Ensaladas</p>
+    </div>
+    <div class="circle-image" [routerLink]="['/plato-principal']">
+      <img src="assets/img/almuerzo.jpg" alt="Principal" title="Ir a Plato Principal" />
+      <p class="image-title">Plato Principal</p>
+    </div>
+    <div class="circle-image" [routerLink]="['/desayuno']">
+      <img src="assets/img/desayuno.jpg" alt="Desayunos" title="Ir a Desayunos" />
+      <p class="image-title">Desayunos</p>
+    </div>
+  </div>
+
+  <!-- Card para la publicación -->
+  <ion-list *ngIf="publicaciones.length > 0">
+    <ion-item *ngFor="let publicacion of publicaciones">
+      <ion-card>
+        <img [src]="publicacion.imagen" alt="Imagen de la publicación" />
+        <ion-card-header>
+          <ion-card-title>{{ publicacion.titulo }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Ingredientes:</strong> {{ truncateText(publicacion.ingredientes, 50) }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+
+  <!-- Mensaje si no hay publicaciones -->
+  <div *ngIf="publicaciones.length === 0" class="empty">
+    <p>No hay publicaciones disponibles.</p>
+  </div>
+</ion-content>
