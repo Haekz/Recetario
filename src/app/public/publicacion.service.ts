@@ -17,6 +17,7 @@ export class PublicacionService {
 
   // Obtener publicaciones por categoría
   getPublicacionesPorCategoria(categoria: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}?categoría=${categoria}`);
+    const encodedCategoria = encodeURIComponent(categoria);
+    return this.http.get<any[]>(`${this.apiUrl}?categoría=${encodedCategoria}`);
   }
 }

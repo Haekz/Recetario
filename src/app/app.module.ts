@@ -18,9 +18,10 @@ import { RecetaService } from '../app/recetas/receta-list.service'; // Importa R
 
 
 
+
 @NgModule({
   declarations: [
-    AppComponent // Declaración de AppComponent
+    AppComponent, // Declaración de AppComponent
   ],
   imports: [
     BrowserModule, // Importación de BrowserModule
@@ -38,7 +39,7 @@ import { RecetaService } from '../app/recetas/receta-list.service'; // Importa R
     RecetaService, // Provisión de RecetaService en providers, no en imports
     SqliteService
   ],
-  bootstrap: [AppComponent] // Bootstrap de AppComponent
+  bootstrap: [AppComponent], // Bootstrap de AppComponent
 })
 
 export class AppModule {} // Exportación de AppModule

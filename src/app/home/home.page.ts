@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; // Importa el Router para manejar la navegación
 import { AlertController, LoadingController } from '@ionic/angular';
+import { PublicacionService } from '../public/publicacion.service';
+
 
 interface NavigationState {
   username?: string; // Puede ser undefined si no se pasa
@@ -14,11 +16,13 @@ interface NavigationState {
 export class HomePage implements OnInit {
   username: string | undefined; // Puede ser undefined
   imagenUsuario: string | null = null;
+  publicaciones: any[] = [];
 
   constructor(
     public router: Router,
     public alertController: AlertController, 
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private publicacionService: PublicacionService
   ) {// Verifica si hay navegación actual y si hay un estado
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras.state) {
@@ -29,6 +33,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     console.log('Username:', this.username);
+    
   }
 
   navigateTo(path: string) {

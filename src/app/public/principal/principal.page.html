@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Recetas Mundiales</ion-title>
   </ion-toolbar>
@@ -31,7 +31,7 @@
   <!-- Card para la publicación -->
   <ion-list *ngIf="publicaciones.length > 0">
     <ion-item *ngFor="let publicacion of publicaciones">
-      <ion-card>
+      <ion-card [routerLink]="['/publicacion-detalle', publicacion.id]">
         <img [src]="publicacion.imagen" alt="Imagen de la publicación" />
         <ion-card-header>
           <ion-card-title>{{ publicacion.titulo }}</ion-card-title>

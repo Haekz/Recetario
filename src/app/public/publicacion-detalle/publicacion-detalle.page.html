@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>publicacion-detalle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ publicacion?.titulo }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="publicacion">
+  <img [src]="publicacion.imagen" alt="{{ publicacion.titulo }}" class="detail-image"/>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ publicacion.titulo }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Categoría:</strong> {{ publicacion['categoría'] }}</p>
+      <p><strong>Ingredientes:</strong> {{ publicacion.ingredientes }}</p>
+      <p><strong>Preparación:</strong></p>
+      <p>{{ publicacion.preparacion }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+
+
+<div *ngIf="!publicacion" class="empty">
+  <p>Publicación no encontrada.</p>
+</div>

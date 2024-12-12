@@ -30,6 +30,8 @@ export class RecetaAddPage implements OnInit {
       'ingredientes': [null, Validators.required],
       'imagen': [null]
     });
+
+    this.mostrarAviso();
   }
 
   // Método para abrir la cámara y capturar imagen
@@ -43,6 +45,16 @@ export class RecetaAddPage implements OnInit {
 
     this.selectedImage = `data:image/jpeg;base64,${image.base64String}`;
     this.recetaForm.patchValue({ imagen: this.selectedImage });
+  }
+
+  async mostrarAviso() {
+    const alert = await this.alertController.create({
+      header: '¡Agregar Receta!',
+      message: 'En esta sección puedes comentarnos tus recetas, con un título, una breve despcripción de su preparación y sus ingredientes; y con un poco de suerte !Puede Salir en el global! Buena Suerte.',
+      buttons: ['Entendido'],
+    });
+
+    await alert.present();
   }
 
   // Guardar receta solo en SQLite
@@ -83,4 +95,6 @@ export class RecetaAddPage implements OnInit {
     });
     await alert.present();
   }
+
+
 }

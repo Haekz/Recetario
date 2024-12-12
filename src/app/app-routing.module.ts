@@ -69,7 +69,13 @@ const routes: Routes = [
     path: 'plato-principal',
     loadChildren: () => import('./public/plato-principal/plato-principal.module').then( m => m.PlatoPrincipalPageModule),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'publicacion-detalle/:id',
+    loadChildren: () => import('./public/publicacion-detalle/publicacion-detalle.module').then( m => m.PublicacionDetallePageModule),
+    canActivate: [AuthGuard],
   }
+
 
 ];
 

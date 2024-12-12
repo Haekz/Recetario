@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicacionService } from '../publicacion.service';
 
-
 @Component({
   selector: 'app-desayuno',
   templateUrl: './desayuno.page.html',
@@ -10,17 +9,17 @@ import { PublicacionService } from '../publicacion.service';
 export class DesayunoPage implements OnInit {
   publicaciones: any[] = [];
 
-  constructor(private publicacionService: PublicacionService) { }
+  constructor(private publicacionService: PublicacionService) {}
 
   ngOnInit() {
-    this.cargarPublicacionesPorCategoria('Desayuno')
+    this.cargarPublicacionesPorCategoria('Desayuno');
   }
 
   cargarPublicacionesPorCategoria(categoria: string) {
     this.publicacionService.getPublicacionesPorCategoria(categoria).subscribe(
       (data) => {
+        console.log('Datos recibidos:', data); // Log para verificar los datos
         this.publicaciones = data;
-        console.log('Publicaciones:', this.publicaciones);
       },
       (error) => {
         console.error('Error al cargar publicaciones:', error);
@@ -30,10 +29,6 @@ export class DesayunoPage implements OnInit {
 
   // Función para truncar texto
   truncateText(text: string, maxLength: number): string {
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + '...';
-    }
-    return text;
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
   }
-
 }
