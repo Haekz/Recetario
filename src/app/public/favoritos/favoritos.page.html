@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="favoritos.length > 0">
+    <ion-item *ngFor="let favorito of favoritos">
+      <ion-card [routerLink]="['/publicacion-detalle', favorito.id]">
+        <img [src]="favorito.imagen" alt="Imagen de la publicación" />
+        <ion-card-header>
+          <ion-card-title>{{ favorito.titulo }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Ingredientes:</strong> {{ truncateText(favorito.ingredientes, 50) }}</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+  
+  <!-- Mensaje si no hay favoritos -->
+  <div *ngIf="favoritos.length === 0" class="empty">
+    <p>No hay favoritos disponibles.</p>
+  </div>

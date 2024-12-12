@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
   templateUrl: './principal.page.html',
   styleUrls: ['./principal.page.scss'],
 })
-
 export class PrincipalPage {
   publicaciones: any[] = [];
 
@@ -20,7 +19,8 @@ export class PrincipalPage {
   cargarPublicaciones() {
     this.publicacionService.getPublicaciones().subscribe(
       (data) => {
-        this.publicaciones = data; // Asigna los datos a la variable de publicaciones
+        // Inicializar cada publicación con la propiedad favorito
+        this.publicaciones = data.map(pub => ({ ...pub, favorito: false }));
       },
       (error) => {
         console.error('Error al cargar publicaciones:', error);
@@ -28,12 +28,16 @@ export class PrincipalPage {
     );
   }
 
-  // Función para truncar texto
-  truncateText(text: string, maxLength: number): string {
-    if (text.length > maxLength) {
-      return text.substring(0, maxLength) + '...';
+  toggleFavorito(publicacion: any) {
+    publicacion.favorito = !publicacion.favorito;
+    if (publicacion.favorito) {
+      this.publicacionService.agregarAFavoritos(publicacion);
+    } else {
+      this.publicacionService.eliminarDeFavoritos(publicacion.id);
     }
-    return text;
   }
 
+  truncateText(text: string, maxLength: number): string {
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  }
 }

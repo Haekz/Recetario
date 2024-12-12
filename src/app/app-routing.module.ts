@@ -74,8 +74,16 @@ const routes: Routes = [
     path: 'publicacion-detalle/:id',
     loadChildren: () => import('./public/publicacion-detalle/publicacion-detalle.module').then( m => m.PublicacionDetallePageModule),
     canActivate: [AuthGuard],
-  }
+  },
+  {
+    path: 'favoritos',
+    loadChildren: () => import('./public/favoritos/favoritos.module').then( m => m.FavoritosPageModule),
+    canActivate: [AuthGuard],
+  },
 
+  { 
+    path: '', redirectTo: '/principal', pathMatch: 'full' 
+  },
 
 ];
 
