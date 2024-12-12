@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PublicacionService {
-  private apiUrl = 'http://192.168.1.119:3000/publicacion';
+  private apiUrl = 'http://10.155.85.79:3000/publicacion';
   private favoritos: any[] = [];
 
   constructor(private http: HttpClient) {}

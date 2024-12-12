@@ -16,7 +16,7 @@ interface Usuario {
 export class UsuarioService {
   //private apiUrl = 'http://localhost:3000/usuario'; // URL de la API en puerto 3000
   //private apiUrl = 'http://192.168.100.47:3000/usuario'; // IPV Benjamin
-  private apiUrl = 'http://192.168.1.119:3000/usuario';
+  private apiUrl = 'http://10.155.85.79:3000/usuario';
 
   constructor(private http: HttpClient) {}
 

@@ -32,7 +32,7 @@
   <ion-list *ngIf="publicaciones.length > 0">
     <ion-item *ngFor="let publicacion of publicaciones">
       <ion-card>
-        <img [src]="publicacion.imagen" alt="Imagen de la publicación" />
+        <img [routerLink]="['/publicacion-detalle', publicacion.id]" [src]="publicacion.imagen" alt="Imagen de la publicación" />
         <ion-card-header>
           <ion-card-title>{{ publicacion.titulo }}</ion-card-title>
         </ion-card-header>

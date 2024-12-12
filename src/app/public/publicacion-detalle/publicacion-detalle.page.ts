@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PublicacionService } from '../publicacion.service';
+import { DomSanitizer, SafeResourceUrl  } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-publicacion-detalle',
@@ -12,7 +14,8 @@ export class PublicacionDetallePage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private publicacionService: PublicacionService
+    private publicacionService: PublicacionService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -29,5 +32,9 @@ export class PublicacionDetallePage implements OnInit {
         console.error('Error al cargar la publicación', err);
       },
     });
+  }
+
+  sanitizarURL(url: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url.replace('watch?v=', 'embed/'));
   }
 }
